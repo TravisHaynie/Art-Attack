@@ -3,7 +3,7 @@ const sequelize = require('../config/connection');
 
 class Subject extends Model {}
 
-GameSession.init(
+Subject.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -11,7 +11,15 @@ GameSession.init(
             primaryKey: true,
             autoIncrement: true,
         },
-    }
+        subject: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        submittedBy: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
+    },
     {
         sequelize,
         freezeTableName: true,
