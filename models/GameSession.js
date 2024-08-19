@@ -30,6 +30,12 @@ GameSession.init(
             defaultValue: false,
         }
 
+    },
+    {
+        sequelize,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'gameSession',
     }
 );
 
