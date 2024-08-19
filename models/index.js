@@ -1,3 +1,4 @@
-const User = require('./User');
+const User = require("./User");
+const gameSession = require("./Session.js")
 
-module.exports = { User };
+module.exports = { User, gameSession };

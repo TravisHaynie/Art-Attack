@@ -35,6 +35,16 @@ User.init(
         len: [8],
       },
     },
+    totalVotes: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    totalVictories: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
   },
   {
     hooks: {
