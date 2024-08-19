@@ -32,3 +32,5 @@ GameSession.init(
 
     }
 );
+
+module.exports = GameSession;
