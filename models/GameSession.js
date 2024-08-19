@@ -28,8 +28,11 @@ GameSession.init(
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
-        }
-
+        },
+        hasVoted: {
+            type: DataTypes.ARRAY,
+            allowNull: true,
+        },
     },
     {
         sequelize,
