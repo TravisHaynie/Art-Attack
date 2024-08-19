@@ -11,7 +11,7 @@ GameSession.init(
             primaryKey: true,
             autoIncrement: true,
         },
-        users: {
+        users: {    // Foreign key is user.id
             type: DataTypes.ARRAY,
             allowNull: false,
         },
@@ -19,6 +19,16 @@ GameSession.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        
+        inProgress: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
+        },
+        votingEnabled: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        }
+
     }
-)
+);
