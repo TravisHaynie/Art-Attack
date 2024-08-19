@@ -7,17 +7,7 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-  <header>
-    <h1>ART ATTACK</h1>
-  </header>
-  <nav>
-    <a href="/">Home</a>
-    {{#if loggedIn}}
-    <button id="logout" class="btn-no-style">Logout</button>
-    {{else}}
-    <a href="/login">Login</a>
-    {{/if}}
-  </nav>
+  {{{header}}}
   <main>
     <aside>
       <h2>Enjoy the pictures!</h2>
@@ -26,6 +16,7 @@
       {{{body}}}
     </div>
   </main>
+  {{{footer}}}
   {{#if loggedIn}}
   <script src="/js/loginlogout.js"></script>
   {{/if}}
