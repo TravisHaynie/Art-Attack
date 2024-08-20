@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../models'); // Import your models
+const { User } = require('../../models'); // Import your models
 const bcrypt = require('bcrypt'); // For password hashing
 
 // Login
