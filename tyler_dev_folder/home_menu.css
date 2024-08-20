@@ -1,0 +1,54 @@
+body{
+
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#top_div{
+
+    display:flex;
+    height:500px;
+    
+    background-image: url(images/paint.jpg);
+
+    border-bottom: 20px;
+   
+}
+
+#bottom_div{
+
+    display:flex;
+
+    justify-content: space-around;
+
+    height:190px;
+
+    
+
+}
+#play_button{
+
+    height:100px;
+
+    margin-top:auto;
+
+    margin-bottom:auto;
+
+}
+
+#gallery_button{
+
+    height:100px;
+    margin-top:auto;
+    margin-bottom:auto;
+
+}
+
+#log_in_button{
+
+    height:100px;
+    margin-top:auto;
+    margin-bottom:auto;
+
+}
