@@ -16,7 +16,7 @@ GameSession.init(
             allowNull: false,
         },
         subject: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: 'subject',
