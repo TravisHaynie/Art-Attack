@@ -1,7 +1,7 @@
-// const { Model, DataTypes } = require('sequelize');
-// const sequelize = require('../config/connection');
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection');
 
-// class GameSession extends Model {}
+class GameSession extends Model {}
 
 GameSession.init(
     {
@@ -54,4 +54,4 @@ GameSession.init(
     }
 );
 
-// module.exports = GameSession;
+module.exports = GameSession;
