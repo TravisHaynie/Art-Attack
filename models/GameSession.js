@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-
+//
 class GameSession extends Model {}
 
 GameSession.init(
@@ -12,7 +12,7 @@ GameSession.init(
             autoIncrement: true,
         },
         users: {
-            type: DataTypes.ARRAY,
+            type: DataTypes.ARRAY(DataTypes.INTEGER),
             allowNull: false,
             references: {
                 model: 'user',
