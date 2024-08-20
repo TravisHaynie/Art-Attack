@@ -3,28 +3,32 @@
 
 // class Subject extends Model {}
 
-// Subject.init(
-//     {
-//         id: {
-//             type: DataTypes.INTEGER,
-//             allowNull: false,
-//             primaryKey: true,
-//             autoIncrement: true,
-//         },
-//         subject: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         submittedBy: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         }
-//     },
-//     {
-//         sequelize,
-//         freezeTableName: true,
-//         modelName: 'subject',
-//     }
-// );
+Subject.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        subject: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        submittedBy: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            }
+        }
+    },
+    {
+        sequelize,
+        freezeTableName: true,
+        modelName: 'subject',
+    }
+);
 
 // module.exports = Subject;
