@@ -2,7 +2,7 @@ body{
 
     display: flex;
     flex-direction: column;
-    
+    background-color: rgb(236, 242, 216);
     
 }
 
@@ -28,6 +28,16 @@ body{
     background-color: rgb(236, 242, 216);
 
     
+
+}
+#title{
+
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 72pt;
+    margin-left: 100px;
+    margin-top:auto;
+    margin-bottom:auto;
+    rotate: -15deg;
 
 }
 #play_button{
@@ -113,6 +123,6 @@ body{
     position:absolute;
     transform: translateY(-295px);
     scale:70%;
-    margin-left:60px
+    margin-left:-720px
 
 }
