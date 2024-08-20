@@ -20,7 +20,7 @@ const hbs = exphbs.create({
 // Inform Express.js which template engine we're using
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views/layouts'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

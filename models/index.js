@@ -1,7 +1,7 @@
-const User = require("./User");
-const Subject = require("./Subject.js");
-const GameSession = require("./GameSession.js");
-const Image = require("./Image.js");
+// const User = require("./User");
+// const Subject = require("./Subject.js");
+// const GameSession = require("./GameSession.js");
+// const Image = require("./Image.js");
 
 
-module.exports = { User, Subject, GameSession, Image }; // All models listed in order of dependence
+// module.exports = { User, Subject, GameSession, Image }; // All models listed in order of dependence
