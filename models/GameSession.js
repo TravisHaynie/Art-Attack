@@ -39,7 +39,7 @@ GameSession.init(
             defaultValue: false,
         },
         hasVoted: {     // Keeps track of who has voted by user id. If a user's id is in this array, they have already voted.
-            type: DataTypes.ARRAY,
+            type: DataTypes.ARRAY(DataTypes.INTEGER),
             allowNull: true,
             references: {
                 model: 'user',
