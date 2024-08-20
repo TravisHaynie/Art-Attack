@@ -22,6 +22,10 @@ Image.init(
         sessionId: {
             type: DataTypes.INTEGER,    // References gameSession.id
             allowNull: false,
+            references: {
+                model: 'gameSession',
+                key: 'id',
+            }
         },
         votes: {    // To be tallied when gameSession.votingEnabled is true for each user that clicks the vote button
                     // To be added to a player's vote count after voting has stopped and a winner is declared for a game session

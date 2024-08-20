@@ -11,27 +11,40 @@ GameSession.init(
             primaryKey: true,
             autoIncrement: true,
         },
-        users: {    // Foreign key is user.id
+        users: {
             type: DataTypes.ARRAY,
             allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            }
         },
         subject: {
             type: DataTypes.STRING,
             allowNull: false,
+            references: {
+                model: 'subject',
+                key: 'id',
+            }
         },
-        inProgress: {
+        inProgress: {       // Determines if a game is in progress. if so, players can draw images. On false, save images to db.
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true,
         },
-        votingEnabled: {
+        votingEnabled: {    // Redirects players to voting page and generates a code/url to give voters. When time is up,
+                            // no more votes are accepted, a winner is declared, and vote count and victory count are added to users.
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
         },
-        hasVoted: {
+        hasVoted: {     // Keeps track of who has voted by user id. If a user's id is in this array, they have already voted.
             type: DataTypes.ARRAY,
             allowNull: true,
+            references: {
+                model: 'user',
+                key: 'id',
+            }
         },
     },
     {

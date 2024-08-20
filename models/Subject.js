@@ -18,6 +18,10 @@ Subject.init(
         submittedBy: {
             type: DataTypes.STRING,
             allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            }
         }
     },
     {
