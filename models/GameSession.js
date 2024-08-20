@@ -12,7 +12,7 @@ GameSession.init(
             autoIncrement: true,
         },
         users: {
-            type: DataTypes.ARRAY,
+            type: DataTypes.ARRAY(DataTypes.INTEGER),
             allowNull: false,
             references: {
                 model: 'user',
