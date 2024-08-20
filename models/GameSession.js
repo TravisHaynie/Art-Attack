@@ -1,7 +1,7 @@
-// const { Model, DataTypes } = require('sequelize');
-// const sequelize = require('../config/connection');
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection');
 
-// class GameSession extends Model {}
+class GameSession extends Model {}
 
 GameSession.init(
     {
@@ -39,7 +39,7 @@ GameSession.init(
             defaultValue: false,
         },
         hasVoted: {     // Keeps track of who has voted by user id. If a user's id is in this array, they have already voted.
-            type: DataTypes.ARRAY,
+            type: DataTypes.ARRAY(DataTypes.INTEGER),
             allowNull: true,
             references: {
                 model: 'user',
@@ -54,4 +54,4 @@ GameSession.init(
     }
 );
 
-// module.exports = GameSession;
+module.exports = GameSession;
