@@ -12,12 +12,8 @@ GameSession.init(
             autoIncrement: true,
         },
         users: {
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
+            type: DataTypes.INTEGER,       // References user.id
             allowNull: false,
-            references: {
-                model: 'user',
-                key: 'id',
-            }
         },
         subject: {
             type: DataTypes.STRING,
@@ -39,7 +35,7 @@ GameSession.init(
             defaultValue: false,
         },
         hasVoted: {     // Keeps track of who has voted by user id. If a user's id is in this array, they have already voted.
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
+            type: DataTypes.INTEGER,
             allowNull: true,
             references: {
                 model: 'user',
