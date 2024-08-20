@@ -16,7 +16,7 @@ Subject.init(
             allowNull: false,
         },
         submittedBy: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: 'user',
