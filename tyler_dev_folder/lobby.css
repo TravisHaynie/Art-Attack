@@ -2,15 +2,18 @@ body{
 
    margin-top:250px;
    
-   
+   background-color: rgb(240, 251, 161); /*green for now */
 
 }
 #lobby_text{
 
-    width:500px;
+    display: flex;
+    justify-content: center;
     margin-left:auto;
     margin-right:auto;
-    transform: translateX(100px);
+    
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
 
 }
 
@@ -18,12 +21,26 @@ body{
 
     display: flex;
     justify-content: center;
-    border:solid;
+    border-radius:30px;
     width:800px;
     margin-left:auto;
     margin-right:auto;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight:lighter;
     
+    
+}
+
+#player1_tag{
+
+    background-color:rgb(249, 107, 107);
+    color:rgb(101, 5, 5);
 
 }
 
-#player1_t
+#player2_tag{
+
+    background-color:rgb(189, 187, 183);/*when player found make blue */
+    color: rgb(50, 46, 46); /*when found make ??? idk compliment of blue? */
+
+}
