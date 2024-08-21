@@ -7,6 +7,6 @@ const gameSessionApi = require('./api/gameSessionRoutes')
 router.use('/', homeRoutes);
 router.use('/user', userRoutes);
 
-router.use('api/game-session', gameSessionApi);
+// router.use('api/game-session', gameSessionApi);
 
 module.exports = router;

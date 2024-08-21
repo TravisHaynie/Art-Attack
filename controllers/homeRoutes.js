@@ -23,5 +23,11 @@ router.get('/canvas', (req, res) => {
     });
   });
   
+  router.get('/votescreen', (req, res) => {
+    res.render('votescreen', {
+        loggedIn: req.session.loggedIn,
+        siteTitle: 'Vote Screen'
+    });
+});
 
 module.exports = router;

@@ -1,5 +1,5 @@
-const router = require('express').Router();
-const { User, Subject, GameSession, Image } = require('../../models');
+// const router = require('express').Router();
+// const { User, Subject, GameSession, Image } = require('../../models');
 
 // render a lobby. once two sessions connect, count down until redirect
 
