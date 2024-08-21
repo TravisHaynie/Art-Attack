@@ -1,0 +1,65 @@
+body{
+
+    
+
+}
+
+#header{
+
+    display:flex;
+    justify-content: center;
+
+}
+
+#pictures{
+
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.picture{
+
+    border:solid;
+    width:500px;
+    height:520px;
+
+}
+
+#versus {
+
+    border:solid;
+    width:100px;
+    height:100px;
+    display:flex;
+    justify-content: center;   
+    border-radius: 50px;
+    margin-top: auto;
+    margin-bottom: auto;
+
+}
+
+#versus h1{
+
+    margin-top:auto;
+    margin-bottom:auto;
+    
+
+}
+
+#player_names{
+
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+
+}
+
+
+.player{
+
+    display: flex;
+    margin-right:100px;
+
+}
+
