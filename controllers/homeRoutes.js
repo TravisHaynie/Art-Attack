@@ -16,4 +16,12 @@ router.get('/login', (req, res) => {
   });
 });
 
+router.get('/canvas', (req, res) => {
+    res.render('canvas', {
+      loggedIn: req.session.loggedIn,
+      siteTitle: 'Canvas Drawing'
+    });
+  });
+  
+
 module.exports = router;
