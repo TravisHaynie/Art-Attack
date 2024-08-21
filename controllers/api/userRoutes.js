@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../models'); // Import your models
+const { User } = require('../../models'); // Import your models
 const bcrypt = require('bcrypt'); // For password hashing
 
 // Login
@@ -72,6 +72,16 @@ router.post('/logout', (req, res) => {
     console.error('Error logging out:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
+});
+
+router.get('/:id', (req, res) => {
+  User.findByPk(req.params.id).then((userData) => {
+    res.render('user-profile', {
+      username: userData.username,
+      votes: userData.totalVotes,
+      victories: userData.totalVictories,
+    })
+  })
 });
 
 module.exports = router;
