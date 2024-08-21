@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Drawing</title>
+    <link rel="stylesheet" href="/css/canvas.css"> <!-- Ensure this file exists -->
+</head>
+<body>
+    <main>
+        <div class="canvas-container">
+            <div class="canvas-controls">
+                <button id="drawing-mode">Enter drawing mode</button>
+                <div id="drawing-mode-options" style="display: none;">
+                    <label for="drawing-color">Color:</label>
+                    <input type="color" id="drawing-color" value="#000000">
+                    <label for="drawing-shadow-color">Shadow color:</label>
+                    <input type="color" id="drawing-shadow-color" value="#000000">
+                </div>
+                <button id="clear-canvas">Clear Canvas</button>
+                <button id="save-canvas">Save Canvas</button>
+            </div>
+            <canvas id="c" width="500" height="500"></canvas>
+        </div>
+    </main>
+  <script src="https://cdn.jsdelivr.net/npm/fabric@6.3.0/dist/index.min.js"></script>
+    <script src="/js/canvas.js"></script> <!-- Ensure this file exists -->
+</body>
+</html>
