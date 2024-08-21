@@ -11,9 +11,21 @@ GameSession.init(
             primaryKey: true,
             autoIncrement: true,
         },
-        users: {
+        player1: {
             type: DataTypes.INTEGER,       // References user.id
             allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            },
+        },
+        player2: {
+            type: DataTypes.INTEGER,       // References user.id
+            allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            },
         },
         subject: {
             type: DataTypes.INTEGER,

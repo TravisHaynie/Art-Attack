@@ -11,6 +11,17 @@ User.hasMany(Subject, {
     foreignKey: 'id',
 });
 
+GameSession.hasOne(User, {
+    foreignKey: 'player1',
+});
+
+GameSession.hasOne(User, {
+    foreignKey: 'player2',
+});
+
+User.belongsTo(GameSession, {
+    foreignKey: 'id',
+});
 
 
 
