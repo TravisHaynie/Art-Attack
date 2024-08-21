@@ -74,4 +74,14 @@ router.post('/logout', (req, res) => {
   }
 });
 
+router.get('/:id', (req, res) => {
+  User.findByPk(req.params.id).then((userData) => {
+    res.render('user-profile', {
+      username: userData.username,
+      votes: userData.totalVotes,
+      victories: userData.totalVictories,
+    })
+  })
+});
+
 module.exports = router;
