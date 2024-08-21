@@ -13,7 +13,7 @@ GameSession.init(
         },
         player1: {
             type: DataTypes.INTEGER,       // References user.id
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'user',
                 key: 'id',
@@ -21,7 +21,7 @@ GameSession.init(
         },
         player2: {
             type: DataTypes.INTEGER,       // References user.id
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'user',
                 key: 'id',
