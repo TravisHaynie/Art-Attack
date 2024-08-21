@@ -23,6 +23,15 @@ User.belongsTo(GameSession, {
     foreignKey: 'id',
 });
 
+GameSession.hasMany(Image, {
+    foreignKey: 'id',
+    onDelete: 'CASCADE',
+});
+
+Image.belongsTo(GameSession, {
+    foreignKey: 'id',
+});
+
 
 
 module.exports = { User, Subject, GameSession, Image }; // All models listed in order of dependence
