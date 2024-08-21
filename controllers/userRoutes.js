@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../../models'); // Import your models
+const { User } = require('../models'); // Import your models
 const bcrypt = require('bcrypt'); // For password hashing
 
 // Login
@@ -74,14 +74,25 @@ router.post('/logout', (req, res) => {
   }
 });
 
-router.get('/:id', (req, res) => {
-  User.findByPk(req.params.id).then((userData) => {
-    res.render('user-profile', {
-      username: userData.username,
-      votes: userData.totalVotes,
-      victories: userData.totalVictories,
+router.get('/:username', (req, res) => {
+  const username = req.params.username; // Get the username from the URL parameter
+
+  User.findOne({ where: { username } })
+    .then((userData) => {
+      if (!userData) {
+        return res.status(404).send('User not found');
+      }
+      
+      res.render('user-profile', {
+        username: userData.username,
+        votes: userData.totalVotes,
+        victories: userData.totalVictories,
+      });
     })
-  })
+    .catch((err) => {
+      console.error('Error fetching user data:', err);
+      res.status(500).send('An error occurred while fetching user data');
+    });
 });
 
 module.exports = router;
