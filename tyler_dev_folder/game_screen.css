@@ -1,0 +1,74 @@
+body{
+
+    display:flex;
+
+    justify-content: space-around;
+    
+
+}
+
+#left_div{
+
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+#drawingboard{
+
+    border:solid;
+    width:500px;
+    height:600px;
+    background-color: aqua;
+
+}
+
+#right_div{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+
+}
+
+#prompt{
+
+    font-weight:lighter;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+}
+
+#clock{
+
+    display:flex;
+    justify-content: center;
+    border:solid;
+    width:100px;
+    height:100px;
+
+    border-radius: 50px;
+    
+    
+    margin-left:auto;
+    margin-right:auto;
+
+}
+
+#time{
+
+    margin-top:auto;
+    margin-bottom:auto;
+
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+}
+
+#time_caption{
+
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
+
+}
+
