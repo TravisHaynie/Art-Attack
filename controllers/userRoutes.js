@@ -74,11 +74,12 @@ router.post('/logout', (req, res) => {
   }
 });
 
-router.get('/user/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   console.log(req);
   User.findByPk(req.params.id)
     .then((userData) => {
       if (!userData) {
+        console.log(req);
         return res.status(404).send('User not found');
       }
       
@@ -93,23 +94,5 @@ router.get('/user/:id', (req, res) => {
       res.status(500).send('An error occurred while fetching user data');
     });
 });
-
-
-// VVV FOR TESTING PURPOSES ONLY DO NOT RENDER VVV
-router.get('/users', (req, res) => {
-  // Assuming User model is imported and available
-  User.findAll()
-    .then((users) => {
-      const userIds = users.map(user => user.id); // Extracting user IDs
-      
-      console.log('User IDs:', userIds); // Logging user IDs to the console
-      res.send('User IDs logged to console.'); // Sending a response to the client
-    })
-    .catch((err) => {
-      console.error('Error fetching users:', err);
-      res.status(500).send('An error occurred while fetching users');
-    });
-});
-// ^^^ FOR TESTING PURPOSES ONLY DO NOT RENDER ^^^
 
 module.exports = router;
