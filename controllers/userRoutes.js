@@ -74,12 +74,12 @@ router.post('/logout', (req, res) => {
   }
 });
 
-router.get('/:id', (req, res) => {
-  console.log(req);
-  User.findByPk(req.params.id)
+router.get('/:username', (req, res) => {
+  const username = req.params.username; // Get the username from the URL parameter
+
+  User.findOne({ where: { username } })
     .then((userData) => {
       if (!userData) {
-        console.log(req);
         return res.status(404).send('User not found');
       }
       
