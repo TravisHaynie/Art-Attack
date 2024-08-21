@@ -1,0 +1,29 @@
+body{
+
+   margin-top:250px;
+   
+   
+
+}
+#lobby_text{
+
+    width:500px;
+    margin-left:auto;
+    margin-right:auto;
+    transform: translateX(100px);
+
+}
+
+.player_tag{
+
+    display: flex;
+    justify-content: center;
+    border:solid;
+    width:800px;
+    margin-left:auto;
+    margin-right:auto;
+    
+
+}
+
+#player1_t
