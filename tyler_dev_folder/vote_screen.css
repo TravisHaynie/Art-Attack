@@ -28,7 +28,7 @@ body{
 
 #versus {
 
-    border:solid;
+    border:none;
     width:100px;
     height:100px;
     display:flex;
@@ -39,10 +39,21 @@ body{
 
 }
 
+#fireball{
+
+    position:absolute;
+    scale:30%;
+    transform: translateY(-930px);
+    margin-left:-5px;
+
+}
+
 #versus h1{
 
     margin-top:auto;
     margin-bottom:auto;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
     
 
 }
