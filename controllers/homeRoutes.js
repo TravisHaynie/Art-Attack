@@ -3,7 +3,7 @@ const { User } = require('../models');
 
 // Render homepage
 router.get('/', (req, res) => {
-    res.render('main', {
+    res.render('home_menu', {
       loggedIn: req.session.loggedIn,
       siteTitle: 'ART ATTACK'
     });
@@ -23,5 +23,11 @@ router.get('/canvas', (req, res) => {
     });
   });
   
+  router.get('/votescreen', (req, res) => {
+    res.render('votescreen', {
+        loggedIn: req.session.loggedIn,
+        siteTitle: 'Vote Screen'
+    });
+});
 
 module.exports = router;

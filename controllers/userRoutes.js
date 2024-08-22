@@ -5,40 +5,46 @@ const bcrypt = require('bcrypt'); // For password hashing
 // Login
 router.post('/login', async (req, res) => {
   try {
+    // Find the user by username
     const dbUserData = await User.findOne({
       where: {
         username: req.body.username,
       },
     });
 
+    // Check if user exists
     if (!dbUserData) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect username or password. Please try again!' });
-      return;
+      return res.status(400).json({ message: 'Incorrect username or password. Please try again!' });
     }
 
+    // Validate password
     const validPassword = await dbUserData.checkPassword(req.body.password);
 
     if (!validPassword) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect username or password. Please try again!' });
-      return;
+      return res.status(400).json({ message: 'Incorrect username or password. Please try again!' });
     }
 
+    // Save session and respond with user data
     req.session.save(() => {
       req.session.loggedIn = true;
+      req.session.user = {
+        id: dbUserData.id,
+        username: dbUserData.username,
+        totalVotes: dbUserData.totalVotes,
+        totalVictories: dbUserData.totalVictories
+      };
 
-      res
-        .status(200)
-        .json({ user: dbUserData, message: 'You are now logged in!' });
+      res.status(200).json({
+        user: req.session.user, // Send user data
+        message: 'You are now logged in!'
+      });
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    console.error('Login error:', err);
+    res.status(500).json({ message: 'An error occurred during login.' });
   }
 });
+
 
 // CREATE new user
 router.post('/', async (req, res) => {
@@ -73,6 +79,43 @@ router.post('/logout', (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+router.post('/user', async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    // Create a new user
+    const dbUserData = await User.create({
+      username,
+      email,
+      password,
+    });
+
+    req.session.save(() => {
+      req.session.loggedIn = true;
+      req.session.user = {
+        id: dbUserData.id,
+        username: dbUserData.username,
+        email: dbUserData.email,
+        totalVotes: dbUserData.totalVotes,
+        totalVictories: dbUserData.totalVictories,
+      };
+
+      res.status(200).json(dbUserData);
+    });
+  } catch (err) {
+    console.error('Signup error:', err);
+    res.status(500).json({ message: 'An error occurred during signup.' });
+  }
+});
+
+router.post('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.status(204).end(); // No content to send back
+  });
+});
+
+
 
 router.get('/:username', (req, res) => {
   const username = req.params.username; // Get the username from the URL parameter

@@ -69,4 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('canvasDrawing', dataURL);
       alert('Drawing saved!');
   });
+  setTimeout(() => {
+    window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
+}, 6000); // 1 minute
 });
