@@ -8,4 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         document.getElementById('picture_1').innerHTML = '<p>No drawing available</p>';
     }
+
+    document.getElementById('home_button').addEventListener('click', () => {
+        window.location.href = '/'; // Change this to the URL of your home screen
+    });
 });

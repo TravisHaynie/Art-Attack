@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ART ATTACK HOME</title>
+    <link rel="stylesheet" href="./css/home_menu.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> <!-- Include Bulma CSS -->
+</head>
+<body>
+
+  <main>
+    <div id="top_div">
+        <img src="" alt="Little guy image here"> <!-- Add your image source here -->
+        <h1 id="title">ART ATTACK!</h1>
+    </div>
+
+    <div id="bottom_div">
+        <button id="play_button">To Battle!</button>
+        <button id="gallery_button">To Gallery!</button>
+        <button id="log_in_button">Log in</button>
+        <img id="frame" src="images/frame6.png" alt="Frame image">
+    </div>
+    
+  </main>
+
+  <!-- Modal HTML -->
+  <div id="loginModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <h2 class="title">Login / Signup</h2>
+        <div id="loginFormContainer">
+          <form id="loginForm">
+            <div class="field">
+              <label class="label" for="username-login">Username</label>
+              <div class="control">
+                <input class="input" type="text" id="username-login" placeholder="Enter your username">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="password-login">Password</label>
+              <div class="control">
+                <input class="input" type="password" id="password-login" placeholder="Enter your password">
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary" type="submit">Login</button>
+              </div>
+            </div>
+            <div class="field">
+              <p class="control">
+                <a href="#" id="showSignupForm">Need an account? Sign up</a>
+              </p>
+            </div>
+          </form>
+        </div>
+        <div id="signupFormContainer" style="display:none;">
+          <form id="signupForm">
+            <div class="field">
+              <label class="label" for="username-signup">Username</label>
+              <div class="control">
+                <input class="input" type="text" id="username-signup" placeholder="Enter your username">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="email-signup">Email</label>
+              <div class="control">
+                <input class="input" type="email" id="email-signup" placeholder="Enter your email">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="password-signup">Password</label>
+              <div class="control">
+                <input class="input" type="password" id="password-signup" placeholder="Enter your password">
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary" type="submit">Sign Up</button>
+              </div>
+            </div>
+            <div class="field">
+              <p class="control">
+                <a href="#" id="showLoginForm">Already have an account? Log in</a>
+              </p>
+            </div>
+          </form>
+        </div>
+        <!-- Logout Button -->
+        <div class="field">
+          <div class="control">
+            <button id="logoutButton" class="button is-danger">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
+  
+  <script src="/js/modal.js"></script> <!-- Include your modal JavaScript file -->
+</body>
+</html>

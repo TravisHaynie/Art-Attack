@@ -3,7 +3,7 @@ const { User } = require('../models');
 
 // Render homepage
 router.get('/', (req, res) => {
-    res.render('main', {
+    res.render('home_menu', {
       loggedIn: req.session.loggedIn,
       siteTitle: 'ART ATTACK'
     });
