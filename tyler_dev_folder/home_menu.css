@@ -31,6 +31,14 @@ body{
     
 
 }
+
+#pencilGuy{
+
+    position:absolute;
+    transform: translateX(700px);
+    margin-top:-50px;
+    scale:95%;
+}
 #title{
 
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
