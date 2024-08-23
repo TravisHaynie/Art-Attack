@@ -1,0 +1,70 @@
+body{
+
+    display:flex;
+    background-color:rgb(240, 251, 161); ;
+    justify-content: center;
+
+}
+
+#stats_caption{
+
+    position:absolute;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
+    font-size: 70pt;
+    transform: rotate(-10deg);
+    margin-left:-500px;
+    margin-top:140px;
+    color: rgb(86, 85, 85);
+
+}
+
+#stats_graphic{
+
+    position:absolute;
+    scale:60%;
+    margin-top:-100px;
+    margin-right:-400px;
+
+}
+
+#stats_box{
+
+    display:flex;
+
+    width:1000px;
+    height:auto;
+
+    background-color: aliceblue;
+    margin-top:350px;
+    border-radius: 10px;
+    padding:5px;
+    font-family:monospace;
+    font-weight:lighter;
+    flex-direction: column;
+
+}
+
+#homeButton{
+
+    position:absolute;
+
+    width:100px;
+    height:100px;
+    border-radius:10px;
+    background-color:rgb(165, 183, 111);
+    margin-left:-1350px;
+    margin-top:10px;
+    background-image: url('images/house.png');
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+   
+}
+
+#homeButton:hover{
+
+    background-color: yellow;
+
+}
+
