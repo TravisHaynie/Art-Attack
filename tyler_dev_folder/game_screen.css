@@ -43,7 +43,7 @@ body{
 
     font-weight:lighter;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    width:500px;
+    width:550px;
     height:auto;
     background-color: aliceblue;
     border-radius: 10px;
@@ -101,7 +101,7 @@ body{
     height:50px;
 
     background-color: white;
-    margin-top:265px;
+    margin-top:260px;
     border:solid;
     border-color:rgba(130, 139, 46, 0.449);
     border-radius:10px;
