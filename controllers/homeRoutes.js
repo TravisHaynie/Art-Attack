@@ -38,16 +38,16 @@ router.post('/game-session', async (req, res) => {
 
   // Generate a random number between 1 and the total number of subjects
   const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-  console.log(randomSubjectId);
+  // console.log(randomSubjectId);
   // Find a subject based on the random subject ID
   const subject = await Subject.findByPk(randomSubjectId);
-  console.log(subject.id);
+  // console.log(subject.id);
 
   try {
     const newGameSession = await GameSession.create({
       player1: req.session.id,
       player2: null,
-      subject: subject.id,
+      subject: 'a car',
       inProgress: false, // Set initially to false
       votingEnabled: false,
       hasVoted: null,
@@ -61,11 +61,11 @@ router.post('/game-session', async (req, res) => {
 
     const gameSessionData = await GameSession.findByPk(newGameSession.id);
     const gameSession = gameSessionData.get({ plain: true });
-    
+    console.log(gameSession);
     res.redirect(`/game-session/${gameSession.id}`);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    //res.status(500).json({ error: 'Internal server error' });
   }
 });
 
