@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, GameSession } = require('../models'); 
+const { User, Subject, GameSession } = require('../models'); 
 
 // Render homepage
 router.get('/', (req, res) => {
@@ -31,39 +31,87 @@ router.get('/canvas', (req, res) => {
 });
 
 router.post('/game-session', async (req, res) => {
-  // Check if player1, player2, and subject are provided in the request body
-  if (!req.body.player1 || !req.body.player2 || !req.body.subject) {
-    return res.status(400).json({ error: 'player1, player2, and subject are required fields' });
-  }
 
   // Find the total count of subjects in the database
   const totalSubjects = await Subject.count();
+  console.log(await Subject.findAll());
 
   // Generate a random number between 1 and the total number of subjects
   const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-
+  // console.log(randomSubjectId);
   // Find a subject based on the random subject ID
   const subject = await Subject.findByPk(randomSubjectId);
-
-  // Check if player1 and player2 are different users
-  if (player1 === player2) {
-    return res.status(400).json({ error: 'player1 and player2 must be different users' });
-  }
+  // console.log(subject.id);
 
   try {
     const newGameSession = await GameSession.create({
-      player1: req.user.id,
-      player2,
-      subject: subject.id,
-      inProgress: false,
+      player1: req.session.id,
+      player2: null,
+      subject: 'a car',
+      inProgress: false, // Set initially to false
       votingEnabled: false,
       hasVoted: null,
     });
 
+    console.log(newGameSession);
+
+    // Update the inProgress value to true just before redirecting
+    newGameSession.inProgress = true;
+    await newGameSession.save();
+
     const gameSessionData = await GameSession.findByPk(newGameSession.id);
     const gameSession = gameSessionData.get({ plain: true });
-
+    console.log(gameSession);
     res.redirect(`/game-session/${gameSession.id}`);
+  } catch (error) {
+    console.error(error);
+    //res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.get('/game-session', async (req, res) => {
+  try {
+    // Data to be sent in the POST request
+    const postData = {
+      player1: req.session.user,
+    };
+  
+    req.body = postData; 
+    req.method = 'POST'; 
+    req.url = '/game-session'; 
+    
+    const response = {
+      data: null,
+      redirect: function (path) {
+        res.redirect(path); // Redirect the user based on the response data
+      },
+      status: function (statusCode) {
+        res.status(statusCode).json({ error: 'Internal server error' }); // Handle status codes
+      }
+    };
+
+    // Call the route handler for the POST request
+    await router.handle(req, response);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error A' });
+  }
+});
+
+router.get('/game-session/:id', async (req, res) => {
+  const gameSessionId = req.params.id;
+
+  // Fetch the game session data based on the provided ID
+  try {
+    const gameSession = await GameSession.findByPk(gameSessionId);
+
+    if (!gameSession) {
+      return res.status(404).json({ error: 'Game session not found' });
+    }
+
+    // Render the game session details or return the data in JSON format
+    res.json(gameSession);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });

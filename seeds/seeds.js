@@ -1,20 +1,24 @@
+const sequelize = require('sequelize'); 
 const { Subject } = require('../models');
 
 const subjectData = [
     {
         subject: 'Mathematics',
-        submittedBy: 1, // Assuming user with id 1 submitted this subject
+        submittedBy: 1, 
     },
     {
         subject: 'Science',
-        submittedBy: 2, // Assuming user with id 2 submitted this subject
+        submittedBy: 2, 
     },
     {
         subject: 'History',
-        submittedBy: 3, // Assuming user with id 3 submitted this subject
+        submittedBy: 3, 
     },
 ];
 
-const seedSubjects = () => Subject.bulkCreate(subjectData);
+
+seedSubjects = await Subject.bulkCreate(subjectData);
+
+
 
 module.exports = seedSubjects;
