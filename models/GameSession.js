@@ -38,7 +38,7 @@ GameSession.init(
         inProgress: {       // Determines if a game is in progress. if so, players can draw images. On false, save images to db.
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: true,
+            defaultValue: false,
         },
         votingEnabled: {    // Redirects players to voting page and generates a code/url to give voters. When time is up,
                             // no more votes are accepted, a winner is declared, and vote count and victory count are added to users.

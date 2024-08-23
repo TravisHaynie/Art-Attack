@@ -31,10 +31,6 @@ router.get('/canvas', (req, res) => {
 });
 
 router.post('/game-session', async (req, res) => {
-  // Check if player1, player2, and subject are provided in the request body
-  if (!req.body.player1 || !req.body.player2 || !req.body.subject) {
-    return res.status(400).json({ error: 'player1, player2, and subject are required fields' });
-  }
 
   // Find the total count of subjects in the database
   const totalSubjects = await Subject.count();
@@ -45,25 +41,45 @@ router.post('/game-session', async (req, res) => {
   // Find a subject based on the random subject ID
   const subject = await Subject.findByPk(randomSubjectId);
 
-  // Check if player1 and player2 are different users
-  if (player1 === player2) {
-    return res.status(400).json({ error: 'player1 and player2 must be different users' });
-  }
-
   try {
     const newGameSession = await GameSession.create({
       player1: req.user.id,
       player2,
       subject: subject.id,
-      inProgress: false,
+      inProgress: false, // Set initially to false
       votingEnabled: false,
       hasVoted: null,
     });
 
+    console.log(newGameSession);
+
+    // Update the inProgress value to true just before redirecting
+    newGameSession.inProgress = true;
+    await newGameSession.save();
+
     const gameSessionData = await GameSession.findByPk(newGameSession.id);
     const gameSession = gameSessionData.get({ plain: true });
-
+    
     res.redirect(`/game-session/${gameSession.id}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.get('/game-session/:id', async (req, res) => {
+  const gameSessionId = req.params.id;
+
+  // Fetch the game session data based on the provided ID
+  try {
+    const gameSession = await GameSession.findByPk(gameSessionId);
+
+    if (!gameSession) {
+      return res.status(404).json({ error: 'Game session not found' });
+    }
+
+    // Render the game session details or return the data in JSON format
+    res.json(gameSession);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
