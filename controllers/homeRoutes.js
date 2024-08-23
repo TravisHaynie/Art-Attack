@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, GameSession } = require('../models'); 
+const { User, Subject, GameSession } = require('../models'); 
 
 // Render homepage
 router.get('/', (req, res) => {
@@ -34,17 +34,19 @@ router.post('/game-session', async (req, res) => {
 
   // Find the total count of subjects in the database
   const totalSubjects = await Subject.count();
+  console.log(await Subject.findAll());
 
   // Generate a random number between 1 and the total number of subjects
   const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-
+  console.log(randomSubjectId);
   // Find a subject based on the random subject ID
   const subject = await Subject.findByPk(randomSubjectId);
+  console.log(subject.id);
 
   try {
     const newGameSession = await GameSession.create({
-      player1: req.user.id,
-      player2,
+      player1: req.session.id,
+      player2: null,
       subject: subject.id,
       inProgress: false, // Set initially to false
       votingEnabled: false,
@@ -64,6 +66,36 @@ router.post('/game-session', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.get('/game-session', async (req, res) => {
+  try {
+    // Data to be sent in the POST request
+    const postData = {
+      player1: req.session.user,
+    };
+  
+    req.body = postData; 
+    req.method = 'POST'; 
+    req.url = '/game-session'; 
+    
+    const response = {
+      data: null,
+      redirect: function (path) {
+        res.redirect(path); // Redirect the user based on the response data
+      },
+      status: function (statusCode) {
+        res.status(statusCode).json({ error: 'Internal server error' }); // Handle status codes
+      }
+    };
+
+    // Call the route handler for the POST request
+    await router.handle(req, response);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error A' });
   }
 });
 

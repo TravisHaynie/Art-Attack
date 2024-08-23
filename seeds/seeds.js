@@ -1,3 +1,4 @@
+const sequelize = require('sequelize'); // Import your Sequelize instance
 const { Subject } = require('../models');
 
 const subjectData = [
@@ -15,6 +16,14 @@ const subjectData = [
     },
 ];
 
-const seedSubjects = () => Subject.bulkCreate(subjectData);
+const seedSubjects = async () => {
+    try {
+        await sequelize.sync(); // Ensure database connection
+        await Subject.bulkCreate(subjectData);
+        console.log('Subjects seeded successfully.');
+    } catch (error) {
+        console.error('Error seeding subjects:', error);
+    }
+};
 
 module.exports = seedSubjects;
