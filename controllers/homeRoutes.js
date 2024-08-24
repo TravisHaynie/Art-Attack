@@ -41,6 +41,17 @@ router.post('/game-session', async (req, res) => {
   }
 
   try {
+    // Check if there's an existing session where player2 is not yet assigned
+    const existingSession = await GameSession.findOne({
+      where: { player2: null, inProgress: false }
+    });
+
+    if (existingSession) {
+      // Join the existing session
+      return res.status(200).json({ sessionId: existingSession.id });
+    }
+
+    // Create a new session if no existing session is available
     const totalSubjects = await Subject.count();
     const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
     const subject = await Subject.findByPk(randomSubjectId);
@@ -56,10 +67,11 @@ router.post('/game-session', async (req, res) => {
 
     res.status(201).json({ sessionId: newGameSession.id });
   } catch (error) {
-    console.error('Error creating game session:', error);
-    res.status(500).json({ message: 'An error occurred while creating the game session.' });
+    console.error('Error creating or joining game session:', error);
+    res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
   }
 });
+
 
 
 // Join a game session
@@ -72,23 +84,27 @@ router.post('/join-session', async (req, res) => {
   }
 
   try {
-      const session = await GameSession.findByPk(sessionId);
-      if (!session) {
-          return res.status(404).json({ message: 'Game session not found.' });
-      }
+    const session = await GameSession.findByPk(sessionId);
+    if (!session) {
+        return res.status(404).json({ message: 'Game session not found.' });
+    }
 
-      if (session.player2) {
-          return res.status(400).json({ message: 'Game session is already full.' });
-      }
+    if (session.player2) {
+        return res.status(400).json({ message: 'Game session is already full.' });
+    }
+    session.player2 = userId;
 
-      session.player2 = userId;
+    // Check if both players are in the session before starting the game
+    if (session.player1 && session.player2) {
       session.inProgress = true; // Set session as in progress
-      await session.save();
+    }
 
-      res.status(200).json({ message: 'Joined game session successfully!', sessionId });
+    await session.save();
+
+    res.status(200).json({ message: 'Joined game session successfully!', sessionId });
   } catch (error) {
-      console.error('Error joining game session:', error);
-      res.status(500).json({ message: 'An error occurred while joining the game session.' });
+    console.error('Error joining game session:', error);
+    res.status(500).json({ message: 'An error occurred while joining the game session.' });
   }
 });
 

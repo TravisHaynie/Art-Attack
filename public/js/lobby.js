@@ -69,11 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred while joining the session.');
         }
     }
+    
 
     // Initial check
     checkSessionStatus();
-    setInterval(checkSessionStatus, 2000); // Check every 2 seconds
+    setInterval(checkSessionStatus, 6000); // Check every 2 seconds
 
     // Attempt to join the session after checking status
-    setTimeout(joinSession, 1000); // Delay to ensure session and user are correctly set
+    setTimeout(joinSession, 6000); // Delay to ensure session and user are correctly set
 });
