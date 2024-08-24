@@ -30,106 +30,82 @@ router.get('/canvas', (req, res) => {
     });
 });
 
+router.get('/lobby', (req, res) => {
+  res.render('lobby', { title: 'Lobby', user: req.user });
+});
+
+
 router.post('/game-session', async (req, res) => {
-
-  // Find the total count of subjects in the database
-  const totalSubjects = await Subject.count();
-  console.log(await Subject.findAll());
-
-  // Generate a random number between 1 and the total number of subjects
-  const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-  // console.log(randomSubjectId);
-  // Find a subject based on the random subject ID
-  const subject = await Subject.findByPk(randomSubjectId);
-  // console.log(subject.id);
+  if (!req.session.loggedIn) {
+    return res.status(401).json({ message: 'You must be logged in to create a game session.' });
+  }
 
   try {
+    const totalSubjects = await Subject.count();
+    const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
+    const subject = await Subject.findByPk(randomSubjectId);
+
     const newGameSession = await GameSession.create({
-      player1: req.body.playerId,
+      player1: req.session.user.id,
       player2: null,
-      subject: 'a car',
-      inProgress: false, // Set initially to false
+      subject: subject.id,
+      inProgress: false,
       votingEnabled: false,
       hasVoted: null,
     });
 
-    console.log(newGameSession);
-
-    // Update the inProgress value to true just before redirecting
-    newGameSession.inProgress = true;
-    await newGameSession.save();
-
-    const gameSessionData = await GameSession.findByPk(newGameSession.id);
-    const gameSession = gameSessionData.get({ plain: true });
-    console.log(gameSession);
-    res.redirect(`/game-session/${gameSession.id}`);
+    res.status(201).json({ sessionId: newGameSession.id });
   } catch (error) {
-    console.error(error);
-    //res.status(500).json({ error: 'Internal server error' });
+    console.error('Error creating game session:', error);
+    res.status(500).json({ message: 'An error occurred while creating the game session.' });
   }
 });
 
-router.get('/game-session', async (req, res) => {
+
+// Join a game session
+// Backend route to handle session joining
+router.post('/join-session', async (req, res) => {
+  const { sessionId, userId } = req.body;
+
+  if (!sessionId || !userId) {
+      return res.status(400).json({ message: 'Session ID and user ID are required.' });
+  }
+
   try {
-    // Data to be sent in the POST request
-    const postData = {
-      player1: req.session.user,
-    };
-  
-    req.body = postData; 
-    req.method = 'POST'; 
-    req.url = '/game-session'; 
-    
-    const response = {
-      data: null,
-      redirect: function (path) {
-        res.redirect(path); // Redirect the user based on the response data
-      },
-      status: function (statusCode) {
-        res.status(statusCode).json({ error: 'Internal server error' }); // Handle status codes
+      const session = await GameSession.findByPk(sessionId);
+      if (!session) {
+          return res.status(404).json({ message: 'Game session not found.' });
       }
-    };
 
-    // Call the route handler for the POST request
-    await router.handle(req, response);
+      if (session.player2) {
+          return res.status(400).json({ message: 'Game session is already full.' });
+      }
 
+      session.player2 = userId;
+      session.inProgress = true; // Set session as in progress
+      await session.save();
+
+      res.status(200).json({ message: 'Joined game session successfully!', sessionId });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error A' });
+      console.error('Error joining game session:', error);
+      res.status(500).json({ message: 'An error occurred while joining the game session.' });
   }
 });
 
+
+// Get game session details
 router.get('/game-session/:id', async (req, res) => {
-  const gameSessionId = req.params.id;
-
-  // Fetch the game session data based on the provided ID
   try {
-    const gameSession = await GameSession.findByPk(gameSessionId);
-
+    const gameSession = await GameSession.findByPk(req.params.id);
     if (!gameSession) {
-      return res.status(404).json({ error: 'Game session not found' });
+      return res.status(404).json({ message: 'Game session not found.' });
     }
 
-    // Render the game session details or return the data in JSON format
-    res.json(gameSession);
+    res.status(200).json(gameSession);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error fetching game session:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the game session.' });
   }
 });
-
-  // create game session
-
-  //take game session id and redirect to game-session/:id
-
-
-
-// game-session:id
-
-//game-session:id:player1
-
-//game-session:id:player2
-
-
 
 module.exports = router;

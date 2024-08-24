@@ -4,33 +4,36 @@ const GameSession = require("./GameSession.js");
 const Image = require("./Image.js");
 
 Subject.belongsTo(User, {
-    foreignKey: 'id',
+    foreignKey: 'submittedBy',
 });
 
 User.hasMany(Subject, {
-    foreignKey: 'id',
+    foreignKey: 'submittedBy',
 });
 
-GameSession.hasOne(User, {
+
+GameSession.belongsTo(User, {
     foreignKey: 'player1',
 });
 
-GameSession.hasOne(User, {
+GameSession.belongsTo(User, {
     foreignKey: 'player2',
 });
 
-User.belongsTo(GameSession, {
-    foreignKey: 'id',
-});
+
+// User.belongsTo(GameSession, {
+//     foreignKey: 'id',
+// });
 
 GameSession.hasMany(Image, {
-    foreignKey: 'id',
+    foreignKey: 'sessionId', // Should match the field in Image model
     onDelete: 'CASCADE',
 });
 
 Image.belongsTo(GameSession, {
-    foreignKey: 'id',
+    foreignKey: 'sessionId', // Should match the field in Image model
 });
+
 
 
 
