@@ -157,4 +157,37 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred during logout.');
         }
     });
+    const joinGameButton = document.getElementById('join_game_button');
+
+    joinGameButton.addEventListener('click', async () => {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (!user) {
+            alert('You must be logged in to join a game session.');
+            return;
+        }
+
+        try {
+            // Attempt to join an existing game session
+            const response = await fetch('/game-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: user.id })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const sessionId = data.sessionId;
+
+                // Redirect to session page
+                window.location.href = `/game-session.html?sessionId=${sessionId}`;
+            } else {
+                const errorData = await response.json();
+                alert(`Failed to join a session: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error('Error joining game session:', error);
+            alert('An error occurred while joining the game session.');
+        }
+    });
 });
