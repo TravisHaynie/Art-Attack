@@ -22,7 +22,17 @@ Subject.init(
                 model: 'user',
                 key: 'id',
             }
-        }
+        },
+        createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW, // Set default value to NOW()
+        },
+        updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW, // Set default value to NOW()
+        },
     },
     {
         sequelize,
