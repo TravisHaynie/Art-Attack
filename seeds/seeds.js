@@ -4,7 +4,7 @@ const { Subject } = require('../models');
 async function seedSub() {
     const subjectData = [
         {
-            subject: 'History',
+            subject: 'a car on fire',
             submittedBy: 1, 
         },
     ];
