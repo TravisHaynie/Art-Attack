@@ -190,27 +190,45 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred while joining the game session.');
         }
     });
-    document.getElementById('submitBtn').addEventListener('click', function() {
-        let subject = document.getElementById('subjectInput').value;
-        let userId = JSON.parse(sessionStorage.getItem('user'));
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+        const subject = document.getElementById('subjectInput').value.trim();
+        const user = JSON.parse(sessionStorage.getItem('user'));
     
-        // Make a fetch POST request
-        fetch('/suggestSubject', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ subject: subject, submittedBy: userId })
-        })
-        .then(response => {
+        // Check if user is logged in
+        if (!user) {
+            alert('You must be logged in to submit a subject suggestion.');
+            return;
+        }
+    
+        // Check if the subject input is not empty
+        if (!subject) {
+            alert('Please enter a subject.');
+            return;
+        }
+    
+        try {
+            const response = await fetch('/suggestSubject', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    subject: subject,
+                    submittedBy: user.id // Ensure you are sending the user ID
+                })
+            });
+    
             if (response.ok) {
-                console.log('Subject suggestion submitted successfully');
+                alert('Subject suggestion submitted successfully!');
+                // Optionally, you can clear the input field or update the UI
+                document.getElementById('subjectInput').value = '';
             } else {
-                console.error('Error submitting subject suggestion');
+                const errorData = await response.json();
+                alert(`Error: ${errorData.message}`);
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error submitting subject suggestion:', error);
-        });
+            alert('An error occurred while submitting the subject.');
+        }
     });
 });

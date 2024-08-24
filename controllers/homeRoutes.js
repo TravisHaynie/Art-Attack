@@ -127,21 +127,27 @@ router.get('/game-session/:id', async (req, res) => {
 });
 
 router.post('/suggestSubject', async (req, res) => {
+  const { subject, submittedBy } = req.body;
+
+  console.log('Received subject:', subject); // Debugging: Check what is received
+  console.log('Submitted by user ID:', submittedBy); // Debugging: Check user ID
+
+  // Basic validation
+  if (!subject || !submittedBy) {
+      return res.status(400).json({ message: 'Subject and user ID are required.' });
+  }
+
   try {
-      const { subject, submittedBy } = req.body;
-
-      // Create a new subject suggestion in the database
-      const newSubjectSuggestion = await Subject.create({
-          subject: subject,
-          submittedBy: submittedBy
-      });
-
-      // Respond with a success message
-      res.status(201).json({ message: 'Subject suggestion submitted successfully' });
+      // Attempt to create the subject suggestion
+      const newSuggestion = await Subject.create({ subject, submittedBy });
+      res.status(200).json({ message: 'Subject suggestion submitted successfully!' });
   } catch (error) {
-      console.error('Error submitting subject suggestion:', error);
-      res.status(500).json({ error: 'An error occurred while submitting the subject suggestion' });
+      // Detailed error logging
+      console.error('Error suggesting subject:', error);
+      res.status(500).json({ message: `An error occurred while suggesting the subject: ${error.message}` });
   }
 });
+
+
 
 module.exports = router;
