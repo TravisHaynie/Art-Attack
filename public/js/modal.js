@@ -190,8 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred while joining the game session.');
         }
     });
-    document.getElementById('subjectInput').addEventListener('input', function() {
-        let subject = this.value;
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        let subject = document.getElementById('subjectInput').value;
         let userId = JSON.parse(sessionStorage.getItem('user'));
     
         // Make a fetch POST request

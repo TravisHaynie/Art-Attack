@@ -124,12 +124,12 @@ router.get('/game-session/:id', async (req, res) => {
   }
 });
 
-app.post('/suggestSubject', async (req, res) => {
+router.post('/suggestSubject', async (req, res) => {
   try {
       const { subject, submittedBy } = req.body;
 
       // Create a new subject suggestion in the database
-      const newSubjectSuggestion = await SubjectSuggestion.create({
+      const newSubjectSuggestion = await Subject.create({
           subject: subject,
           submittedBy: submittedBy
       });
