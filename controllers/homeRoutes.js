@@ -39,7 +39,7 @@ router.post('/game-session', async (req, res) => {
   if (!req.session.loggedIn) {
     return res.status(401).json({ message: 'You must be logged in to create a game session.' });
   }
-
+ console.log('Session LoggedIn:', req.session.loggedIn);
   try {
     // Check if there's an existing session where player2 is not yet assigned
     const existingSession = await GameSession.findOne({
@@ -65,9 +65,11 @@ router.post('/game-session', async (req, res) => {
       hasVoted: null,
     });
 
+  console.log('Session User:', req.session.user);
+
     res.status(201).json({ sessionId: newGameSession.id });
   } catch (error) {
-    console.error('Error creating or joining game session:', error);
+    console.error('Error creating or joining game session:', error.message);
     res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
   }
 });
