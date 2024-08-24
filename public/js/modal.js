@@ -190,4 +190,27 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred while joining the game session.');
         }
     });
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        let subject = document.getElementById('subjectInput').value;
+        let userId = JSON.parse(sessionStorage.getItem('user'));
+    
+        // Make a fetch POST request
+        fetch('/suggestSubject', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ subject: subject, submittedBy: userId })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Subject suggestion submitted successfully');
+            } else {
+                console.error('Error submitting subject suggestion');
+            }
+        })
+        .catch(error => {
+            console.error('Error submitting subject suggestion:', error);
+        });
+    });
 });

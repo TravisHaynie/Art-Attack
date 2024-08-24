@@ -124,4 +124,22 @@ router.get('/game-session/:id', async (req, res) => {
   }
 });
 
+router.post('/suggestSubject', async (req, res) => {
+  try {
+      const { subject, submittedBy } = req.body;
+
+      // Create a new subject suggestion in the database
+      const newSubjectSuggestion = await Subject.create({
+          subject: subject,
+          submittedBy: submittedBy
+      });
+
+      // Respond with a success message
+      res.status(201).json({ message: 'Subject suggestion submitted successfully' });
+  } catch (error) {
+      console.error('Error submitting subject suggestion:', error);
+      res.status(500).json({ error: 'An error occurred while submitting the subject suggestion' });
+  }
+});
+
 module.exports = router;
