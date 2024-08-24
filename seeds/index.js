@@ -3,6 +3,7 @@ const seedSubjects = require('./seeds');
 
 const seed = async () => {
     try {
+        await sequelize.authenticate();
         await sequelize.sync(); // Ensure database connection
         await seedSubjects(); // Seed subjects data
         console.log('Seed process completed successfully.');

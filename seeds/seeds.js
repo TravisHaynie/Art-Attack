@@ -1,24 +1,19 @@
-const sequelize = require('sequelize'); 
+const sequelize = require('../config/connection.js'); 
 const { Subject } = require('../models');
 
+async function seedSub() {
 const subjectData = [
     {
-        subject: 'Mathematics',
-        submittedBy: 1, 
-    },
-    {
-        subject: 'Science',
-        submittedBy: 2, 
-    },
-    {
         subject: 'History',
-        submittedBy: 3, 
+        submittedBy: 1, 
     },
 ];
 
+ 
+return seedSubjects = await Subject.bulkCreate(subjectData);
 
-seedSubjects = await Subject.bulkCreate(subjectData);
+};
 
 
 
-module.exports = seedSubjects;
+module.exports = seedSub;
