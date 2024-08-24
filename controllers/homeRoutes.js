@@ -45,7 +45,7 @@ router.post('/game-session', async (req, res) => {
 
   try {
     const newGameSession = await GameSession.create({
-      player1: req.session.id,
+      player1: req.body.playerId,
       player2: null,
       subject: 'a car',
       inProgress: false, // Set initially to false
