@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 console.log('Joined session successfully:', data);
                 // Optionally update the UI or perform additional actions here
+                window.location.href = `/canvas?sessionId=${sessionId}`;
             } else {
                 const errorData = await response.json();
                 alert(`Failed to join session: ${errorData.message}`);
