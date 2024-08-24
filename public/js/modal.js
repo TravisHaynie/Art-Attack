@@ -157,9 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred during logout.');
         }
     });
-    const joinGameButton = document.getElementById('join_game_button');
+    const joinCurrentSessionButton = document.getElementById('join_current_session_button');
 
-    joinGameButton.addEventListener('click', async () => {
+    joinCurrentSessionButton.addEventListener('click', async () => {
         const user = JSON.parse(sessionStorage.getItem('user'));
 
         if (!user) {
@@ -168,28 +168,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Attempt to join an existing game session
-            const response = await fetch('/game-session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: user.id })
-            });
+            // Fetch the current active session ID
+            const response = await fetch('/current-session');
 
-            if (response.ok) {
-                const data = await response.json();
-                const sessionId = data.sessionId;
+            if (!response.ok) {
+                throw new Error('Failed to fetch current session.');
+            }
 
-                // Redirect to session page
+            const data = await response.json();
+            const sessionId = data.sessionId;
+
+            if (sessionId) {
+                // Redirect to the game session page
                 window.location.href = `/game-session.html?sessionId=${sessionId}`;
             } else {
-                const errorData = await response.json();
-                alert(`Failed to join a session: ${errorData.message}`);
+                alert('No active session found.');
             }
         } catch (error) {
-            console.error('Error joining game session:', error);
+            console.error('Error fetching current session:', error);
             alert('An error occurred while joining the game session.');
         }
     });
+    
     document.getElementById('submitBtn').addEventListener('click', async () => {
         const subject = document.getElementById('subjectInput').value.trim();
         const user = JSON.parse(sessionStorage.getItem('user'));
