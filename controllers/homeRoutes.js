@@ -34,6 +34,34 @@ router.get('/lobby', (req, res) => {
   res.render('lobby', { title: 'Lobby', user: req.user });
 });
 
+// Fetch the current session for a logged-in user
+router.get('/current-session', async (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.status(401).json({ message: 'User not logged in.' });
+  }
+
+  try {
+    const session = await GameSession.findOne({
+      where: {
+        [Op.or]: [
+          { player1: req.session.user.id },
+          { player2: req.session.user.id }
+        ],
+        inProgress: false
+      }
+    });
+
+    if (session) {
+      res.status(200).json({ sessionId: session.id });
+    } else {
+      res.status(404).json({ message: 'No active session found.' });
+    }
+  } catch (error) {
+    console.error('Error fetching current session:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the current session.' });
+  }
+});
+
 
 router.post('/game-session', async (req, res) => {
   if (!req.session.loggedIn) {
