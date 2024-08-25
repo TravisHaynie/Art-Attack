@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const statusElement = document.getElementById('status');
     const gameSessionElement = document.getElementById('gameSession');
     gameSessionElement.textContent = `Session ID: ${sessionId}`;
 
@@ -24,13 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const data = await response.json();
 
-            if (data.player2) {
-                // Redirect to the canvas if both players are present
-                window.location.href = `/canvas?sessionId=${sessionId}`;
-            } else {
-                // Update status element if waiting for another player
-                statusElement.textContent = `Waiting for another player... (${data.player1 ? 1 : 0}/2)`;
-            }
+           
+        if (data.player2) {
+            // Session is full
+            return { full: true };
+        } else {
+            // Session has room
+            return { full: false, player1: data.player1 };
+        }
         } catch (error) {
             console.error('Error checking session status:', error);
             alert('An error occurred while checking the session status.');
@@ -39,48 +39,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to join the session
     async function joinSession() {
-        const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    const sessionId = new URLSearchParams(window.location.search).get('sessionId');
 
-        if (!user) {
-            alert('You must be logged in to join a game session.');
+    if (!user || !sessionId) {
+        alert('You must be logged in and have a valid session to join.');
+        return;
+    }
+
+    try {
+        const sessionStatus = await checkSessionStatus(sessionId);
+
+        if (sessionStatus.full) {
+            alert('Session is full.');
             return;
         }
 
-        try {
-            const response = await fetch('/join-session', {
-                method: 'POST',
-                body: JSON.stringify({
-                    sessionId: sessionId,
-                    userId: user.id // Send the user ID
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            });
+        const response = await fetch('/join-session', {
+            method: 'POST',
+            body: JSON.stringify({
+                sessionId: sessionId,
+                userId: user.id
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Joined session successfully:', data);
-                // Optionally update the UI or perform additional actions here
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
                 window.location.href = `/canvas?sessionId=${sessionId}`;
             } else {
-                const errorData = await response.json();
-                alert(`Failed to join session: ${errorData.message}`);
+                alert(`Failed to join session: ${data.message}`);
             }
-        } catch (error) {
-            console.error('Error joining session:', error);
-            alert('An error occurred while joining the session.');
+        } else {
+            const errorData = await response.json();
+            alert(`Failed to join session: ${errorData.message}`);
         }
+    } catch (error) {
+        console.error('Error joining session:', error);
+        alert('An error occurred while joining the session.');
     }
-    
-
-    checkSessionStatus();
+}
+async function init() {
+    await checkSessionStatus();
     const statusInterval = setInterval(checkSessionStatus, 6000); // Check every 6 seconds
 
-    // Attempt to join the session after a delay
     setTimeout(async () => {
         await joinSession();
         clearInterval(statusInterval); // Stop checking status once joined
     }, 12000); // Delay to ensure session and user are correctly set
 
-    // Optional: Cleanup interval if user navigates away or session becomes invalid
-    window.addEventListener('beforeunload', () => clearInterval(statusInterval));// Delay to ensure session and user are correctly set
+    // Cleanup interval if user navigates away or session becomes invalid
+    window.addEventListener('beforeunload', () => clearInterval(statusInterval));
+}
+
+init();
 });
