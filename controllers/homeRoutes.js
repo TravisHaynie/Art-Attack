@@ -73,45 +73,61 @@ router.get('/current-session', async (req, res) => {
 
 router.post('/game-session', async (req, res) => {
   if (!req.session.loggedIn) {
-    return res.status(401).json({ message: 'You must be logged in to create a game session.' });
+      return res.status(401).json({ message: 'You must be logged in to create a game session.' });
   }
+
   console.log('Session LoggedIn:', req.session.loggedIn);
   console.log('Session User:', req.session.user);
+
   try {
-    let gameSession;
+      let gameSession;
 
-    const existingSession = await GameSession.findOne({
-      where: { player2: null, inProgress: false }
-    });
-
-    if (existingSession) {
-      console.log('Joining existing session:', existingSession.id);
-      await existingSession.update({ player2: req.session.user.id });
-      console.log('Session User:', req.session.user);
-      gameSession = existingSession;
-    } else {
-      const totalSubjects = await Subject.count();
-      const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-      const subject = await Subject.findByPk(randomSubjectId);
-
-      const newGameSession = await GameSession.create({
-        player1: req.session.user.id,
-        player2: null,
-        subject: subject.id,
-        inProgress: false,
-        votingEnabled: false,
-        hasVoted: null,
+      const existingSession = await GameSession.findOne({
+          where: { player2: null, inProgress: false }
       });
 
-      console.log('Session User:', req.session.user);
-      gameSession = newGameSession;
-    }
+      if (existingSession) {
+          console.log('Joining existing session:', existingSession.id);
+          await existingSession.update({ player2: req.session.user.id });
+          console.log('Session User:', req.session.user);
+          gameSession = existingSession;
+      } else {
+          const availableSessions = await GameSession.findAll({
+              where: { player2: null, inProgress: false }
+          });
 
-    res.status(200).json({ message: 'Game session created or joined successfully.', sessionId: gameSession.id });
+          if (availableSessions.length > 0) {
+              const randomIndex = Math.floor(Math.random() * availableSessions.length);
+              const randomSession = availableSessions[randomIndex];
+
+              console.log('Joining existing session:', randomSession.id);
+              await randomSession.update({ player2: req.session.user.id });
+              console.log('Session User:', req.session.user);
+              gameSession = randomSession;
+          } else {
+              const totalSubjects = await Subject.count();
+              const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
+              const subject = await Subject.findByPk(randomSubjectId);
+
+              const newGameSession = await GameSession.create({
+                  player1: req.session.user.id,
+                  player2: null,
+                  subject: subject.id,
+                  inProgress: false,
+                  votingEnabled: false,
+                  hasVoted: null,
+              });
+
+              console.log('Session User:', req.session.user);
+              gameSession = newGameSession;
+          }
+      }
+
+      res.status(200).json({ message: 'Game session created or joined successfully.', sessionId: gameSession.id });
 
   } catch (error) {
-    console.error('Error creating or joining game session:', error.message);
-    res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
+      console.error('Error creating or joining game session:', error.message);
+      res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
   }
 });
 
