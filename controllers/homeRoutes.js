@@ -87,8 +87,11 @@ router.post('/game-session', async (req, res) => {
 
     // Create a new session if no existing session is available
     const totalSubjects = await Subject.count();
+    console.log(totalSubjects);
     const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
+    console.log(randomSubjectId);
     const subject = await Subject.findByPk(randomSubjectId);
+    console.log(subject);
 
     const newGameSession = await GameSession.create({
       player1: req.session.user.id,
@@ -200,13 +203,14 @@ router.post('/suggestSubject', async (req, res) => {
 });
 
 // VVV FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION VVV
+
 router.delete('/delete-sessions', async (req, res) => {
   try {
     // Delete all existing game sessions
     await GameSession.destroy({
       where: {},
       truncate: true,
-      cascade: true,
+      
     });
 
     res.status(200).json({ message: 'All game sessions have been deleted.' });
@@ -215,6 +219,22 @@ router.delete('/delete-sessions', async (req, res) => {
     res.status(500).json({ message: 'An error occurred while deleting game sessions.' });
   }
 });
+
+router.post('/delete-all-subjects', async (req, res) => {
+  try {
+    // Truncate the Subject table to delete all subjects
+    await Subject.destroy({
+      truncate: true, // This option truncates the table
+      restartIdentity: true, // This option restarts the auto-incrementing primary key counter
+    });
+
+    res.status(200).json({ message: 'All subjects have been deleted.' });
+  } catch (error) {
+    console.error('Error deleting all subjects:', error.message);
+    res.status(500).json({ message: 'An error occurred while deleting all subjects.' });
+  }
+});
+
 // ^^^ FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION ^^^
 
 
