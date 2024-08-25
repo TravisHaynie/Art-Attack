@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const response = await fetch('/join-session', {
+        const response = await fetch('/game-session', {
             method: 'POST',
             body: JSON.stringify({
                 sessionId: sessionId,
