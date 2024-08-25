@@ -75,32 +75,24 @@ router.post('/game-session', async (req, res) => {
   console.log('Session User:', req.session.user);
   try {
     let redirectToCanvas = false;
+    let gameSession;
 
-    // Check if there's an existing session where player2 is not yet assigned
     const existingSession = await GameSession.findOne({
       where: { player2: null, inProgress: false }
     });
 
     if (existingSession) {
       console.log('Joining existing session:', existingSession.id);
-      
-      // Update the existing session with player2
       await existingSession.update({ player2: req.session.user.id });
-    
       console.log('Session User:', req.session.user);
-      
-      // Check if both players are now assigned
       if (existingSession.player1 && existingSession.player2) {
         redirectToCanvas = true;
       }
+      gameSession = existingSession;
     } else {
-      // Create a new session if no existing session is available
       const totalSubjects = await Subject.count();
-      console.log(totalSubjects);
       const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-      console.log(randomSubjectId);
       const subject = await Subject.findByPk(randomSubjectId);
-      console.log(subject);
 
       const newGameSession = await GameSession.create({
         player1: req.session.user.id,
@@ -112,16 +104,14 @@ router.post('/game-session', async (req, res) => {
       });
 
       console.log('Session User:', req.session.user);
-
-      // Check if both players are now assigned
       if (newGameSession.player1 && newGameSession.player2) {
         redirectToCanvas = true;
       }
+      gameSession = newGameSession;
     }
 
     if (redirectToCanvas) {
-      // Redirect both players to their respective drawing canvases
-      res.status(200).json({ sessionId: existingSession ? existingSession.id : newGameSession.id, redirectTo: `/canvas?sessionId=${existingSession ? existingSession.id : newGameSession.id}` });
+      res.status(200).json({ sessionId: gameSession.id, redirectTo: `/canvas?sessionId=${gameSession.id}` });
     } else {
       res.status(200).json({ message: 'Waiting for the other player to join...' });
     }
