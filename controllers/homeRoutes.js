@@ -187,6 +187,23 @@ router.post('/suggestSubject', async (req, res) => {
   }
 });
 
+// VVV FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION VVV
+router.delete('/delete-sessions', async (req, res) => {
+  try {
+    // Delete all existing game sessions
+    await GameSession.destroy({
+      where: {},
+      truncate: true
+    });
+
+    res.status(200).json({ message: 'All game sessions have been deleted.' });
+  } catch (error) {
+    console.error('Error deleting game sessions:', error.message);
+    res.status(500).json({ message: 'An error occurred while deleting game sessions.' });
+  }
+});
+// ^^^ FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION ^^^
+
 
 
 module.exports = router;
