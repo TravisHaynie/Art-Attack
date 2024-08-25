@@ -193,7 +193,8 @@ router.delete('/delete-sessions', async (req, res) => {
     // Delete all existing game sessions
     await GameSession.destroy({
       where: {},
-      truncate: true
+      truncate: true,
+      cascade: true,
     });
 
     res.status(200).json({ message: 'All game sessions have been deleted.' });
