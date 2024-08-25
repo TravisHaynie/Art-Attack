@@ -69,40 +69,29 @@ router.get('/current-session', async (req, res) => {
 
 router.post('/game-session', async (req, res) => {
   if (!req.session.loggedIn) {
-    return res.status(401).json({ message: 'You must be logged in to create a game session.' });
+    return res.status(401).json({ message: 'You must be logged in to create or join a game session.' });
   }
-  console.log('Session LoggedIn:', req.session.loggedIn);
-  console.log('Session User:', req.session.user);
-  try {
-    let redirectToCanvas = false;
 
+  try {
     // Check if there's an existing session where player2 is not yet assigned
     const existingSession = await GameSession.findOne({
       where: { player2: null, inProgress: false }
     });
 
+    let session;
+
     if (existingSession) {
       console.log('Joining existing session:', existingSession.id);
-      
+
       // Update the existing session with player2
-      await existingSession.update({ player2: req.session.user.id });
-    
-      console.log('Session User:', req.session.user);
-      
-      // Check if both players are now assigned
-      if (existingSession.player1 && existingSession.player2) {
-        redirectToCanvas = true;
-      }
+      session = await existingSession.update({ player2: req.session.user.id });
     } else {
       // Create a new session if no existing session is available
       const totalSubjects = await Subject.count();
-      console.log(totalSubjects);
       const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-      console.log(randomSubjectId);
       const subject = await Subject.findByPk(randomSubjectId);
-      console.log(subject);
 
-      const newGameSession = await GameSession.create({
+      session = await GameSession.create({
         player1: req.session.user.id,
         player2: null,
         subject: subject.id,
@@ -111,24 +100,20 @@ router.post('/game-session', async (req, res) => {
         hasVoted: null,
       });
 
-      console.log('Session User:', req.session.user);
-
-      // Check if both players are now assigned
-      if (newGameSession.player1 && newGameSession.player2) {
-        redirectToCanvas = true;
-      }
+      console.log('Created new session:', session.id);
     }
 
-    if (redirectToCanvas) {
-      // Redirect both players to their respective drawing canvases
-      res.status(200).json({ sessionId: existingSession ? existingSession.id : newGameSession.id, redirectTo: `/canvas?sessionId=${existingSession ? existingSession.id : newGameSession.id}` });
+    // Redirect to canvas if session is ready to be started (both players joined)
+    if (session.player1 && session.player2) {
+      res.status(200).json({ sessionId: session.id });
+    } else if (session.player1 === req.session.user.id && !session.player2) {
+      res.status(200).json({ sessionId: session.id, message: 'Waiting for another player to join.' });
     } else {
-      res.status(200).json({ message: 'Waiting for the other player to join...' });
+      res.status(400).json({ message: 'Failed to create or join a game session.' });
     }
-
-  } catch (error) {
-    console.error('Error creating or joining game session:', error.message);
-    res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
+  } catch (err) {
+    console.error('Error creating/joining session:', err);
+    res.status(500).json({ message: 'An error occurred while creating or joining the session.' });
   }
 });
 

@@ -15,15 +15,16 @@ User.hasMany(Subject, {
 
 
 GameSession.belongsTo(User, {
+    as: 'Player1', // Aliases can help clarify which role the user is playing
     foreignKey: 'player1',
-    onDelete: 'SET NULL',
+    onDelete: 'SET NULL', // Nullify player1 if the user is deleted
 });
 
 GameSession.belongsTo(User, {
+    as: 'Player2', // Aliases can help clarify which role the user is playing
     foreignKey: 'player2',
-    onDelete: 'SET NULL',
+    onDelete: 'SET NULL', // Nullify player2 if the user is deleted
 });
-
 
 // User.belongsTo(GameSession, {
 //     foreignKey: 'id',

@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playButton = document.getElementById('play_button');
     const logoutButton = document.getElementById('logoutButton');
     const joinCurrentSessionButton = document.getElementById('join_current_session_button');
+
     // Open modal when login button is clicked
     openModalButton.addEventListener('click', () => {
         modal.classList.add('is-active');
@@ -101,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updatePlayButtonState() {
         const user = sessionStorage.getItem('user');
         playButton.disabled = !user;
+        joinCurrentSessionButton.disabled = !user;
     }
 
     // Initial check to set the button state on page load
@@ -141,9 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Handle logout
     logoutButton.addEventListener('click', async () => {
         try {
-            const response = await fetch('user/logout', { method: 'POST' });
+            const response = await fetch('/user/logout', { method: 'POST' });
             if (response.ok) {
                 sessionStorage.removeItem('user');
                 updatePlayButtonState(); // Update button state after logout
@@ -157,6 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred during logout.');
         }
     });
+
+    // Handle join current session button click
     joinCurrentSessionButton.addEventListener('click', async () => {
         const user = JSON.parse(sessionStorage.getItem('user'));
         const sessionId = new URLSearchParams(window.location.search).get('sessionId'); // Make sure sessionId is obtained
@@ -189,23 +194,24 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred while joining the session.');
         }
     });
-    
+
+    // Handle subject submission
     document.getElementById('submitBtn').addEventListener('click', async () => {
         const subject = document.getElementById('subjectInput').value.trim();
         const user = JSON.parse(sessionStorage.getItem('user'));
-    
+
         // Check if user is logged in
         if (!user) {
             alert('You must be logged in to submit a subject suggestion.');
             return;
         }
-    
+
         // Check if the subject input is not empty
         if (!subject) {
             alert('Please enter a subject.');
             return;
         }
-    
+
         try {
             const response = await fetch('/suggestSubject', {
                 method: 'POST',
@@ -217,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     submittedBy: user.id // Ensure you are sending the user ID
                 })
             });
-    
+
             if (response.ok) {
                 alert('Subject suggestion submitted successfully!');
                 // Optionally, you can clear the input field or update the UI

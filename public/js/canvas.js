@@ -71,5 +71,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   setTimeout(() => {
     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
-}, 6000); // 1 minute
+}, 20000); // 1 minute
 });
