@@ -45,7 +45,10 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false }      // Set secure: true if using HTTPS
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // Set secure: true if using HTTPS
+    maxAge: 3600000 // 1 hour, adjust as needed
+  }     // Set secure: true if using HTTPS
 }));
 
 app.use(routes);
