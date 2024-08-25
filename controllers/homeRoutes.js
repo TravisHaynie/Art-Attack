@@ -210,7 +210,7 @@ router.delete('/delete-sessions', async (req, res) => {
     await GameSession.destroy({
       where: {},
       truncate: true,
-      
+      cascade: true,
     });
 
     res.status(200).json({ message: 'All game sessions have been deleted.' });
@@ -220,18 +220,36 @@ router.delete('/delete-sessions', async (req, res) => {
   }
 });
 
-router.post('/delete-all-subjects', async (req, res) => {
+router.delete('/delete-all-subjects', async (req, res) => {
   try {
     // Truncate the Subject table to delete all subjects
     await Subject.destroy({
       truncate: true, // This option truncates the table
       restartIdentity: true, // This option restarts the auto-incrementing primary key counter
+      cascade: true,
     });
 
     res.status(200).json({ message: 'All subjects have been deleted.' });
   } catch (error) {
     console.error('Error deleting all subjects:', error.message);
     res.status(500).json({ message: 'An error occurred while deleting all subjects.' });
+  }
+});
+
+router.delete('/delete-all-users', async (req, res) => {
+  try {
+    // Delete all users from the User table
+    await User.destroy({
+      where: {}, // Specify an empty where clause to delete all records
+      truncate: true, // This option truncates the table
+      restartIdentity: true, // This option restarts the auto-incrementing primary key counter
+      cascade: true,
+    });
+
+    res.status(200).json({ message: 'All users have been deleted.' });
+  } catch (error) {
+    console.error('Error deleting all users:', error.message);
+    res.status(500).json({ message: 'An error occurred while deleting all users.' });
   }
 });
 
