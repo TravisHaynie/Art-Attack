@@ -65,6 +65,7 @@ router.get('/lobby', async (req, res) => {
     }
 });
 
+
 // Create or join a game session
 router.post('/game-session', async (req, res) => {
     if (!req.session.loggedIn) {

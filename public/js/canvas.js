@@ -66,10 +66,57 @@ document.addEventListener('DOMContentLoaded', () => {
       var dataURL = canvas.toDataURL({
           format: 'png'
       });
-      localStorage.setItem('canvasDrawing', dataURL);
-      alert('Drawing saved!');
+      const playerId = getCurrentPlayerId(); // Get the current player ID
+        localStorage.setItem(`canvasDrawing_${userId}`, dataURL);
+        alert('Drawing saved!');
   });
+function getCurrentUserId() {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    return user ? user.id : null;
+}
+
+async function submitArt() {
+    const userId = getCurrentUserId();
+    const sessionId = new URLSearchParams(window.location.search).get('sessionId');
+    const art = localStorage.getItem(`canvasDrawing_${userId}`);
+
+    if (!art || !sessionId) {
+        alert('No art found or session ID missing.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/submit-art', {
+            method: 'POST',
+            body: JSON.stringify({
+                sessionId,
+                userId,
+                art
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (response.ok) {
+            alert('Art submitted successfully!');
+        } else {
+            const errorData = await response.json();
+            alert(`Failed to submit art: ${errorData.message}`);
+        }
+    } catch (error) {
+        console.error('Error submitting art:', error);
+        alert('An error occurred while submitting the art.');
+    }
+}
+
+// Call submitArt when needed, e.g., on a button click
+document.getElementById('submitArtButton').addEventListener('click', submitArt);
+
+
   setTimeout(() => {
     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
 }, 20000); // 1 minute
 });
+
+
+
+
