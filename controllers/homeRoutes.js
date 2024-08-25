@@ -165,6 +165,18 @@ router.get('/game-session/:id', async (req, res) => {
   }
 });
 
+router.get('/getAllSubjects', async (req, res) => {
+  try {
+    // Retrieve all subject suggestions
+    const allSubjects = await Subject.find();
+
+    res.status(200).json(allSubjects);
+  } catch (error) {
+    console.error('Error getting all subjects:', error);
+    res.status(500).json({ message: `An error occurred while getting all subjects: ${error.message}` });
+  }
+});
+
 router.post('/suggestSubject', async (req, res) => {
   const { subject, submittedBy } = req.body;
 
