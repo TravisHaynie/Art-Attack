@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBackground = modal.querySelector('.modal-background');
     const playButton = document.getElementById('play_button');
     const logoutButton = document.getElementById('logoutButton');
-
+    const joinCurrentSessionButton = document.getElementById('join_current_session_button');
     // Open modal when login button is clicked
     openModalButton.addEventListener('click', () => {
         modal.classList.add('is-active');
