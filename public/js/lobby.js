@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!sessionId || !user) {
         alert('Invalid session or user not logged in.');
+        console.log(sessionId);
+        console.log(user);
         window.location.href = '/';
         return;
     }

@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     updatePlayButtonState();
 
     // Handle "To Battle!" button click
-    playButton.addEventListener('click', () => {
+    playButton.addEventListener('click', async () => {
         const user = sessionStorage.getItem('user');
       
         if (!user) {
@@ -115,28 +115,31 @@ document.addEventListener('DOMContentLoaded', async () => {
           return;
         }
       
-        fetch('/game-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        })
-        .then(response => {
+        try {
+          const response = await fetch('/game-session', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${user}` // Send the user's session token for authentication
+            }
+          });
+      
           if (!response.ok) {
             throw new Error('Failed to create game session.');
           }
-          return response.json();
-        })
-        .then(data => {
+      
+          const data = await response.json();
           const sessionId = data.sessionId;
+      
           if (sessionId) {
             window.location.href = `/lobby/${sessionId}`;
           } else {
             alert('Failed to create a new game session.');
           }
-        })
-        .catch(error => {
+        } catch (error) {
           console.error('Error creating session:', error);
           alert('An error occurred while creating a new game session.');
-        });
+        }
       });
          
 
