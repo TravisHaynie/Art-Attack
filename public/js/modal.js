@@ -162,34 +162,51 @@ document.addEventListener('DOMContentLoaded', () => {
     joinCurrentSessionButton.addEventListener('click', async () => {
         const user = JSON.parse(sessionStorage.getItem('user'));
 
-        if (!user) {
-            alert('You must be logged in to join a game session.');
-            return;
+    if (!user) {
+        alert('You must be logged in to join a game session.');
+        return;
+    }
+
+    try {
+        // Fetch the current active session ID
+        const response = await fetch('/current-session');
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch current session.');
         }
 
-        try {
-            // Fetch the current active session ID
-            const response = await fetch('/current-session');
+        const data = await response.json();
+        const sessionId = data.sessionId;
 
-            if (!response.ok) {
-                throw new Error('Failed to fetch current session.');
-            }
+        if (sessionId) {
+            // Attempt to join the session
+            const joinResponse = await fetch('/join-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sessionId: sessionId,
+                    userId: user.id
+                })
+            });
 
-            const data = await response.json();
-            const sessionId = data.sessionId;
-
-            if (sessionId) {
-                // Redirect to the game session page
+            if (joinResponse.ok) {
+                alert('Successfully joined the game session!');
                 window.location.href = `/game-session.html?sessionId=${sessionId}`;
             } else {
-                alert('No active session found.');
+                const errorData = await joinResponse.json();
+                alert(`Failed to join session: ${errorData.message}`);
             }
-        } catch (error) {
-            console.error('Error fetching current session:', error);
-            alert('An error occurred while joining the game session.');
+        } else {
+            alert('No active session found.');
         }
-    });
-    
+    } catch (error) {
+        console.error('Error fetching or joining session:', error);
+        alert('An error occurred while joining the game session.');
+    }
+});
+
     document.getElementById('submitBtn').addEventListener('click', async () => {
         const subject = document.getElementById('subjectInput').value.trim();
         const user = JSON.parse(sessionStorage.getItem('user'));
