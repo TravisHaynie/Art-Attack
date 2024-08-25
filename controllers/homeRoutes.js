@@ -223,6 +223,38 @@ router.post('/suggestSubject', async (req, res) => {
   }
 });
 
+// routes/gameSession.js
+
+router.post('/submit-art', async (req, res) => {
+  const { sessionId, userId, art } = req.body;
+
+  if (!sessionId || !userId || !art) {
+      return res.status(400).json({ message: 'Session ID, user ID, and art are required.' });
+  }
+
+  try {
+      const session = await GameSession.findByPk(sessionId);
+      if (!session) {
+          return res.status(404).json({ message: 'Game session not found.' });
+      }
+
+      if (session.player1 === userId) {
+          session.player1Art = art;
+      } else if (session.player2 === userId) {
+          session.player2Art = art;
+      } else {
+          return res.status(400).json({ message: 'User is not part of this session.' });
+      }
+
+      await session.save();
+      res.status(200).json({ message: 'Art submitted successfully!' });
+  } catch (error) {
+      console.error('Error submitting art:', error);
+      res.status(500).json({ message: 'An error occurred while submitting the art.' });
+  }
+});
+
+
 // VVV FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION VVV
 
 router.delete('/delete-sessions', async (req, res) => {
