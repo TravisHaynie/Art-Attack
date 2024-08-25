@@ -17,18 +17,22 @@ router.get('/login', (req, res) => {
   });
 });
 
-router.get(`/canvas?session=${id}`, (req, res) => {
-    res.render('canvas', {
+router.get('/canvas', (req, res) => {
+  const sessionId = req.query.sessionId;
+  res.render('canvas', {
       loggedIn: req.session.loggedIn,
-      siteTitle: 'Canvas Drawing'
-    });
+      siteTitle: 'Canvas Drawing',
+      sessionId: sessionId 
   });
-  
-  router.get(`/votescreen?session=${id}id`, (req, res) => {
-    res.render('votescreen', {
-        loggedIn: req.session.loggedIn,
-        siteTitle: 'Vote Screen'
-    });
+});
+
+router.get('/votescreen', (req, res) => {
+  const sessionId = req.query.sessionId;
+  res.render('votescreen', {
+      loggedIn: req.session.loggedIn,
+      siteTitle: 'Vote Screen',
+      sessionId: sessionId 
+  });
 });
 
 router.get('/lobby', (req, res) => {
