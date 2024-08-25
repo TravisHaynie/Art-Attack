@@ -17,14 +17,14 @@ router.get('/login', (req, res) => {
   });
 });
 
-router.get('/canvas', (req, res) => {
+router.get(`/canvas?session=${id}`, (req, res) => {
     res.render('canvas', {
       loggedIn: req.session.loggedIn,
       siteTitle: 'Canvas Drawing'
     });
   });
   
-  router.get('/votescreen', (req, res) => {
+  router.get(`/votescreen?session=${id}id`, (req, res) => {
     res.render('votescreen', {
         loggedIn: req.session.loggedIn,
         siteTitle: 'Vote Screen'
@@ -161,7 +161,12 @@ router.get('/game-session/:id', async (req, res) => {
       return res.status(404).json({ message: 'Game session not found.' });
     }
 
-    res.status(200).json(gameSession);
+    if (gameSession.player1 && gameSession.player2) {
+      // Both players are assigned, redirect them to the canvas page
+      res.status(200).json({ message: 'Both players are assigned. Redirecting to the canvas page.', redirectTo: `/canvas?sessionId=${gameSession.id}` });
+    } else {
+      res.status(200).json(gameSession);
+    }
   } catch (error) {
     console.error('Error fetching game session:', error);
     res.status(500).json({ message: 'An error occurred while fetching the game session.' });
