@@ -5,19 +5,23 @@ const Image = require("./Image.js");
 
 Subject.belongsTo(User, {
     foreignKey: 'submittedBy',
+    onDelete: 'NO ACTION',
 });
 
 User.hasMany(Subject, {
     foreignKey: 'submittedBy',
+    onDelete: 'NO ACTION',
 });
 
 
 GameSession.belongsTo(User, {
     foreignKey: 'player1',
+    onDelete: 'SET NULL',
 });
 
 GameSession.belongsTo(User, {
     foreignKey: 'player2',
+    onDelete: 'SET NULL',
 });
 
 
