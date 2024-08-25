@@ -39,7 +39,8 @@ router.get('/current-session', async (req, res) => {
   if (!req.session.loggedIn) {
     return res.status(401).json({ message: 'User not logged in.' });
   }
-
+  console.log('Session User:', req.session.user);
+  
   try {
     const session = await GameSession.findOne({
       where: {
