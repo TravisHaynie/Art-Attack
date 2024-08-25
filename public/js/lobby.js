@@ -73,9 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     // Initial check
-    checkSessionStatus();
-    setInterval(checkSessionStatus, 6000); // Check every 2 seconds
+    checkSessionStatus();// Check every 2 seconds
 
     // Attempt to join the session after checking status
-    setTimeout(joinSession, 6000); // Delay to ensure session and user are correctly set
+    setTimeout(joinSession, 15000); // Delay to ensure session and user are correctly set
 });
