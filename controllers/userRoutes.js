@@ -64,35 +64,6 @@ router.post('/logout', (req, res) => {
   });
 });
 
-router.post('/user', async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
-
-    // Create a new user
-    const dbUserData = await User.create({
-      username,
-      email,
-      password,
-    });
-
-    req.session.save(() => {
-      req.session.loggedIn = true;
-      req.session.user = {
-        id: dbUserData.id,
-        username: dbUserData.username,
-        email: dbUserData.email,
-        totalVotes: dbUserData.totalVotes,
-        totalVictories: dbUserData.totalVictories,
-      };
-
-      res.status(200).json(dbUserData);
-    });
-  } catch (err) {
-    console.error('Signup error:', err);
-    res.status(500).json({ message: 'An error occurred during signup.' });
-  }
-});
-
 router.post('/logout', (req, res) => {
   req.session.destroy(() => {
     res.status(204).end(); // No content to send back
