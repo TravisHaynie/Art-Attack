@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (joinResponse.ok) {
                 alert('Successfully joined the game session!');
-                window.location.href = `/game-session.html?sessionId=${sessionId}`;
+                window.location.href = `/game-session?sessionId=${sessionId}`;
             } else {
                 const errorData = await joinResponse.json();
                 alert(`Failed to join session: ${errorData.message}`);
