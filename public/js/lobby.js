@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 async function init(sessionId) {
     await checkSessionStatus(sessionId);
-    setInterval(async () => {
+    let intervalId = setInterval(async () => {
         await checkSessionStatus(sessionId); 
     }, 1000); 
 }
