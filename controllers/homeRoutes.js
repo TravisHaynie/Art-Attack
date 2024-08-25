@@ -74,7 +74,6 @@ router.post('/game-session', async (req, res) => {
   console.log('Session LoggedIn:', req.session.loggedIn);
   console.log('Session User:', req.session.user);
   try {
-    let redirectToCanvas = false;
     let gameSession;
 
     const existingSession = await GameSession.findOne({
@@ -85,9 +84,6 @@ router.post('/game-session', async (req, res) => {
       console.log('Joining existing session:', existingSession.id);
       await existingSession.update({ player2: req.session.user.id });
       console.log('Session User:', req.session.user);
-      if (existingSession.player1 && existingSession.player2) {
-        redirectToCanvas = true;
-      }
       gameSession = existingSession;
     } else {
       const totalSubjects = await Subject.count();
@@ -104,17 +100,10 @@ router.post('/game-session', async (req, res) => {
       });
 
       console.log('Session User:', req.session.user);
-      if (newGameSession.player1 && newGameSession.player2) {
-        redirectToCanvas = true;
-      }
       gameSession = newGameSession;
     }
 
-    if (redirectToCanvas) {
-      res.status(200).json({ sessionId: gameSession.id, redirectTo: `/canvas?sessionId=${gameSession.id}` });
-    } else {
-      res.status(200).json({ message: 'Waiting for the other player to join...' });
-    }
+    res.status(200).json({ message: 'Game session created or joined successfully.', sessionId: gameSession.id });
 
   } catch (error) {
     console.error('Error creating or joining game session:', error.message);
