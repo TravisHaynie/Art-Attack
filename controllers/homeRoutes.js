@@ -67,53 +67,56 @@ router.get('/lobby', async (req, res) => {
 
 
 // Create or join a game session
+// Create or join a game session
 router.post('/game-session', async (req, res) => {
-    if (!req.session.loggedIn) {
-        return res.status(401).json({ message: 'You must be logged in to create or join a game session.' });
-    }
-    console.log('Session LoggedIn:', req.session.loggedIn);
-    console.log('Session User:', req.session.user);
-    
-    try {
-        let session;
-        const existingSession = await GameSession.findOne({
-            where: { player2: null, inProgress: false }
-        });
+  if (!req.session.loggedIn) {
+      return res.status(401).json({ message: 'You must be logged in to create or join a game session.' });
+  }
+  console.log('Session LoggedIn:', req.session.loggedIn);
+  console.log('Session User:', req.session.user);
+  
+  try {
+      let session;
+      const existingSession = await GameSession.findOne({
+          where: { player2: null, inProgress: false }
+      });
 
-        if (existingSession) {
-            console.log('Joining existing session:', existingSession.id);
-            await existingSession.update({ player2: req.session.user.id });
-            session = existingSession;
-        } else {
-            // Create a new game session
-            const totalSubjects = await Subject.count();
-            const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-            const subject = await Subject.findByPk(randomSubjectId);
+      if (existingSession) {
+          console.log('Joining existing session:', existingSession.id);
+          await existingSession.update({ player2: req.session.user.id });
+          session = existingSession;
+      } else {
+          // Create a new game session
+          const totalSubjects = await Subject.count();
+          const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
+          const subject = await Subject.findByPk(randomSubjectId);
 
-            session = await GameSession.create({
-                player1: req.session.user.id,
-                player2: null,
-                subject: subject.id,
-                inProgress: false,
-                votingEnabled: false,
-                hasVoted: null,
-            });
+          session = await GameSession.create({
+              player1: req.session.user.id,
+              player2: null,
+              subject: subject.id,
+              inProgress: false,
+              votingEnabled: false,
+              hasVoted: null,
+          });
 
-            console.log('Created new session:', session.id);
-        }
+          console.log('Created new session:', session.id);
+      }
 
-        if (session.player1 && session.player2) {
-            // Redirect both players to the canvas page if both are now assigned
-            return res.status(200).json({ sessionId: session.id, redirectTo: `/canvas?sessionId=${session.id}` });
-        } else {
-            // If only one player is in the session, wait for the second player
-            return res.status(200).json({ sessionId: session.id, message: 'Waiting for the other player to join...' });
-        }
+      if (session.player1 && session.player2) {
+          console.log('Both players assigned, redirecting to canvas...');
+          // Redirect both players to the canvas page if both are now assigned
+          return res.status(200).json({ sessionId: session.id, redirectTo: `/canvas?sessionId=${session.id}` });
+      } else {
+          console.log('Waiting for the other player to join...');
+          // If only one player is in the session, wait for the second player
+          return res.status(200).json({ sessionId: session.id, message: 'Waiting for the other player to join...' });
+      }
 
-    } catch (error) {
-        console.error('Error creating or joining game session:', error.message);
-        res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
-    }
+  } catch (error) {
+      console.error('Error creating or joining game session:', error.message);
+      res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
+  }
 });
 
 // Fetch user info

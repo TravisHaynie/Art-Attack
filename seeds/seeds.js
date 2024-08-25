@@ -9,7 +9,7 @@ async function seedSub() {
         },
     ];
 
-    return seedSubjects = await Subject.bulkCreate(subjectData);
+    return await Subject.bulkCreate(subjectData);
 }
 
 // Call the seedSub function
