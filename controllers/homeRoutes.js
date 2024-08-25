@@ -168,7 +168,7 @@ router.get('/game-session/:id', async (req, res) => {
 router.get('/getAllSubjects', async (req, res) => {
   try {
     // Retrieve all subject suggestions
-    const allSubjects = await Subject.find();
+    const allSubjects = await Subject.findAll();
 
     res.status(200).json(allSubjects);
   } catch (error) {
