@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "connect-pg-simple": "^9.0.1",
     "connect-session-sequelize": "^7.1.7",
     "dotenv": "^16.4.5",
     "eslint-config-prettier": "^9.1.0",

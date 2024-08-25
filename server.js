@@ -5,6 +5,7 @@ const session = require('express-session');
 const routes = require('./controllers');
 const helpers = require('./utils/helpers'); // Ensure you have this file
 const sequelize = require('./config/connection');
+const pgSession = require('connect-pg-simple')(session);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -27,10 +28,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET, // Replace with a strong secret
+  store: new pgSession({
+    pool: sequelize.connectionManager.pool, // Use the existing Sequelize connection pool
+  }),
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true if using HTTPS in production
 }));
 
 app.use(routes);
