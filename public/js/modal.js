@@ -108,27 +108,43 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Handle "To Battle!" button click
     playButton.addEventListener('click', async () => {
-        const user = sessionStorage.getItem('user');
-      
-        if (!user) {
-          alert('You must be logged in to access the battle.');
-          return;
-        }
-      
         try {
-          const response = await fetch('/game-session', {
-            method: 'POST',
+          const response = await fetch('/user-info', {
+            method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${user}` // Send the user's session token for authentication
+              'Content-Type': 'application/json'
             }
           });
       
           if (!response.ok) {
+            throw new Error('Failed to fetch user information.');
+          }
+      
+          const userData = await response.json();
+          
+          const user = {
+            id: userData.id,
+            username: userData.username,
+            email: userData.email,
+            totalVotes: userData.totalVotes,
+            totalVictories: userData.totalVictories
+          };
+      
+          sessionStorage.setItem('user', JSON.stringify(user));
+      
+          const responseSession = await fetch('/game-session', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${JSON.stringify(user)}` // Send the user object as the token
+            }
+          });
+      
+          if (!responseSession.ok) {
             throw new Error('Failed to create game session.');
           }
       
-          const data = await response.json();
+          const data = await responseSession.json();
           const sessionId = data.sessionId;
       
           if (sessionId) {

@@ -37,7 +37,7 @@ router.get('/votescreen', (req, res) => {
 
 router.get('/lobby', async (req, res) => {
   try {
-    const sessionId = req.query.sessionId; // Extract sessionId from query parameter
+    const sessionId = req.query.session;
 
     const gameSession = await GameSession.findByPk(sessionId);
     if (!gameSession) {
@@ -48,7 +48,16 @@ router.get('/lobby', async (req, res) => {
       // Both players are assigned, redirect them to the canvas page
       return res.redirect(`/canvas?sessionId=${gameSession.id}`);
     } else {
-      res.render('lobby', { title: 'Lobby', user: req.user, gameSession });
+      // Check if the current user is player1 or player2
+      const currentUser = req.session.user.id; 
+
+      if (currentUser === gameSession.player1 || currentUser === gameSession.player2) {
+        // Render the lobby for the player
+        res.render('lobby', { title: 'Lobby', user: req.user, gameSession });
+      } else {
+        // Player not assigned to the game session
+        return res.status(403).json({ message: 'You are not assigned to this game session.' });
+      }
     }
   } catch (error) {
     console.error('Error fetching game session:', error);
@@ -99,7 +108,50 @@ router.post('/game-session', async (req, res) => {
   }
 });
 
+router.get('/user-info', async (req, res) => {
+  try {
+    // Check if user is logged in
+    if (!req.session.user.id) {
+      return res.status(401).json({ message: 'User not logged in' });
+    }
 
+    // Retrieve the logged-in user's ID from the session
+    const userId = req.session.user.id;
+
+    // Fetch the user's information from the database
+    const userData = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] } // Exclude password from the response
+    });
+
+    if (!userData) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(userData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/game-session/:sessionId', async (req, res) => {
+  try {
+    const sessionId = req.params.sessionId;
+
+    // Fetch the game session from the database using the session ID
+    const gameSession = await GameSession.findByPk(sessionId);
+
+    if (!gameSession) {
+      return res.status(404).json({ message: 'Game session not found' });
+    }
+
+    // Return the game session data in the response
+    res.status(200).json(gameSession);
+  } catch (error) {
+    console.error('Error fetching game session:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the game session' });
+  }
+});
 
 // Join a game session
 // Backend route to handle session joining

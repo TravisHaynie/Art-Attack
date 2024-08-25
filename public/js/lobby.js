@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const sessionId = new URLSearchParams(window.location.search).get('sessionId');
+    const sessionId = new URLSearchParams(window.location.search).get('session');
     const user = JSON.parse(sessionStorage.getItem('user'));
 
     console.log('Session ID:', sessionId);
@@ -16,28 +16,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameSessionElement = document.getElementById('gameSession');
     gameSessionElement.textContent = `Session ID: ${sessionId}`;
 
-    // Function to periodically check if both players are in the session
-    async function checkSessionStatus() {
+    // Check the session to see if two players are present
+    async function checkSessionStatus(sessionId) {
         try {
-            const response = await fetch(`/game-session/${sessionId}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch session status.');
-            }
-            const data = await response.json();
-
-           
-        if (data.player2) {
+          const response = await fetch(`/game-session/${sessionId}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch session status.');
+          }
+          const data = await response.json();
+      
+          if (data.player2) {
             // Session is full
             return { full: true };
-        } else {
+          } else {
             // Session has room
             return { full: false, player1: data.player1 };
-        }
+          }
         } catch (error) {
-            console.error('Error checking session status:', error);
-            alert('An error occurred while checking the session status.');
+          console.error('Error checking session status:', error);
+          alert('An error occurred while checking the session status.');
         }
-    }
+      }
 
     // Function to join the session
     async function joinSession() {
@@ -82,18 +81,22 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('An error occurred while joining the session.');
     }
 }
-async function init() {
-    await checkSessionStatus();
-    const statusInterval = setInterval(checkSessionStatus, 6000); // Check every 6 seconds
+});
+async function init(sessionId) {
+    await checkSessionStatus(sessionId); // Initial check
+    setInterval(() => {
+        checkSessionStatus(sessionId); // Check every 6 seconds
+    }, 1000);
+}
 
-    setTimeout(async () => {
-        await joinSession();
-        clearInterval(statusInterval); // Stop checking status once joined
-    }, 12000); // Delay to ensure session and user are correctly set
+    // setTimeout(async () => {
+    //     await joinSession();
+    //     clearInterval(statusInterval); // Stop checking status once joined
+    // }, 12000); // Delay to ensure session and user are correctly set
 
     // Cleanup interval if user navigates away or session becomes invalid
     window.addEventListener('beforeunload', () => clearInterval(statusInterval));
-}
 
-init();
-});
+
+init(sessionId);
+
