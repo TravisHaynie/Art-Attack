@@ -41,4 +41,4 @@ Image.belongsTo(GameSession, {
 
 
 
-module.exports = { User, Subject, GameSession, Image }; // All models listed in order of dependence
+module.exports = { User, Subject, GameSession, Image };

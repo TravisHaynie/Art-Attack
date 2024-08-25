@@ -2,13 +2,15 @@ const router = require('express').Router();
 const { User, GameSession } = require('../models'); // Import your models
 const bcrypt = require('bcrypt'); // For password hashing
 
+const saltRounds = 10;
+
 // Login
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const dbUserData = await User.findOne({ where: { username } });
 
-    if (!dbUserData || !await dbUserData.checkPassword(password)) {
+    if (!dbUserData || !await bcrypt.compare(password, dbUserData.password)) {
       return res.status(400).json({ message: 'Incorrect username or password. Please try again!' });
     }
 
@@ -31,25 +33,25 @@ router.post('/login', async (req, res) => {
 
 
 // CREATE new user
-router.post('/', async (req, res) => {
-  try {
-    const dbUserData = await User.create({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-    });
+// router.post('/', async (req, res) => {
+//   try {
+//     const dbUserData = await User.create({
+//       username: req.body.username,
+//       email: req.body.email,
+//       password: req.body.password,
+//     });
 
-    req.session.save(() => {
-      req.session.loggedIn = true;
-      req.session.id = dbUserData.id,
+//     req.session.save(() => {
+//       req.session.loggedIn = true;
+//       req.session.id = dbUserData.id,
 
-      res.status(200).json(dbUserData);
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
+//       res.status(200).json(dbUserData);
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json(err);
+//   }
+// });
 
 
 
@@ -68,11 +70,14 @@ router.post('/user', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Create a new user
+    // Hash the password before storing it
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create a new user with hashed password
     const dbUserData = await User.create({
       username,
       email,
-      password,
+      password: hashedPassword,
     });
 
     req.session.save(() => {
@@ -93,11 +98,11 @@ router.post('/user', async (req, res) => {
   }
 });
 
-router.post('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.status(204).end(); // No content to send back
-  });
-});
+// router.post('/logout', (req, res) => {
+//   req.session.destroy(() => {
+//     res.status(204).end(); // No content to send back
+//   });
+// });
 
 
 

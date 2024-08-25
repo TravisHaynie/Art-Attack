@@ -33,14 +33,8 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
-
 app.use(routes);
 
-sequelize.sync({  alter: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(`Now listening on http://localhost:${PORT}`));
 });

@@ -18,89 +18,78 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/canvas', (req, res) => {
-    res.render('canvas', {
+  const sessionId = req.query.sessionId;
+  res.render('canvas', {
       loggedIn: req.session.loggedIn,
-      siteTitle: 'Canvas Drawing'
-    });
+      siteTitle: 'Canvas Drawing',
+      sessionId: sessionId 
   });
-  
-  router.get('/votescreen', (req, res) => {
-    res.render('votescreen', {
-        loggedIn: req.session.loggedIn,
-        siteTitle: 'Vote Screen'
-    });
 });
 
-router.get('/lobby', (req, res) => {
-  res.render('lobby', { title: 'Lobby', user: req.user });
+router.get('/votescreen', (req, res) => {
+  const sessionId = req.query.sessionId;
+  res.render('votescreen', {
+      loggedIn: req.session.loggedIn,
+      siteTitle: 'Vote Screen',
+      sessionId: sessionId 
+  });
 });
 
-// Fetch the current session for a logged-in user
-router.get('/current-session', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.status(401).json({ message: 'User not logged in.' });
-  }
-  console.log('Session User:', req.session.user);
-
+router.get('/lobby', async (req, res) => {
   try {
-    const session = await GameSession.findOne({
-      where: {
-        [Op.or]: [
-          { player1: req.session.user.id },
-          { player2: req.session.user.id }
-        ],
-        inProgress: false
-      }
-    });
+    const sessionId = req.query.session;
 
-    if (session) {
-      console.log('Found Session:', session.id);
-      res.status(200).json({ sessionId: session.id });
+    const gameSession = await GameSession.findByPk(sessionId);
+    if (!gameSession) {
+      return res.status(404).json({ message: 'Game session not found.' });
+    }
+
+    if (gameSession.player1 && gameSession.player2) {
+      // Both players are assigned, redirect them to the canvas page
+      return res.redirect(`/canvas?sessionId=${gameSession.id}`);
     } else {
-      console.log('No active session found.');
-      res.status(404).json({ message: 'No active session found.' });
+      // Check if the current user is player1 or player2
+      const currentUser = req.session.user.id; 
+
+      if (currentUser === gameSession.player1 || currentUser === gameSession.player2) {
+        // Render the lobby for the player
+        res.render('lobby', { title: 'Lobby', user: req.user, gameSession });
+      } else {
+        // Player not assigned to the game session
+        return res.status(403).json({ message: 'You are not assigned to this game session.' });
+      }
     }
   } catch (error) {
-    console.error('Error fetching current session:', error);
-    res.status(500).json({ message: 'An error occurred while fetching the current session.' });
+    console.error('Error fetching game session:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the game session.' });
   }
 });
+
 
 
 router.post('/game-session', async (req, res) => {
   if (!req.session.loggedIn) {
     return res.status(401).json({ message: 'You must be logged in to create a game session.' });
   }
+
   console.log('Session LoggedIn:', req.session.loggedIn);
   console.log('Session User:', req.session.user);
-  try {
-    let redirectToCanvas = false;
 
-    // Check if there's an existing session where player2 is not yet assigned
+  try {
+    // Check for available game sessions
     const existingSession = await GameSession.findOne({
       where: { player2: null, inProgress: false }
     });
 
     if (existingSession) {
-      console.log('Joining existing session:', existingSession.id);
-      
-      // Update the existing session with player2
+      // Join the existing session
       await existingSession.update({ player2: req.session.user.id });
-    
-      console.log('Session User:', req.session.user);
-      
-      // Check if both players are now assigned
-      if (existingSession.player1 && existingSession.player2) {
-        redirectToCanvas = true;
-      }
+      res.status(200).json({ sessionId: existingSession.id });
     } else {
-      // Create a new session if no existing session is available
+      // Create a new game session
       const totalSubjects = await Subject.count();
-      console.log(totalSubjects);
       const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-      console.log(randomSubjectId);
       const subject = await Subject.findByPk(randomSubjectId);
-      console.log(subject);
 
       const newGameSession = await GameSession.create({
         player1: req.session.user.id,
@@ -111,28 +100,58 @@ router.post('/game-session', async (req, res) => {
         hasVoted: null,
       });
 
-      console.log('Session User:', req.session.user);
-
-      // Check if both players are now assigned
-      if (newGameSession.player1 && newGameSession.player2) {
-        redirectToCanvas = true;
-      }
+      res.status(200).json({ sessionId: newGameSession.id });
     }
-
-    if (redirectToCanvas) {
-      // Redirect both players to their respective drawing canvases
-      res.status(200).json({ sessionId: existingSession ? existingSession.id : newGameSession.id, redirectTo: `/canvas?sessionId=${existingSession ? existingSession.id : newGameSession.id}` });
-    } else {
-      res.status(200).json({ message: 'Waiting for the other player to join...' });
-    }
-
   } catch (error) {
     console.error('Error creating or joining game session:', error.message);
     res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
   }
 });
 
+router.get('/user-info', async (req, res) => {
+  try {
+    // Check if user is logged in
+    if (!req.session.user.id) {
+      return res.status(401).json({ message: 'User not logged in' });
+    }
 
+    // Retrieve the logged-in user's ID from the session
+    const userId = req.session.user.id;
+
+    // Fetch the user's information from the database
+    const userData = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] } // Exclude password from the response
+    });
+
+    if (!userData) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(userData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/game-session/:sessionId', async (req, res) => {
+  try {
+    const sessionId = req.params.sessionId;
+
+    // Fetch the game session from the database using the session ID
+    const gameSession = await GameSession.findByPk(sessionId);
+
+    if (!gameSession) {
+      return res.status(404).json({ message: 'Game session not found' });
+    }
+
+    // Return the game session data in the response
+    res.status(200).json(gameSession);
+  } catch (error) {
+    console.error('Error fetching game session:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the game session' });
+  }
+});
 
 // Join a game session
 // Backend route to handle session joining
@@ -175,19 +194,24 @@ router.post('/game-session', async (req, res) => {
 
 
 // Get game session details
-router.get('/game-session/:id', async (req, res) => {
-  try {
-    const gameSession = await GameSession.findByPk(req.params.id);
-    if (!gameSession) {
-      return res.status(404).json({ message: 'Game session not found.' });
-    }
+// router.get('/game-session/:id', async (req, res) => {
+//   try {
+//     const gameSession = await GameSession.findByPk(req.params.id);
+//     if (!gameSession) {
+//       return res.status(404).json({ message: 'Game session not found.' });
+//     }
 
-    res.status(200).json(gameSession);
-  } catch (error) {
-    console.error('Error fetching game session:', error);
-    res.status(500).json({ message: 'An error occurred while fetching the game session.' });
-  }
-});
+//     if (gameSession.player1 && gameSession.player2) {
+//       // Both players are assigned, redirect them to the canvas page
+//       res.status(200).json({ message: 'Both players are assigned. Redirecting to the canvas page.', redirectTo: `/canvas?sessionId=${gameSession.id}` });
+//     } else {
+//       res.status(200).json(gameSession);
+//     }
+//   } catch (error) {
+//     console.error('Error fetching game session:', error);
+//     res.status(500).json({ message: 'An error occurred while fetching the game session.' });
+//   }
+// });
 
 router.get('/getAllSubjects', async (req, res) => {
   try {
@@ -222,38 +246,6 @@ router.post('/suggestSubject', async (req, res) => {
       res.status(500).json({ message: `An error occurred while suggesting the subject: ${error.message}` });
   }
 });
-
-// routes/gameSession.js
-
-router.post('/submit-art', async (req, res) => {
-  const { sessionId, userId, art } = req.body;
-
-  if (!sessionId || !userId || !art) {
-      return res.status(400).json({ message: 'Session ID, user ID, and art are required.' });
-  }
-
-  try {
-      const session = await GameSession.findByPk(sessionId);
-      if (!session) {
-          return res.status(404).json({ message: 'Game session not found.' });
-      }
-
-      if (session.player1 === userId) {
-          session.player1Art = art;
-      } else if (session.player2 === userId) {
-          session.player2Art = art;
-      } else {
-          return res.status(400).json({ message: 'User is not part of this session.' });
-      }
-
-      await session.save();
-      res.status(200).json({ message: 'Art submitted successfully!' });
-  } catch (error) {
-      console.error('Error submitting art:', error);
-      res.status(500).json({ message: 'An error occurred while submitting the art.' });
-  }
-});
-
 
 // VVV FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION VVV
 
