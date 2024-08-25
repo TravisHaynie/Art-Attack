@@ -157,56 +157,39 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred during logout.');
         }
     });
-    const joinCurrentSessionButton = document.getElementById('join_current_session_button');
-
     joinCurrentSessionButton.addEventListener('click', async () => {
         const user = JSON.parse(sessionStorage.getItem('user'));
+        const sessionId = new URLSearchParams(window.location.search).get('sessionId'); // Make sure sessionId is obtained
 
-    if (!user) {
-        alert('You must be logged in to join a game session.');
-        return;
-    }
-
-    try {
-        // Fetch the current active session ID
-        const response = await fetch('/current-session');
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch current session.');
+        if (!user || !sessionId) {
+            alert('You must be logged in and have a valid session to join.');
+            return;
         }
-
-        const data = await response.json();
-        const sessionId = data.sessionId;
-
-        if (sessionId) {
-            // Attempt to join the session
-            const joinResponse = await fetch('/join-session', {
+        
+        try {
+            const response = await fetch('/join-session', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify({
-                    sessionId: sessionId,
+                    sessionId,
                     userId: user.id
-                })
+                }),
+                headers: { 'Content-Type': 'application/json' }
             });
 
-            if (joinResponse.ok) {
-                alert('Successfully joined the game session!');
-                window.location.href = `/game-session?sessionId=${sessionId}`;
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Joined session successfully:', data);
+                window.location.href = `/canvas?sessionId=${sessionId}`;
             } else {
-                const errorData = await joinResponse.json();
+                const errorData = await response.json();
                 alert(`Failed to join session: ${errorData.message}`);
             }
-        } else {
-            alert('No active session found.');
+        } catch (error) {
+            console.error('Error joining session:', error);
+            alert('An error occurred while joining the session.');
         }
-    } catch (error) {
-        console.error('Error fetching or joining session:', error);
-        alert('An error occurred while joining the game session.');
-    }
-});
-
+    });
+    
     document.getElementById('submitBtn').addEventListener('click', async () => {
         const subject = document.getElementById('subjectInput').value.trim();
         const user = JSON.parse(sessionStorage.getItem('user'));

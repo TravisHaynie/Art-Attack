@@ -72,9 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
 
-    // Initial check
-    checkSessionStatus();// Check every 2 seconds
+    checkSessionStatus();
+    const statusInterval = setInterval(checkSessionStatus, 6000); // Check every 6 seconds
 
-    // Attempt to join the session after checking status
-    setTimeout(joinSession, 15000); // Delay to ensure session and user are correctly set
+    // Attempt to join the session after a delay
+    setTimeout(async () => {
+        await joinSession();
+        clearInterval(statusInterval); // Stop checking status once joined
+    }, 12000); // Delay to ensure session and user are correctly set
+
+    // Optional: Cleanup interval if user navigates away or session becomes invalid
+    window.addEventListener('beforeunload', () => clearInterval(statusInterval));// Delay to ensure session and user are correctly set
 });
