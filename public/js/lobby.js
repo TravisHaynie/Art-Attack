@@ -19,24 +19,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check the session to see if two players are present
     async function checkSessionStatus(sessionId) {
         try {
-          const response = await fetch(`/game-session/${sessionId}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch session status.');
-          }
-          const data = await response.json();
-      
-          if (data.player2) {
-            // Session is full
-            return { full: true };
-          } else {
-            // Session has room
-            return { full: false, player1: data.player1 };
-          }
+            const response = await fetch(`/game-session/${sessionId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch session status.');
+            }
+            const data = await response.json();
+    
+            if (data.player1 && data.player2) {
+                // Redirect to the canvas page if both players are present
+                window.location.href = `/canvas?sessionId=${sessionId}`;
+            } else if (data.player2) {
+                // Session is full
+                return { full: true };
+            } else {
+                // Session has room
+                return { full: false, player1: data.player1 };
+            }
         } catch (error) {
-          console.error('Error checking session status:', error);
-          alert('An error occurred while checking the session status.');
+            console.error('Error checking session status:', error);
+            alert('An error occurred while checking the session status.');
         }
-      }
+    }
 
     // Function to join the session
     async function joinSession() {
@@ -83,10 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 });
 async function init(sessionId) {
-    await checkSessionStatus(sessionId); // Initial check
-    setInterval(() => {
-        checkSessionStatus(sessionId); // Check every 6 seconds
-    }, 1000);
+    await checkSessionStatus(sessionId);
+    setInterval(async () => {
+        await checkSessionStatus(sessionId); 
+    }, 1000); 
 }
 
     // setTimeout(async () => {
