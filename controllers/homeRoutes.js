@@ -81,7 +81,12 @@ router.post('/game-session', async (req, res) => {
 
     if (existingSession) {
       console.log('Joining existing session:', existingSession.id);
-      // Join the existing session
+      
+      // Update the existing session with player2
+      await existingSession.update({ player2: req.session.user.id });
+    
+      console.log('Session User:', req.session.user);
+    
       return res.status(200).json({ sessionId: existingSession.id });
     }
 
@@ -109,48 +114,50 @@ router.post('/game-session', async (req, res) => {
     console.error('Error creating or joining game session:', error.message);
     res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
   }
+
+  res.render
 });
 
 
 
 // Join a game session
 // Backend route to handle session joining
-router.post('/join-session', async (req, res) => {
-  const { sessionId, userId } = req.body;
+// router.post('/join-session', async (req, res) => {
+//   const { sessionId, userId } = req.body;
 
-  if (!sessionId || !userId) {
-      return res.status(400).json({ message: 'Session ID and user ID are required.' });
-  }
-  console.log('Attempting to join session:', sessionId);
-  console.log('User ID:', userId);
-  try {
-    const session = await GameSession.findByPk(sessionId);
-    if (!session) {
-        return res.status(404).json({ message: 'Game session not found.' });
-    }
+//   if (!sessionId || !userId) {
+//       return res.status(400).json({ message: 'Session ID and user ID are required.' });
+//   }
+//   console.log('Attempting to join session:', sessionId);
+//   console.log('User ID:', userId);
+//   try {
+//     const session = await GameSession.findByPk(sessionId);
+//     if (!session) {
+//         return res.status(404).json({ message: 'Game session not found.' });
+//     }
 
-    if (session.player2) {
-      console.log('Game session is already full:', sessionId)
-        return res.status(400).json({ message: 'Game session is already full.' });
-    }
-    session.player2 = userId;
+//     if (session.player2) {
+//       console.log('Game session is already full:', sessionId)
+//         return res.status(400).json({ message: 'Game session is already full.' });
+//     }
+//     session.player2 = userId;
 
-    // Check if both players are in the session before starting the game
-    if (session.player1 && session.player2) {
-      session.inProgress = true; // Set session as in progress
-      console.log('Both players are in the session. Setting session as in progress.');
-    }
+//     // Check if both players are in the session before starting the game
+//     if (session.player1 && session.player2) {
+//       session.inProgress = true; // Set session as in progress
+//       console.log('Both players are in the session. Setting session as in progress.');
+//     }
 
-    await session.save();
+//     await session.save();
     
-    console.log('Joined game session successfully:', sessionId);
+//     console.log('Joined game session successfully:', sessionId);
 
-    res.status(200).json({ message: 'Joined game session successfully!', sessionId });
-  } catch (error) {
-    console.error('Error joining game session:', error);
-    res.status(500).json({ message: 'An error occurred while joining the game session.' });
-  }
-});
+//     res.status(200).json({ message: 'Joined game session successfully!', sessionId });
+//   } catch (error) {
+//     console.error('Error joining game session:', error);
+//     res.status(500).json({ message: 'An error occurred while joining the game session.' });
+//   }
+// });
 
 
 // Get game session details
