@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-        const sessionStatus = await checkSessionStatus(sessionId);
+        const sessionStatus = await checkSessionStatus();
 
         if (sessionStatus.full) {
             alert('Session is full.');

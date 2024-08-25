@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User, Subject, GameSession } = require('../models'); 
+const { Op } = require('sequelize');
 
 // Render homepage
 router.get('/', (req, res) => {
@@ -40,7 +41,7 @@ router.get('/current-session', async (req, res) => {
     return res.status(401).json({ message: 'User not logged in.' });
   }
   console.log('Session User:', req.session.user);
-  
+
   try {
     const session = await GameSession.findOne({
       where: {
