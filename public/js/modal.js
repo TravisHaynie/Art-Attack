@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           const sessionId = data.sessionId;
       
           if (sessionId) {
-            window.location.href = `/lobby/${sessionId}`;
+            window.location.href = `/lobby?session=${sessionId}`; // Redirect to lobby with session parameter
           } else {
             alert('Failed to create a new game session.');
           }

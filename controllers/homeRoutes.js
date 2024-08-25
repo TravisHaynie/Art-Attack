@@ -35,9 +35,11 @@ router.get('/votescreen', (req, res) => {
   });
 });
 
-router.get('/lobby/:id', async (req, res) => {
+router.get('/lobby', async (req, res) => {
   try {
-    const gameSession = await GameSession.findByPk(req.params.id);
+    const sessionId = req.query.sessionId; // Extract sessionId from query parameter
+
+    const gameSession = await GameSession.findByPk(sessionId);
     if (!gameSession) {
       return res.status(404).json({ message: 'Game session not found.' });
     }
@@ -54,37 +56,6 @@ router.get('/lobby/:id', async (req, res) => {
   }
 });
 
-
-// Fetch the current session for a logged-in user
-router.get('/current-session', async (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.status(401).json({ message: 'User not logged in.' });
-  }
-  console.log('Session User:', req.session.user);
-
-  try {
-    const session = await GameSession.findOne({
-      where: {
-        [Op.or]: [
-          { player1: req.session.user.id },
-          { player2: req.session.user.id }
-        ],
-        inProgress: false
-      }
-    });
-
-    if (session) {
-      console.log('Found Session:', session.id);
-      res.status(200).json({ sessionId: session.id });
-    } else {
-      console.log('No active session found.');
-      res.status(404).json({ message: 'No active session found.' });
-    }
-  } catch (error) {
-    console.error('Error fetching current session:', error);
-    res.status(500).json({ message: 'An error occurred while fetching the current session.' });
-  }
-});
 
 
 router.post('/game-session', async (req, res) => {
