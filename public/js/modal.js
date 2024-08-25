@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const modal = document.getElementById('loginModal');
     const openModalButton = document.getElementById('log_in_button');
     const closeModalButtons = modal.querySelectorAll('.modal-close');
@@ -107,39 +107,38 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePlayButtonState();
 
     // Handle "To Battle!" button click
-    playButton.addEventListener('click', async () => {
+    playButton.addEventListener('click', () => {
         const user = sessionStorage.getItem('user');
-
+      
         if (!user) {
-            alert('You must be logged in to access the battle.');
-            return;
+          alert('You must be logged in to access the battle.');
+          return;
         }
-
-        try {
-            // Create a new game session
-            const response = await fetch('/game-session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to create game session.');
-            }
-
-            const data = await response.json();
-            const sessionId = data.sessionId; // Assuming the response contains the session ID
-
-            if (sessionId) {
-                // Redirect to the lobby page with the new session ID
-                window.location.href = `/lobby?sessionId=${sessionId}`;
-            } else {
-                alert('Failed to create a new game session.');
-            }
-        } catch (error) {
-            console.error('Error creating session:', error);
-            alert('An error occurred while creating a new game session.');
-        }
-    });
+      
+        fetch('/game-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to create game session.');
+          }
+          return response.json();
+        })
+        .then(data => {
+          const sessionId = data.sessionId;
+          if (sessionId) {
+            window.location.href = `/lobby/${sessionId}`;
+          } else {
+            alert('Failed to create a new game session.');
+          }
+        })
+        .catch(error => {
+          console.error('Error creating session:', error);
+          alert('An error occurred while creating a new game session.');
+        });
+      });
+         
 
     logoutButton.addEventListener('click', async () => {
         try {

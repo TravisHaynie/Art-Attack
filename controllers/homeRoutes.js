@@ -35,9 +35,25 @@ router.get('/votescreen', (req, res) => {
   });
 });
 
-router.get('/lobby', (req, res) => {
-  res.render('lobby', { title: 'Lobby', user: req.user });
+router.get('/lobby/:id', async (req, res) => {
+  try {
+    const gameSession = await GameSession.findByPk(req.params.id);
+    if (!gameSession) {
+      return res.status(404).json({ message: 'Game session not found.' });
+    }
+
+    if (gameSession.player1 && gameSession.player2) {
+      // Both players are assigned, redirect them to the canvas page
+      return res.redirect(`/canvas?sessionId=${gameSession.id}`);
+    } else {
+      res.render('lobby', { title: 'Lobby', user: req.user, gameSession });
+    }
+  } catch (error) {
+    console.error('Error fetching game session:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the game session.' });
+  }
 });
+
 
 // Fetch the current session for a logged-in user
 router.get('/current-session', async (req, res) => {
@@ -73,61 +89,42 @@ router.get('/current-session', async (req, res) => {
 
 router.post('/game-session', async (req, res) => {
   if (!req.session.loggedIn) {
-      return res.status(401).json({ message: 'You must be logged in to create a game session.' });
+    return res.status(401).json({ message: 'You must be logged in to create a game session.' });
   }
 
   console.log('Session LoggedIn:', req.session.loggedIn);
   console.log('Session User:', req.session.user);
 
   try {
-      let gameSession;
+    // Check for available game sessions
+    const existingSession = await GameSession.findOne({
+      where: { player2: null, inProgress: false }
+    });
 
-      const existingSession = await GameSession.findOne({
-          where: { player2: null, inProgress: false }
+    if (existingSession) {
+      // Join the existing session
+      await existingSession.update({ player2: req.session.user.id });
+      res.status(200).json({ sessionId: existingSession.id });
+    } else {
+      // Create a new game session
+      const totalSubjects = await Subject.count();
+      const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
+      const subject = await Subject.findByPk(randomSubjectId);
+
+      const newGameSession = await GameSession.create({
+        player1: req.session.user.id,
+        player2: null,
+        subject: subject.id,
+        inProgress: false,
+        votingEnabled: false,
+        hasVoted: null,
       });
 
-      if (existingSession) {
-          console.log('Joining existing session:', existingSession.id);
-          await existingSession.update({ player2: req.session.user.id });
-          console.log('Session User:', req.session.user);
-          gameSession = existingSession;
-      } else {
-          const availableSessions = await GameSession.findAll({
-              where: { player2: null, inProgress: false }
-          });
-
-          if (availableSessions.length > 0) {
-              const randomIndex = Math.floor(Math.random() * availableSessions.length);
-              const randomSession = availableSessions[randomIndex];
-
-              console.log('Joining existing session:', randomSession.id);
-              await randomSession.update({ player2: req.session.user.id });
-              console.log('Session User:', req.session.user);
-              gameSession = randomSession;
-          } else {
-              const totalSubjects = await Subject.count();
-              const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
-              const subject = await Subject.findByPk(randomSubjectId);
-
-              const newGameSession = await GameSession.create({
-                  player1: req.session.user.id,
-                  player2: null,
-                  subject: subject.id,
-                  inProgress: false,
-                  votingEnabled: false,
-                  hasVoted: null,
-              });
-
-              console.log('Session User:', req.session.user);
-              gameSession = newGameSession;
-          }
-      }
-
-      res.status(200).json({ message: 'Game session created or joined successfully.', sessionId: gameSession.id });
-
+      res.status(200).json({ sessionId: newGameSession.id });
+    }
   } catch (error) {
-      console.error('Error creating or joining game session:', error.message);
-      res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
+    console.error('Error creating or joining game session:', error.message);
+    res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
   }
 });
 
@@ -174,24 +171,24 @@ router.post('/game-session', async (req, res) => {
 
 
 // Get game session details
-router.get('/game-session/:id', async (req, res) => {
-  try {
-    const gameSession = await GameSession.findByPk(req.params.id);
-    if (!gameSession) {
-      return res.status(404).json({ message: 'Game session not found.' });
-    }
+// router.get('/game-session/:id', async (req, res) => {
+//   try {
+//     const gameSession = await GameSession.findByPk(req.params.id);
+//     if (!gameSession) {
+//       return res.status(404).json({ message: 'Game session not found.' });
+//     }
 
-    if (gameSession.player1 && gameSession.player2) {
-      // Both players are assigned, redirect them to the canvas page
-      res.status(200).json({ message: 'Both players are assigned. Redirecting to the canvas page.', redirectTo: `/canvas?sessionId=${gameSession.id}` });
-    } else {
-      res.status(200).json(gameSession);
-    }
-  } catch (error) {
-    console.error('Error fetching game session:', error);
-    res.status(500).json({ message: 'An error occurred while fetching the game session.' });
-  }
-});
+//     if (gameSession.player1 && gameSession.player2) {
+//       // Both players are assigned, redirect them to the canvas page
+//       res.status(200).json({ message: 'Both players are assigned. Redirecting to the canvas page.', redirectTo: `/canvas?sessionId=${gameSession.id}` });
+//     } else {
+//       res.status(200).json(gameSession);
+//     }
+//   } catch (error) {
+//     console.error('Error fetching game session:', error);
+//     res.status(500).json({ message: 'An error occurred while fetching the game session.' });
+//   }
+// });
 
 router.get('/getAllSubjects', async (req, res) => {
   try {
