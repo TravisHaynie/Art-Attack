@@ -59,6 +59,20 @@ GameSession.init(
         sequelize,
         freezeTableName: true,
         modelName: 'gameSession',
+        indexes: [
+            {
+                unique: false,
+                fields: ['player1']
+            },
+            {
+                unique: false,
+                fields: ['player2']
+            },
+            {
+                unique: false,
+                fields: ['subject']
+            }
+        ]
     }
 );
 

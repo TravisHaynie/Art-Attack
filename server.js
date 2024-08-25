@@ -30,7 +30,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET, // Replace with a strong secret
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using HTTPS
+  cookie: { secure: false }
 }));
 
 app.use(routes);

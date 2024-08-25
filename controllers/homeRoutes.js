@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User, Subject, GameSession } = require('../models'); 
+const { Op } = require('sequelize');
 
 // Render homepage
 router.get('/', (req, res) => {
@@ -34,12 +35,44 @@ router.get('/lobby', (req, res) => {
   res.render('lobby', { title: 'Lobby', user: req.user });
 });
 
+// Fetch the current session for a logged-in user
+router.get('/current-session', async (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.status(401).json({ message: 'User not logged in.' });
+  }
+  console.log('Session User:', req.session.user);
+
+  try {
+    const session = await GameSession.findOne({
+      where: {
+        [Op.or]: [
+          { player1: req.session.user.id },
+          { player2: req.session.user.id }
+        ],
+        inProgress: false
+      }
+    });
+
+    if (session) {
+      console.log('Found Session:', session.id);
+      res.status(200).json({ sessionId: session.id });
+    } else {
+      console.log('No active session found.');
+      res.status(404).json({ message: 'No active session found.' });
+    }
+  } catch (error) {
+    console.error('Error fetching current session:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the current session.' });
+  }
+});
+
 
 router.post('/game-session', async (req, res) => {
   if (!req.session.loggedIn) {
     return res.status(401).json({ message: 'You must be logged in to create a game session.' });
   }
-
+  console.log('Session LoggedIn:', req.session.loggedIn);
+  console.log('Session User:', req.session.user);
   try {
     // Check if there's an existing session where player2 is not yet assigned
     const existingSession = await GameSession.findOne({
@@ -47,6 +80,7 @@ router.post('/game-session', async (req, res) => {
     });
 
     if (existingSession) {
+      console.log('Joining existing session:', existingSession.id);
       // Join the existing session
       return res.status(200).json({ sessionId: existingSession.id });
     }
@@ -65,9 +99,11 @@ router.post('/game-session', async (req, res) => {
       hasVoted: null,
     });
 
+  console.log('Session User:', req.session.user);
+
     res.status(201).json({ sessionId: newGameSession.id });
   } catch (error) {
-    console.error('Error creating or joining game session:', error);
+    console.error('Error creating or joining game session:', error.message);
     res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
   }
 });
@@ -82,7 +118,8 @@ router.post('/join-session', async (req, res) => {
   if (!sessionId || !userId) {
       return res.status(400).json({ message: 'Session ID and user ID are required.' });
   }
-
+  console.log('Attempting to join session:', sessionId);
+  console.log('User ID:', userId);
   try {
     const session = await GameSession.findByPk(sessionId);
     if (!session) {
@@ -90,6 +127,7 @@ router.post('/join-session', async (req, res) => {
     }
 
     if (session.player2) {
+      console.log('Game session is already full:', sessionId)
         return res.status(400).json({ message: 'Game session is already full.' });
     }
     session.player2 = userId;
@@ -97,9 +135,12 @@ router.post('/join-session', async (req, res) => {
     // Check if both players are in the session before starting the game
     if (session.player1 && session.player2) {
       session.inProgress = true; // Set session as in progress
+      console.log('Both players are in the session. Setting session as in progress.');
     }
 
     await session.save();
+    
+    console.log('Joined game session successfully:', sessionId);
 
     res.status(200).json({ message: 'Joined game session successfully!', sessionId });
   } catch (error) {
@@ -125,21 +166,27 @@ router.get('/game-session/:id', async (req, res) => {
 });
 
 router.post('/suggestSubject', async (req, res) => {
+  const { subject, submittedBy } = req.body;
+
+  console.log('Received subject:', subject); // Debugging: Check what is received
+  console.log('Submitted by user ID:', submittedBy); // Debugging: Check user ID
+
+  // Basic validation
+  if (!subject || !submittedBy) {
+      return res.status(400).json({ message: 'Subject and user ID are required.' });
+  }
+
   try {
-      const { subject, submittedBy } = req.body;
-
-      // Create a new subject suggestion in the database
-      const newSubjectSuggestion = await Subject.create({
-          subject: subject,
-          submittedBy: submittedBy
-      });
-
-      // Respond with a success message
-      res.status(201).json({ message: 'Subject suggestion submitted successfully' });
+      // Attempt to create the subject suggestion
+      const newSuggestion = await Subject.create({ subject, submittedBy });
+      res.status(200).json({ message: 'Subject suggestion submitted successfully!' });
   } catch (error) {
-      console.error('Error submitting subject suggestion:', error);
-      res.status(500).json({ error: 'An error occurred while submitting the subject suggestion' });
+      // Detailed error logging
+      console.error('Error suggesting subject:', error);
+      res.status(500).json({ message: `An error occurred while suggesting the subject: ${error.message}` });
   }
 });
+
+
 
 module.exports = router;

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBackground = modal.querySelector('.modal-background');
     const playButton = document.getElementById('play_button');
     const logoutButton = document.getElementById('logoutButton');
-
+    const joinCurrentSessionButton = document.getElementById('join_current_session_button');
     // Open modal when login button is clicked
     openModalButton.addEventListener('click', () => {
         modal.classList.add('is-active');
@@ -157,60 +157,78 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred during logout.');
         }
     });
-    const joinGameButton = document.getElementById('join_game_button');
-
-    joinGameButton.addEventListener('click', async () => {
+    joinCurrentSessionButton.addEventListener('click', async () => {
         const user = JSON.parse(sessionStorage.getItem('user'));
+        const sessionId = new URLSearchParams(window.location.search).get('sessionId'); // Make sure sessionId is obtained
 
-        if (!user) {
-            alert('You must be logged in to join a game session.');
+        if (!user || !sessionId) {
+            alert('You must be logged in and have a valid session to join.');
             return;
         }
-
+        
         try {
-            // Attempt to join an existing game session
-            const response = await fetch('/game-session', {
+            const response = await fetch('/join-session', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: user.id })
+                body: JSON.stringify({
+                    sessionId,
+                    userId: user.id
+                }),
+                headers: { 'Content-Type': 'application/json' }
             });
 
             if (response.ok) {
                 const data = await response.json();
-                const sessionId = data.sessionId;
-
-                // Redirect to session page
-                window.location.href = `/game-session.html?sessionId=${sessionId}`;
+                console.log('Joined session successfully:', data);
+                window.location.href = `/canvas?sessionId=${sessionId}`;
             } else {
                 const errorData = await response.json();
-                alert(`Failed to join a session: ${errorData.message}`);
+                alert(`Failed to join session: ${errorData.message}`);
             }
         } catch (error) {
-            console.error('Error joining game session:', error);
-            alert('An error occurred while joining the game session.');
+            console.error('Error joining session:', error);
+            alert('An error occurred while joining the session.');
         }
     });
-    document.getElementById('submitBtn').addEventListener('click', function() {
-        let subject = document.getElementById('subjectInput').value;
-        let userId = JSON.parse(sessionStorage.getItem('user'));
     
-        // Make a fetch POST request
-        fetch('/suggestSubject', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ subject: subject, submittedBy: userId })
-        })
-        .then(response => {
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+        const subject = document.getElementById('subjectInput').value.trim();
+        const user = JSON.parse(sessionStorage.getItem('user'));
+    
+        // Check if user is logged in
+        if (!user) {
+            alert('You must be logged in to submit a subject suggestion.');
+            return;
+        }
+    
+        // Check if the subject input is not empty
+        if (!subject) {
+            alert('Please enter a subject.');
+            return;
+        }
+    
+        try {
+            const response = await fetch('/suggestSubject', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    subject: subject,
+                    submittedBy: user.id // Ensure you are sending the user ID
+                })
+            });
+    
             if (response.ok) {
-                console.log('Subject suggestion submitted successfully');
+                alert('Subject suggestion submitted successfully!');
+                // Optionally, you can clear the input field or update the UI
+                document.getElementById('subjectInput').value = '';
             } else {
-                console.error('Error submitting subject suggestion');
+                const errorData = await response.json();
+                alert(`Error: ${errorData.message}`);
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error submitting subject suggestion:', error);
-        });
+            alert('An error occurred while submitting the subject.');
+        }
     });
 });
