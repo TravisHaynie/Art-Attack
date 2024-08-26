@@ -7,6 +7,7 @@ const pgSession = require('connect-pg-simple')(session);
 const routes = require('./controllers');
 const helpers = require('./utils/helpers');
 const sequelize = require('./config/connection');
+const userRoutes = require('./controllers/userRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -50,8 +51,9 @@ app.use(session({
     maxAge: 3600000 // 1 hour, adjust as needed
   }     // Set secure: true if using HTTPS
 }));
-
+app.use('/user', userRoutes);
 app.use(routes);
+
 
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(`Now listening on http://localhost:${PORT}`));
