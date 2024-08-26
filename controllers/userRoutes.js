@@ -1,33 +1,39 @@
 const router = require('express').Router();
-const { User, GameSession } = require('../models'); // Import your models
+const { User} = require('../models'); // Import your models
 const bcrypt = require('bcrypt'); // For password hashing
 
-const saltRounds = 10;
 
 // Login
 router.post('/login', async (req, res) => {
   try {
-      const { username, password } = req.body;
-      const dbUserData = await User.findOne({ where: { username } });
+    const { username, password } = req.body;
+    const dbUserData = await User.findOne({ where: { username } });
 
-      if (!dbUserData || !await dbUserData.checkPassword(password)) {
-          return res.status(400).json({ message: 'Incorrect username or password. Please try again!' });
-      }
+    if (!dbUserData) {
+      return res.status(400).json({ message: 'Incorrect username or password. Please try again!' });
+    }
 
-      req.session.save(() => {
-          req.session.loggedIn = true;
-          req.session.user = {
-              id: dbUserData.id,
-              username: dbUserData.username,
-              totalVotes: dbUserData.totalVotes,
-              totalVictories: dbUserData.totalVictories,
-          };
+    // Check password
+    const validPassword = await bcrypt.compare(password, dbUserData.password);
+    if (!validPassword) {
+      return res.status(400).json({ message: 'Incorrect username or password. Please try again!' });
+    }
 
-          res.status(200).json({ user: req.session.user, message: 'You are now logged in!' });
-      });
+    // Save session
+    req.session.save(() => {
+      req.session.loggedIn = true;
+      req.session.user = {
+        id: dbUserData.id,
+        username: dbUserData.username,
+        totalVotes: dbUserData.totalVotes,
+        totalVictories: dbUserData.totalVictories,
+      };
+
+      res.status(200).json({ user: req.session.user, message: 'You are now logged in!' });
+    });
   } catch (err) {
-      console.error('Login error:', err);
-      res.status(500).json({ message: 'An error occurred during login.' });
+    console.error('Login error:', err);
+    res.status(500).json({ message: 'An error occurred during login.' });
   }
 });
 
@@ -69,10 +75,14 @@ router.post('/logout', (req, res) => {
 router.post('/user', async (req, res) => {
   try {
       const { username, email, password } = req.body;
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+
       const dbUserData = await User.create({
           username,
           email,
-          password,
+          password: hashedPassword,
       });
 
       req.session.save(() => {

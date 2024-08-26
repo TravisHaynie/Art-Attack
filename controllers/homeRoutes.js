@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { User, Subject, GameSession } = require('../models'); 
-// const { Op } = require('sequelize');
+const sequelize = require('../config/connection'); 
 
 // Render homepage
 router.get('/', (req, res) => {
