@@ -94,7 +94,7 @@ saveEl.addEventListener('click', async function() {
 
     // Create FormData object
     const formData = new FormData();
-    formData.append('image', blob, 'drawing.png');
+    formData.append('imageData', blob, 'drawing.png');
     formData.append('sessionId', sessionId);
     formData.append('createdBy', playerId);
     console.log(formData);

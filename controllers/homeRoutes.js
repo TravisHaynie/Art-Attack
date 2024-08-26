@@ -190,7 +190,7 @@ router.post('/suggestSubject', async (req, res) => {
   }
 });
 
-router.post('/save-drawing', upload.single('image'), async (req, res) => {
+router.post('/save-drawing', upload.single('imageData'), async (req, res) => {
   try {
       const { sessionId, createdBy } = req.body;
 
