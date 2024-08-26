@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (username && password) {
             try {
-                const response = await fetch('/login', {
+                const response = await fetch('user/login', {
                     method: 'POST',
                     body: JSON.stringify({ username, password }),
                     headers: { 'Content-Type': 'application/json' },
@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Handle "To Battle!" button click
     playButton.addEventListener('click', async () => {
+        playButton.disabled = true;
         try {
           const response = await fetch('/user-info', {
             method: 'GET',
@@ -153,10 +154,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.location.href = `/lobby?session=${sessionId}`; // Redirect to lobby with session parameter
           } else {
             alert('Failed to create a new game session.');
+            playButton.disabled = false;
           }
         } catch (error) {
           console.error('Error creating session:', error);
           alert('An error occurred while creating a new game session.');
+          playButton.disabled = false; 
         }
       });
          
