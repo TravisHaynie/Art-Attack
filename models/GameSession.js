@@ -29,7 +29,7 @@ GameSession.init(
         },
         subject: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'subject',
                 key: 'id',

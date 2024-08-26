@@ -153,65 +153,6 @@ router.get('/game-session/:sessionId', async (req, res) => {
   }
 });
 
-// Join a game session
-// Backend route to handle session joining
-// router.post('/join-session', async (req, res) => {
-//   const { sessionId, userId } = req.body;
-
-//   if (!sessionId || !userId) {
-//       return res.status(400).json({ message: 'Session ID and user ID are required.' });
-//   }
-//   console.log('Attempting to join session:', sessionId);
-//   console.log('User ID:', userId);
-//   try {
-//     const session = await GameSession.findByPk(sessionId);
-//     if (!session) {
-//         return res.status(404).json({ message: 'Game session not found.' });
-//     }
-
-//     if (session.player2) {
-//       console.log('Game session is already full:', sessionId)
-//         return res.status(400).json({ message: 'Game session is already full.' });
-//     }
-//     session.player2 = userId;
-
-//     // Check if both players are in the session before starting the game
-//     if (session.player1 && session.player2) {
-//       session.inProgress = true; // Set session as in progress
-//       console.log('Both players are in the session. Setting session as in progress.');
-//     }
-
-//     await session.save();
-    
-//     console.log('Joined game session successfully:', sessionId);
-
-//     res.status(200).json({ message: 'Joined game session successfully!', sessionId });
-//   } catch (error) {
-//     console.error('Error joining game session:', error);
-//     res.status(500).json({ message: 'An error occurred while joining the game session.' });
-//   }
-// });
-
-
-// Get game session details
-// router.get('/game-session/:id', async (req, res) => {
-//   try {
-//     const gameSession = await GameSession.findByPk(req.params.id);
-//     if (!gameSession) {
-//       return res.status(404).json({ message: 'Game session not found.' });
-//     }
-
-//     if (gameSession.player1 && gameSession.player2) {
-//       // Both players are assigned, redirect them to the canvas page
-//       res.status(200).json({ message: 'Both players are assigned. Redirecting to the canvas page.', redirectTo: `/canvas?sessionId=${gameSession.id}` });
-//     } else {
-//       res.status(200).json(gameSession);
-//     }
-//   } catch (error) {
-//     console.error('Error fetching game session:', error);
-//     res.status(500).json({ message: 'An error occurred while fetching the game session.' });
-//   }
-// });
 
 router.get('/getAllSubjects', async (req, res) => {
   try {
@@ -246,6 +187,46 @@ router.post('/suggestSubject', async (req, res) => {
       res.status(500).json({ message: `An error occurred while suggesting the subject: ${error.message}` });
   }
 });
+
+router.post('/save-drawing', async (req, res) => {
+  try {
+      const { sessionId, playerId, drawing } = req.body;
+
+      // Save the image data in the database
+      const newImage = await Image.create({
+          sessionId,
+          playerId,
+          imageData: drawing, // Assuming the Image model has a column 'imageData' to store base64 string
+      });
+
+      // Update the game session to mark it as ready for voting
+      await GameSession.update({ inProgress: false, votingEnabled: true }, {
+          where: { id: sessionId }
+      });
+
+      res.status(200).json({ message: 'Drawing saved successfully', imageId: newImage.id });
+  } catch (err) {
+      console.error('Error saving drawing:', err);
+      res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/get-drawings', async (req, res) => {
+  const { session } = req.query;
+
+  try {
+      const drawings = await Image.findAll({
+          where: { sessionId: session },
+          order: [['createdBy', 'ASC']], // Ensure the order is by player
+      });
+
+      res.json(drawings);
+  } catch (error) {
+      console.error('Error fetching drawings:', error);
+      res.status(500).json({ message: 'Error fetching drawings.' });
+  }
+});
+
 
 // VVV FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION VVV
 

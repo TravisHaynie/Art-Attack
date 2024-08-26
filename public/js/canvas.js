@@ -62,14 +62,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Save canvas content to local storage
-  saveEl.addEventListener('click', function() {
-      var dataURL = canvas.toDataURL({
-          format: 'png'
-      });
-      localStorage.setItem('canvasDrawing', dataURL);
-      alert('Drawing saved!');
-  });
-  setTimeout(() => {
-    window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
-}, 6000); // 1 minute
+//   saveEl.addEventListener('click', function() {
+//       var dataURL = canvas.toDataURL({
+//           format: 'png'
+//       });
+//       localStorage.setItem('canvasDrawing', dataURL);
+//       alert('Drawing saved!');
+//   });
+//   setTimeout(() => {
+//     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
+// }, 6000); // 1 minute
+saveEl.addEventListener('click', async function() {
+    const dataURL = canvas.toDataURL('image/png');
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session'); // Get sessionId from the URL
+    const playerId = JSON.parse(sessionStorage.getItem('user')).id; // Assuming player ID is stored in session storage
+
+    try {
+        const response = await fetch('/save-drawing', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                sessionId: sessionId,
+                playerId: playerId,
+                drawing: dataURL,
+            }),
+        });
+
+        if (response.ok) {
+            alert('Drawing saved!');
+            setTimeout(() => {
+                window.location.href = `/votescreen?session=${sessionId}`;
+            }, 10000); // Redirect to vote screen after saving
+        } else {
+            console.error('Failed to save drawing');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
 });
