@@ -192,6 +192,10 @@ router.post('/save-drawing', async (req, res) => {
   try {
       const { sessionId, createdBy, drawing } = req.body;
 
+      if (!sessionId || !createdBy || !drawing) {
+        return res.status(400).json({ message: 'Missing required fields' });
+    }
+
       // Save the image data in the database
       const newImage = await Image.create({
           sessionId: sessionId,
