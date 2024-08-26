@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Fetch the images for this session
         const response = await fetch(`/get-images?sessionId=${sessionId}`);
+
         images = await response.json();
 
         // Get the image elements
