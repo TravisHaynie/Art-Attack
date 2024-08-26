@@ -3,6 +3,12 @@ const { User, Subject, GameSession, Image } = require('../models');
 const { Op } = require('sequelize');
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
+const { promisify } = require('util');
+
+
+// required for image
+const fs = require('fs');
+const readFileAsync = promisify(fs.readFile);
 
 // Render homepage
 router.get('/', (req, res) => {
@@ -198,11 +204,17 @@ router.post('/save-drawing', upload.single('image'), async (req, res) => {
           return res.status(400).json({ message: 'Missing required fields' });
       }
 
+      // Read the image file as a Buffer
+      const imageBuffer = await readFileAsync(req.file.path);
+
+      // Convert the image data to UTF-8 encoding
+      const utf8ImageData = imageBuffer.toString('utf8');
+
       // Save the image data as a BLOB in the database
       const newImage = await Image.create({
           sessionId: sessionId,
           createdBy: createdBy,
-          imageData: req.file.buffer, // Store the image as a BLOB
+          imageData: utf8ImageData, // Store the image as a BLOB
       });
 
       // Update the game session to mark it as ready for voting
