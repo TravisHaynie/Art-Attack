@@ -73,12 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
 //     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
 // }, 6000); // 1 minute
 saveEl.addEventListener('click', async function() {
+    const dataURL = canvas.toDataURL('image/png');
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
     const playerId = JSON.parse(sessionStorage.getItem('user')).id; // Assuming player ID is stored in session storage
 
-    // Convert the canvas to a Blob
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    // Convert dataURL to Blob
+    const dataUrlToBlob = (dataURL) => {
+        const byteString = atob(dataURL.split(',')[1]);
+        const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: mimeString });
+    };
+
+    const blob = dataUrlToBlob(dataURL);
 
     // Create FormData object
     const formData = new FormData();
