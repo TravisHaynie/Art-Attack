@@ -13,10 +13,10 @@ Image.init(
         },
         createdBy: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
         },
         imageData: {
-            type: DataTypes.BLOB,     // We are not sure yet, but it MIGHT be STRING
+            type: DataTypes.JSON,     // We are not sure yet, but it MIGHT be STRING
             allowNull: true,
         },
         sessionId: {
