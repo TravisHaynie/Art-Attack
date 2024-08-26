@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get('session'); // Get sessionId from the URL
+    const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
     console.log("Session ID:", sessionId);
 
     try {

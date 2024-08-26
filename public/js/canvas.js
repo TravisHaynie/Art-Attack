@@ -4,18 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
   }
 
-  var canvas = new fabric.Canvas('c', {
+  let canvas = new fabric.Canvas('c', {
       isDrawingMode: true
   });
 
   fabric.Object.prototype.transparentCorners = false;
 
-  var drawingModeEl = document.getElementById('drawing-mode');
-  var drawingOptionsEl = document.getElementById('drawing-mode-options');
-  var drawingColorEl = document.getElementById('drawing-color');
-  var drawingShadowColorEl = document.getElementById('drawing-shadow-color');
-  var clearEl = document.getElementById('clear-canvas');
-  var saveEl = document.getElementById('save-canvas');
+  let drawingModeEl = document.getElementById('drawing-mode');
+  let drawingOptionsEl = document.getElementById('drawing-mode-options');
+  let drawingColorEl = document.getElementById('drawing-color');
+  let drawingShadowColorEl = document.getElementById('drawing-shadow-color');
+  let clearEl = document.getElementById('clear-canvas');
+  let saveEl = document.getElementById('save-canvas');
 
   if (!drawingModeEl || !drawingOptionsEl || !drawingColorEl || !drawingShadowColorEl || !clearEl || !saveEl) {
       console.error('One or more required elements are missing from the HTML.');
@@ -82,7 +82,9 @@ saveEl.addEventListener('click', async function() {
         format: 'png', // You can also use 'jpeg' or other formats supported by Fabric.js
         quality: 0.8   // Quality parameter is for 'jpeg' format; for 'png', it can be omitted
     });
-
+    console.log(sessionId);
+    console.log(playerId);
+    console.log(dataURL);
     // Manually convert the Data URL to a Blob
     function dataURLToBlob(dataURL) {
         const binaryString = atob(dataURL.split(',')[1]);
@@ -95,6 +97,7 @@ saveEl.addEventListener('click', async function() {
     }
 
     const blob = dataURLToBlob(dataURL);
+    console.log(blob);
 
     // Create FormData object
     const formData = new FormData();
