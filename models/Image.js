@@ -16,7 +16,7 @@ Image.init(
             allowNull: false,
         },
         imageData: {
-            type: DataTypes.BLOB("long"),     // We are not sure yet, but it MIGHT be STRING
+            type: DataTypes.BLOB,     // We are not sure yet, but it MIGHT be STRING
             allowNull: true,
         },
         sessionId: {
