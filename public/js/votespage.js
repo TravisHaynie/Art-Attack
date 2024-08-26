@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('session'); // Get sessionId from the URL
-
+    console.log("Session ID:", sessionId);
     try {
         // Fetch the game session details
         const sessionResponse = await fetch(`/game-session/${sessionId}`);

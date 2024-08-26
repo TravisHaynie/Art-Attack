@@ -79,6 +79,9 @@ saveEl.addEventListener('click', async function() {
     const playerId = JSON.parse(sessionStorage.getItem('user')).id; // Assuming player ID is stored in session storage
 
     try {
+        console.log(dataURL);
+        console.log(sessionId);
+        console.log(playerId);
         const response = await fetch('/save-drawing', {
             method: 'POST',
             headers: {
