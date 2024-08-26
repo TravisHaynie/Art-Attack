@@ -4,18 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
   }
 
-  let canvas = new fabric.Canvas('c', {
+  var canvas = new fabric.Canvas('c', {
       isDrawingMode: true
   });
 
   fabric.Object.prototype.transparentCorners = false;
 
-  let drawingModeEl = document.getElementById('drawing-mode');
-  let drawingOptionsEl = document.getElementById('drawing-mode-options');
-  let drawingColorEl = document.getElementById('drawing-color');
-  let drawingShadowColorEl = document.getElementById('drawing-shadow-color');
-  let clearEl = document.getElementById('clear-canvas');
-  let saveEl = document.getElementById('save-canvas');
+  var drawingModeEl = document.getElementById('drawing-mode');
+  var drawingOptionsEl = document.getElementById('drawing-mode-options');
+  var drawingColorEl = document.getElementById('drawing-color');
+  var drawingShadowColorEl = document.getElementById('drawing-shadow-color');
+  var clearEl = document.getElementById('clear-canvas');
+  var saveEl = document.getElementById('save-canvas');
 
   if (!drawingModeEl || !drawingOptionsEl || !drawingColorEl || !drawingShadowColorEl || !clearEl || !saveEl) {
       console.error('One or more required elements are missing from the HTML.');
@@ -73,42 +73,25 @@ document.addEventListener('DOMContentLoaded', () => {
 //     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
 // }, 6000); // 1 minute
 saveEl.addEventListener('click', async function() {
+    const dataURL = canvas.toDataURL('image/png');
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
     const playerId = JSON.parse(sessionStorage.getItem('user')).id; // Assuming player ID is stored in session storage
 
-    // Convert the Fabric.js canvas to a Data URL
-    const dataURL = canvas.toDataURL({
-        format: 'png', // You can also use 'jpeg' or other formats supported by Fabric.js
-        quality: 0.8   // Quality parameter is for 'jpeg' format; for 'png', it can be omitted
-    });
-    console.log(sessionId);
-    console.log(playerId);
-    console.log(dataURL);
-    // Manually convert the Data URL to a Blob
-    function dataURLToBlob(dataURL) {
-        const binaryString = atob(dataURL.split(',')[1]);
-        const len = binaryString.length;
-        const arrayBuffer = new Uint8Array(len);
-        for (let i = 0; i < len; i++) {
-            arrayBuffer[i] = binaryString.charCodeAt(i);
-        }
-        return new Blob([arrayBuffer], { type: 'image/png' });
-    }
-
-    const blob = dataURLToBlob(dataURL);
-    console.log(blob);
-
-    // Create FormData object
-    const formData = new FormData();
-    formData.append('image', blob, 'drawing.png');
-    formData.append('sessionId', sessionId);
-    formData.append('createdBy', playerId);
-
     try {
+        console.log(dataURL);
+        console.log(sessionId);
+        console.log(playerId);
         const response = await fetch('/save-drawing', {
             method: 'POST',
-            body: formData, // Send as FormData
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                sessionId: sessionId,
+                createdBy: playerId,
+                imageBase64: dataURL
+            }),
         });
 
         if (response.ok) {
@@ -123,4 +106,5 @@ saveEl.addEventListener('click', async function() {
         console.error('Error:', error);
     }
 });
+
 });
