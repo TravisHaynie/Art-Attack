@@ -73,7 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
 //     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
 // }, 6000); // 1 minute
 saveEl.addEventListener('click', async function() {
-    const dataURL = canvas.toDataURL('image/png');
+    // const dataURL = canvas.toDataURL('image/png');
+    const dataURL = "hello";
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
     const playerId = JSON.parse(sessionStorage.getItem('user')).id; // Assuming player ID is stored in session storage
