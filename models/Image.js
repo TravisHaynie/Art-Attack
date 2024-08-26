@@ -16,8 +16,8 @@ Image.init(
             allowNull: false,
         },
         imageData: {
-            type: DataTypes.STRING,     // We are not sure yet, but it MIGHT be STRING
-            allowNull: false,
+            type: DataTypes.BLOB,     // We are not sure yet, but it MIGHT be STRING
+            allowNull: true,
         },
         sessionId: {
             type: DataTypes.INTEGER,    // References gameSession.id
