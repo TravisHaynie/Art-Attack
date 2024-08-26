@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Subject, GameSession } = require('../models'); 
+const { User, Subject, GameSession, Image } = require('../models'); 
 const { Op } = require('sequelize');
 
 // Render homepage
