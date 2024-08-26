@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 saveEl.addEventListener('click', async function() {
     const dataURL = canvas.toDataURL('image/png');
     const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get('session'); // Get sessionId from the URL
+    const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
     const playerId = JSON.parse(sessionStorage.getItem('user')).id; // Assuming player ID is stored in session storage
 
     try {
