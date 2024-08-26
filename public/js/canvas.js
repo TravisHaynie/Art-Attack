@@ -77,8 +77,24 @@ saveEl.addEventListener('click', async function() {
     const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
     const playerId = JSON.parse(sessionStorage.getItem('user')).id; // Assuming player ID is stored in session storage
 
-    // Convert the canvas to a Blob
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    // Convert the Fabric.js canvas to a Data URL
+    const dataURL = canvas.toDataURL({
+        format: 'png', // You can also use 'jpeg' or other formats supported by Fabric.js
+        quality: 0.8   // Quality parameter is for 'jpeg' format; for 'png', it can be omitted
+    });
+
+    // Manually convert the Data URL to a Blob
+    function dataURLToBlob(dataURL) {
+        const binaryString = atob(dataURL.split(',')[1]);
+        const len = binaryString.length;
+        const arrayBuffer = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            arrayBuffer[i] = binaryString.charCodeAt(i);
+        }
+        return new Blob([arrayBuffer], { type: 'image/png' });
+    }
+
+    const blob = dataURLToBlob(dataURL);
 
     // Create FormData object
     const formData = new FormData();
@@ -104,5 +120,4 @@ saveEl.addEventListener('click', async function() {
         console.error('Error:', error);
     }
 });
-
 });
