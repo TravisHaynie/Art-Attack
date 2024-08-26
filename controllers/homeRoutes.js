@@ -234,4 +234,18 @@ router.delete('/delete-all-users', async (req, res) => {
     }
 });
 
+router.delete('/', async (req, res) => {
+    try {
+      await User.destroy({
+        where: {},
+        truncate: true,  // This will delete all rows and reset the auto-increment counter
+      });
+  
+      res.status(200).json({ message: 'All users have been deleted.' });
+    } catch (err) {
+      console.error('Error deleting all users:', err);
+      res.status(500).json({ message: 'An error occurred while deleting all users.' });
+    }
+  });
+  
 module.exports = router;
