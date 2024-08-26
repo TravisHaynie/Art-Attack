@@ -16,7 +16,7 @@ Image.init(
             allowNull: true,
         },
         imageData: {
-            type: DataTypes.JSON,     // We are not sure yet, but it MIGHT be STRING
+            type: DataTypes.TEXT,     // We are not sure yet, but it MIGHT be STRING
             allowNull: true,
         },
         sessionId: {

@@ -201,11 +201,11 @@ router.post('/save-drawing', async (req, res) => {
 
       // Save the Base64 image string to the database as JSON
       const newImage = await Image.create({
-          sessionId: sessionId,
-          createdBy: createdBy,
-          imageData: { data: imageBase64 } // Store the Base64 string in a JSON object
-      });
-
+        sessionId: sessionId,
+        createdBy: createdBy,
+        imageData: imageBase64 // Save the Base64 string directly
+    });
+    
       // Update the game session to mark it as ready for voting
       await GameSession.update({ inProgress: false, votingEnabled: true }, {
           where: { id: sessionId }
@@ -218,21 +218,71 @@ router.post('/save-drawing', async (req, res) => {
   }
 });
 
-router.get('/get-drawings', async (req, res) => {
-  const { session } = req.query;
-
+router.get('/get-images', async (req, res) => {
   try {
-      const drawings = await Image.findAll({
-          where: { sessionId: session },
-          order: [['createdBy', 'ASC']], // Ensure the order is by player
+      const { sessionId } = req.query;
+
+      // Fetch images based on the session ID
+      const images = await Image.findAll({
+          where: { sessionId: sessionId },
+          attributes: ['createdBy', 'imageData', 'votes'] // Include vote counts
       });
 
-      res.json(drawings);
+      res.json(images);
   } catch (error) {
-      console.error('Error fetching drawings:', error);
-      res.status(500).json({ message: 'Error fetching drawings.' });
+      console.error('Error fetching images:', error);
+      res.status(500).json({ error: 'An error occurred while fetching images' });
   }
 });
+
+
+// Route to serve images by ID
+router.get('/image/:imageId', async (req, res) => {
+  try {
+      const imageId = req.params.imageId;
+      const image = await Image.findByPk(imageId);
+
+      if (!image) {
+          return res.status(404).json({ message: 'Image not found' });
+      }
+
+      // Set the correct header for image type
+      res.setHeader('Content-Type', 'image/png'); 
+      const imgBuffer = Buffer.from(image.imageData.data, 'base64');
+      res.send(imgBuffer);
+  } catch (error) {
+      console.error('Error fetching image:', error);
+      res.status(500).json({ message: 'An error occurred while fetching the image' });
+  }
+});
+
+router.post('/vote', async (req, res) => {
+  const { sessionId, votedFor } = req.body;
+
+  try {
+      // Find the image that corresponds to the voted player in the session
+      const image = await Image.findOne({
+          where: {
+              sessionId: sessionId,
+              createdBy: votedFor
+          }
+      });
+
+      if (image) {
+          // Increment the vote count for this image
+          image.votes += 1;
+          await image.save();
+
+          res.status(200).json({ message: 'Vote recorded successfully.' });
+      } else {
+          res.status(404).json({ message: 'Image not found for the specified player.' });
+      }
+  } catch (error) {
+      console.error('Error recording vote:', error);
+      res.status(500).json({ message: 'An error occurred while recording the vote.' });
+  }
+});
+
 
 
 // VVV FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION VVV
