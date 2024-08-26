@@ -86,7 +86,7 @@ saveEl.addEventListener('click', async function() {
             },
             body: JSON.stringify({
                 sessionId: sessionId,
-                playerId: playerId,
+                createdBy: playerId,
                 drawing: dataURL,
             }),
         });

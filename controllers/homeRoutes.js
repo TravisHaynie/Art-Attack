@@ -190,12 +190,12 @@ router.post('/suggestSubject', async (req, res) => {
 
 router.post('/save-drawing', async (req, res) => {
   try {
-      const { sessionId, playerId, drawing } = req.body;
+      const { sessionId, createdBy, drawing } = req.body;
 
       // Save the image data in the database
       const newImage = await Image.create({
-          sessionId,
-          playerId,
+          sessionId: sessionId,
+          createdBy: createdBy,
           imageData: drawing, // Assuming the Image model has a column 'imageData' to store base64 string
       });
 
