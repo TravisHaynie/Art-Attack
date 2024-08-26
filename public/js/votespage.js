@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Fetch the images for this session
         const response = await fetch(`/get-images?sessionId=${sessionId}`);
         images = await response.json();
-
+        console.log(images);
         // Get the image elements
         const imgPlayer1 = document.getElementById('image_player_1');
         const imgPlayer2 = document.getElementById('image_player_2');
@@ -17,8 +17,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Display the images and vote counts in the respective elements
         if (images.length >= 2) {
-            imgPlayer1.src = images[0].imageBase64;
-            imgPlayer2.src = images[1].imageBase64;
+            console.log(images[0])
+            imgPlayer1.src = images[0].imageData;
+            imgPlayer2.src = images[1].imageData;
 
             votesPlayer1.textContent = `Votes: ${images[0].votes}`; // Player 1's votes
             votesPlayer2.textContent = `Votes: ${images[1].votes}`; // Player 2's votes
