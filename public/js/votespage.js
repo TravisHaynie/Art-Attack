@@ -17,18 +17,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Display the images and vote counts in the respective elements
         if (images.length >= 2) {
-            if (typeof images[0].imageData === 'object') {
-                imgPlayer1.src = images[0].imageData.data; // Adjust the key as necessary
-            } else {
-                imgPlayer1.src = images[0].imageData; // If it's already a string
-            }
-            
-            if (typeof images[1].imageData === 'object') {
-                imgPlayer2.src = images[1].imageData.data; // Adjust the key as necessary
-            } else {
-                imgPlayer2.src = images[1].imageData; // If it's already a string
-            }
-            
+            imgPlayer1.src = images[0].imageBase64;
+            imgPlayer2.src = images[1].imageBase64;
+
             votesPlayer1.textContent = `Votes: ${images[0].votes}`; // Player 1's votes
             votesPlayer2.textContent = `Votes: ${images[1].votes}`; // Player 2's votes
         } else {
