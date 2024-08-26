@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             
             if (typeof images[1].imageData === 'object') {
-                imgPlayer1.src = images[1].imageData.data; // Adjust the key as necessary
+                imgPlayer2.src = images[1].imageData.data; // Adjust the key as necessary
             } else {
-                imgPlayer1.src = images[1].imageData; // If it's already a string
+                imgPlayer2.src = images[1].imageData; // If it's already a string
             }
             
             votesPlayer1.textContent = `Votes: ${images[0].votes}`; // Player 1's votes
