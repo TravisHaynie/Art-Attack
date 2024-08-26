@@ -73,25 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
 //     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
 // }, 6000); // 1 minute
 saveEl.addEventListener('click', async function() {
-    const dataURL = canvas.toDataURL('image/png');
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
     const playerId = JSON.parse(sessionStorage.getItem('user')).id; // Assuming player ID is stored in session storage
 
+    // Convert the canvas to a Blob
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
+    // Create FormData object
+    const formData = new FormData();
+    formData.append('image', blob, 'drawing.png');
+    formData.append('sessionId', sessionId);
+    formData.append('createdBy', playerId);
+
     try {
-        console.log(dataURL);
-        console.log(sessionId);
-        console.log(playerId);
         const response = await fetch('/save-drawing', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                sessionId: sessionId,
-                createdBy: playerId,
-                drawing: dataURL,
-            }),
+            body: formData, // Send as FormData
         });
 
         if (response.ok) {

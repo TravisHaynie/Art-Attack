@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const { User, Subject, GameSession, Image } = require('../models'); 
 const { Op } = require('sequelize');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Render homepage
 router.get('/', (req, res) => {
@@ -188,19 +190,19 @@ router.post('/suggestSubject', async (req, res) => {
   }
 });
 
-router.post('/save-drawing', async (req, res) => {
+router.post('/save-drawing', upload.single('image'), async (req, res) => {
   try {
-      const { sessionId, createdBy, drawing } = req.body;
+      const { sessionId, createdBy } = req.body;
 
-      if (!sessionId || !createdBy || !drawing) {
-        return res.status(400).json({ message: 'Missing required fields' });
-    }
+      if (!sessionId || !createdBy || !req.file) {
+          return res.status(400).json({ message: 'Missing required fields' });
+      }
 
-      // Save the image data in the database
+      // Save the image data as a BLOB in the database
       const newImage = await Image.create({
           sessionId: sessionId,
           createdBy: createdBy,
-          imageData: drawing, // Assuming the Image model has a column 'imageData' to store base64 string
+          imageData: req.file.buffer, // Store the image as a BLOB
       });
 
       // Update the game session to mark it as ready for voting
