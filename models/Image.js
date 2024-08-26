@@ -13,11 +13,11 @@ Image.init(
         },
         createdBy: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
         },
         imageData: {
             type: DataTypes.TEXT,     // We are not sure yet, but it MIGHT be STRING
-            allowNull: false,
+            allowNull: true,
         },
         sessionId: {
             type: DataTypes.INTEGER,    // References gameSession.id
