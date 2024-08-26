@@ -97,7 +97,7 @@ saveEl.addEventListener('click', async function() {
         if (response.ok) {
             alert('Drawing saved!');
             setTimeout(() => {
-                window.location.href = `/votescreen?session=${sessionId}`;
+                window.location.href = `/votescreen?sessionId=${sessionId}`;
             }, 10000); // Redirect to vote screen after saving
         } else {
             console.error('Failed to save drawing');
