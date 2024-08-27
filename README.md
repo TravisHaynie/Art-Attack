@@ -1,17 +1,20 @@
-ART Attack
-ART Attack is a competitive drawing game where users can challenge each other to draw based on a given subject. Once the drawings are complete, they can be saved and voted on by the participants.
+# ART Attack
 
-Table of Contents
-Installation
-Usage
-Features
-Technologies
-Screenshots
-License
-Contributing
-Contact
+## Description 
 
-### Installation
+Is a competitive drawing game where users can challenge each other to draw based on a given subject. Once the drawings are complete, they can be saved and voted on by the participants.
+
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Technologies](#technologies)
+- [Screenshots](#screenshots)
+- [Deployed URL](#deployed-url)
+- [License](#license)
+- [Contributors](#contributors)
+
+## Installation
 
 To get started with ART Attack, follow these steps:
 
@@ -30,10 +33,10 @@ git clone https://github.com/yourusername/art-attack.git
         -Run the application:
 
 4.npm start
-1
+
 The app will run on http://localhost:3001 by default.
 
-### Usage
+## Usage
 
 Once the application is up and running, you can:
 
@@ -42,14 +45,14 @@ Once the application is up and running, you can:
 3.Draw on the Canvas: Use the provided tools to create your drawing based on the given subject.
 4.Save and Vote: Save your drawing and proceed to vote on the artwork of both players.
 
-### Features
+## Features
 
 -Real-time Multiplayer: Join game sessions with other users and compete in real-time.
 -Drawing Canvas: Intuitive drawing tools powered by Fabric.js.
 -Voting System: Vote for your favorite drawing and see who wins.
 -Subject Suggestions: Users can suggest subjects for future drawing sessions.
 
-### Technologies
+## Technologies
 
 -Node.js & Express: Backend framework for handling server-side logic.
 -Sequelize: ORM for interacting with the PostgreSQL database.
@@ -58,11 +61,15 @@ Once the application is up and running, you can:
 -Bootstrap: Front-end framework for responsive design.
 -Express-session: For managing user sessions.
 
-### Screenshots
+## Screenshots
+
+## Deployed Url
+
+https://art-attack-2.onrender.com
 
 
 
-### icense
+## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
@@ -70,15 +77,13 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 We'd like to thank the following people who have contributed to this project:
 
-- **[Tyler payne](https://github.com/contributorusername)** - 
-- **[Sherman Burwell](https://github.com/anotherusername)** - 
-- **[Travis Haynie](https://github.com/yetanotherusername)** - UI/UX Designer
+## Contributors
+
+We'd like to thank the following people who have contributed to this project:
+
+- [Tyler Payne](https://github.com/edamama): Focused on the front-end design, including HTML and CSS.
+- [Sherman Burwell](https://github.com/shermanburwell3): Worked on both front-end and back-end development, focusing on integration and functionality.
+- [Travis Haynie](https://github.com/TravisHaynie): Worked on both front-end and back-end development, focusing on integration and functionality.
 
 
-### Contact
 
-For any inquiries or feedback, please reach out to:
-
-Name: Your Name
-Email: your.email@example.com
-GitHub: Your GitHub Profile
