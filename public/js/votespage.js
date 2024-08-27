@@ -32,15 +32,28 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Add event listeners for the vote buttons
     document.getElementById('p1_button').addEventListener('click', async () => {
-        await voteForPlayer(images[0].createdBy, sessionId);
-        updateVoteCount(0); // Update Player 1's vote count
-        console.log('Voted for Player 1');
+        if (!localStorage.getItem('votedForPlayer')) {
+            await voteForPlayer(images[0].createdBy, sessionId);
+            updateVoteCount(0); 
+            localStorage.setItem('votedForPlayer', 'p1'); 
+            console.log('Voted for Player 1');
+        } else if (localStorage.getItem('votedForPlayer') === 'p2') {
+            console.log('You have already voted for Player 2. You cannot vote for both players.');
+        } else {
+            console.log('You have already voted for Player 1');
+        }
     });
-
+    
     document.getElementById('p2_button').addEventListener('click', async () => {
-        await voteForPlayer(images[1].createdBy, sessionId);
-        updateVoteCount(1); // Update Player 2's vote count
-        console.log('Voted for Player 2');
+        if (!localStorage.getItem('votedForPlayer')) {
+            await voteForPlayer(images[1].createdBy, sessionId);
+            updateVoteCount(1); 
+            localStorage.setItem('votedForPlayer', 'p2'); 
+        } else if (localStorage.getItem('votedForPlayer') === 'p1') {
+            console.log('You have already voted for Player 1. You cannot vote for both players.');
+        } else {
+            console.log('You have already voted for Player 2');
+        }
     });
 
     // Back to Home button functionality
@@ -51,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function voteForPlayer(playerId, sessionId) {
     try {
-        const response = await fetch('/vote', {
+        const response = await fetch('/api/vote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +76,6 @@ async function voteForPlayer(playerId, sessionId) {
         });
 
         if (response.ok) {
-            alert('Vote submitted successfully!');
         } else {
             console.error('Failed to submit vote');
         }

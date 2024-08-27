@@ -1,204 +1,93 @@
-body{
-
-    background-color: rgb(240, 251, 161);;
-
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
-#header{
-
-    display:flex;
+#header {
+    display: flex;
     justify-content: center;
-    
-
+    margin-top: 20px;
 }
 
-#headerText{
-
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: lighter;
-    font-size:27pt;  
-
-}
-
-#pictures{
-
+#pictures {
     display: flex;
     justify-content: space-around;
-
+    margin-top: 30px;
 }
 
-#picture_1{
-
-    border-color:red;
-
+.picture {
+    border: solid 2px #000;
+    width: 500px;
+    height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
-#picture_2{
-
-    border-color:blue
-
-}
-
-.picture{
-
-    border:solid;
-    width:500px;
-    height:520px;
-    background-color: white;
-    border-radius:10px;
-
+.picture img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 #versus {
-
-    border:none;
-    color:white;
-    width:100px;
-    height:100px;
-    display:flex;
+    border: solid 2px #000;
+    width: 100px;
+    height: 100px;
+    display: flex;
     justify-content: center;   
+    align-items: center;
     border-radius: 50px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background-color: rgb(173, 5, 5);
-
+    margin: auto;
 }
 
-#fireball{
-
-    position:absolute;
-    scale:30%;
-    transform: translateY(-930px);
-    margin-left:-5px;
-
+#versus h1 {
+    margin: 0;
 }
 
-#versus h1{
-
-    margin-top:auto;
-    margin-bottom:auto;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: lighter;
-    
-
-}
-
-#player_names{
-
+#player_names {
     display: flex;
-    flex-direction: row;
-    
-
+    justify-content: space-between;
+    margin-top: 40px;
+    padding: 0 150px;
 }
 
-
-.player{
-
+.player {
     display: flex;
-    width:400px;
-    justify-content: space-around;
-    
-
+    flex-direction: column;
+    align-items: center;
 }
 
-#player1,#player2{
-
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: lighter;
-
-}
-
-#player1{
-
-    color:rgb(73, 3, 3);
-
-}
-
-#player2{
-
-    color:rgb(6, 6, 131);
-
-}
-
-#player1_tag{
-
-    margin-left: 150px;
-    
-}
-
-#player2_tag{
-
-    margin-left:480px;
-    
-}
-
-.vote_button{
-
-    width:100px;
-    height:50px;
-    margin-top:auto;
-    margin-bottom:auto;
-    
+.vote_button {
+    width: 100px;
+    height: 50px;
+    margin-top: 20px;
+    background-color: rgb(234, 246, 10);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-weight: lighter;
     font-size: x-large;
-    
-    
-    border-radius:20px;
-
-    
-
-}
-
-.vote_button:hover{
-
-    cursor:pointer;
-    opacity: 85%;
-
-}
-
-#p1_button{
-
-   background-color: rgb(231, 89, 89);
-   border-color:brown;
-   color:rgb(73, 2, 2);
-}
-
-#p2_button{
-
-    border-color:rgb(6, 6, 92);
-    background-color: rgb(134, 134, 241);
-    color:rgb(6, 6, 85);
-
-}
-
-.homeButton{
-
-    position:absolute;
-
-    width:100px;
-    height:100px;
-    border-radius:10px;
-    background-color:rgb(165, 183, 111);
-    margin-left:700px;
-    margin-top:-50px;
-    background-image: url('images/house.png');
-    background-size: cover;
-    border: none;
+    color: rgb(175, 108, 16);
+    border-color: rgb(241, 215, 16);
+    border-radius: 20px;
     cursor: pointer;
-   
 }
 
-.homeButton:hover{
-
-    background-color:yellow;
-
+#home_button_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
 }
 
-.votes{
-
+#home_button {
+    width: 150px;
+    height: 50px;
+    background-color: rgb(234, 246, 10);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-weight: lighter;
-
+    font-size: x-large;
+    color: rgb(175, 108, 16);
+    border-color: rgb(241, 215, 16);
+    border-radius: 20px;
+    cursor: pointer;
 }
-
