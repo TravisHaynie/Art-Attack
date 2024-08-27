@@ -1,111 +1,83 @@
-body{
-
-    display:flex;
-
-    justify-content: space-around;
-
-   
-    background-color: rgb(240, 251, 161);
-
-}
-
-#left_div{
-
-    display:flex;
+body {
+    display: flex;
     justify-content: center;
-    flex-direction: column;
-    
-
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: rgb(240, 251, 161);
 }
 
-#drawingboard{
-
-    border:solid;
-    border-color: rgba(130, 139, 46, 0.449);
-    width:500px;
-    height:520px;
-    background-color: white;
-    border-radius: 10px;
-    
-
-}
-
-#right_div{
-
+#left_div, #right_div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
-
+    align-items: center;
 }
 
-#prompt{
+#drawingboard {
+    border: solid;
+    border-color: rgba(130, 139, 46, 0.449);
+    width: 500px;
+    height: 520px;
+    background-color: white;
+    border-radius: 10px;
+}
 
-    font-weight:lighter;
+#prompt {
+    font-weight: lighter;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    width:550px;
-    height:auto;
+    width: 550px;
+    height: auto;
     background-color: aliceblue;
     border-radius: 10px;
-    padding:7px;
+    padding: 7px;
     word-break: break-all;
-
+    text-align: center;
+    margin-top: 20px;
 }
 
-#clock{
-
-    display:flex;
+#clock {
+    display: flex;
     justify-content: center;
-    border:solid;
-    width:100px;
-    height:100px;
+    align-items: center;
+    border: solid;
+    width: 100px;
+    height: 100px;
     background-color: white;
-
     border-radius: 50px;
-    border-color:rgba(130, 139, 46, 0.449);
-    
-    
-    margin-left:auto;
-    margin-right:auto;
-
+    border-color: rgba(130, 139, 46, 0.449);
+    margin: 20px 0;
 }
 
-#time{
-
-    margin-top:auto;
-    margin-bottom:auto;
-
+#time {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-
+    font-size: 24px;
 }
 
-#time_caption{
-
+#time_caption {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-weight: lighter;
-
+    text-align: center;
 }
 
-#toolsCaption{
-
-    position:absolute;
-    margin-top:200px;
+#toolsCaption {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-weight: lighter;
-
+    margin-top: 20px;
+    text-align: center;
 }
 
-.toolBin{
-    position: absolute;
-    width:500px;
-    height:50px;
-
+.toolBin {
+    width: 500px;
+    height: 50px;
     background-color: white;
-    margin-top:260px;
-    border:solid;
-    border-color:rgba(130, 139, 46, 0.449);
-    border-radius:10px;
-
+    border: solid;
+    border-color: rgba(130, 139, 46, 0.449);
+    border-radius: 10px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .canvas-container {
@@ -114,20 +86,17 @@ body{
     padding: 10px;
     background: #fff;
     text-align: center;
-  }
-  
-  .canvas-controls {
+    margin-top: 20px;
+}
+
+.canvas-controls {
     margin-bottom: 10px;
-  }
-  
-  .canvas-controls button {
+    text-align: center;
+}
+
+.canvas-controls button,
+.canvas-controls select,
+.canvas-controls input {
     display: block;
-    margin-bottom: 10px;
-  }
-  
-  .canvas-controls select,
-  .canvas-controls input {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
+    margin: 0 auto 10px auto;
+}
