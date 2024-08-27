@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function voteForPlayer(playerId, sessionId) {
     try {
-        const response = await fetch('/vote', {
+        const response = await fetch('/api/vote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

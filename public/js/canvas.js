@@ -82,7 +82,7 @@ saveEl.addEventListener('click', async function() {
         console.log(dataURL);
         console.log(sessionId);
         console.log(playerId);
-        const response = await fetch('/save-drawing', {
+        const response = await fetch('/api/save-drawing', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
