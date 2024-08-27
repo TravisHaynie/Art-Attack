@@ -1,10 +1,13 @@
-body{
-
+body {
     display: flex;
     flex-direction: column;
-    background-color: rgb(240, 251, 161);
-    height:700px;
-    
+    background-color: rgb(243, 243, 243);
+    height: 700px;
+    background-image: url('../images/paint.jpg');
+ /* This is where the image path goes */
+    background-size: cover; /* Ensures the image covers the entire background */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
 }
 
 #top_div{
@@ -25,9 +28,6 @@ body{
     justify-content: space-around;
 
     height:190px;
-
-    background-color: rgb(240, 251, 161);
-
     
 
 }
@@ -50,21 +50,19 @@ body{
     font-weight: lighter;
 
 }
-#play_button{
-
-    height:80px;
-    width:180px;
-
-    margin-top:auto;
-
-    margin-bottom:auto;
+#play_button {
+    position: relative;
+    left: -50px; /* Move the button 50px to the left */
+    height: 80px;
+    width: 180px;
+    margin-top: auto;
+    margin-bottom: auto;
     z-index: 95;
-    font-size:x-large;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    background-color:rgba(255, 0, 0, 0);
-    border:none;
-    color:rgb(112, 5, 5);
-
+    font-size: x-large;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: rgba(255, 0, 0, 0);
+    border: none;
+    color: rgb(112, 5, 5);
 }
 
 #play_button:hover{
@@ -83,27 +81,40 @@ body{
     margin-top:-215px;
 
 }
-
-#gallery_button{
-
-    height:120px;
-    margin-top:auto;
-    margin-bottom:auto;
-    width:200px;
-    font-size: x-large;
-    transform: translateX(-11px);
+#gallery_button {
+    position: relative;
+    display: inline-block;
+    padding: 40px 60px; /* Increased padding for a larger star */
+    font-size: 24px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    z-index: 95;
-    border:none;
-
-}
-
-#gallery_button:hover{
-
-    background-color:rgb(213, 198, 30);
+    color: white;
+    text-transform: uppercase;
     cursor: pointer;
-
+    background: linear-gradient(135deg, #d4af37, #f7d794); /* Gold gradient */
+    border: none;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Adds depth with shadow */
+    transition: transform 0.3s, box-shadow 0.3s;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    /* Star shape using polygon */
+    text-align: center;
+    width: 300px; /* Define the width to control the star's size */
+    height: 300px; /* Define the height to control the star's size */
+    margin-top: -100px; /* Adjust this to move the star up */
 }
+
+
+#gallery_button::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.1); /* Light overlay */
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: all 0.75s ease;
+}
+
 
 #log_in_button{
 
@@ -138,32 +149,35 @@ body{
 }
 #suggestionBox {
     position: absolute;
-    top: 800px; /* Move up to reduce white space */
-    left: 40%;
+    bottom: -50; /* Move it further down the page */
+    left: 50%;
     transform: translateX(-50%);
-    width: 100%;
-    max-width: 800px;
+    width: 90%; /* Make it wide but with some margin */
+    max-width: 800px; /* Ensure it doesn’t get too wide on large screens */
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9); /* Light semi-transparent background */
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid #ccc;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 60px; /* Ensure it’s lower than the buttons */
 }
-#subjectInput{
-
-    position: absolute;
-    width:1000px;
-    height:50px;
-    margin-left:50px;
-
+#subjectInput {
+    width: 60%; /* Wide enough to allow easy text input */
+    padding: 10px;
+    font-size: 16pt;
+    border: 2px solid #ccc; /* Subtle border */
+    border-radius: 5px; /* Rounded corners */
+    margin-left: 20px; /* Space between caption and input */
 }
-#suggestionsCaption{
-
-    position:absolute;
-    margin-left: -185px;
-    transform: rotateZ(-10deg);
-    transform: translateY();
+#suggestionsCaption {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-weight: lighter;
-
+    font-size: 20pt;
+    color: rgb(50, 50, 50); /* Slightly dark gray for readability */
+    margin: 0;
 }
 
 
@@ -184,22 +198,17 @@ body{
     background-color: rgb(10, 206, 56);
 
 }
-
-#submitBtn{
-
-        position:absolute;
-        height:80px;
-        width:180px;
-    
-        z-index: 95;
-        font-size:x-large;
-        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        background-color:rgba(255, 0, 0, 0);
-        border:none;
-        color:rgb(85, 81, 81);
-        margin-left:1075px;
-        margin-top:-10px;
-
+#submitBtn {
+    position: relative;
+    height: 50px; /* Adjusted to be smaller */
+    width: 150px; /* Adjusted to be smaller */
+    z-index: 95;
+    font-size: large; /* Adjusted font size */
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: rgba(255, 0, 0, 0);
+    border: none;
+    color: rgb(85, 81, 81);
+    margin-left: 20px; /* Moved closer to the suggestion box */
 }
 
 #submitBtn:hover{
@@ -220,3 +229,53 @@ body{
     margin-top:-70px;
 
 }
+
+@media (max-width: 768px) {
+    #top_div, #bottom_div {
+      flex-direction: column; /* Stack elements vertically */
+    }
+  
+    #title {
+      font-size: 48pt; /* Adjust title size */
+    }
+  
+    #play_button, #gallery_button, #log_in_button {
+      width: 100%; /* Full width buttons */
+      height: 60px; /* Increase height */
+      font-size: 16pt;
+      margin: 10px 0; /* Add spacing between buttons */
+    }
+  
+    #pencil, #frame, #pencilGuy {
+      display: none; /* Hide images for simpler mobile layout */
+    }
+  
+    #suggestionBox {
+      bottom: 10px;
+      width: 95%; /* Adjust width for smaller screens */
+      padding: 10px;
+    }
+  
+    .homeButton {
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      font-size: 14pt;
+    }
+  }
+  
+  /* Media query for very small screens (e.g., smartphones) */
+  @media (max-width: 480px) {
+    #title {
+      font-size: 36pt; /* Further reduce title size */
+    }
+  
+    #play_button, #gallery_button, #log_in_button {
+      font-size: 14pt;
+      height: 50px;
+    }
+  
+    #suggestionBox {
+      padding: 5px;
+    }
+  }

@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const votesPlayer2 = document.getElementById('votes_player_2');
     const winnerAnnouncementEl = document.getElementById('winner_announcement');
     const winnerTextEl = document.getElementById('winner_text');
+    const leaderboardPlayer1El = document.getElementById('leaderboard_player1');
+    const leaderboardPlayer2El = document.getElementById('leaderboard_player2');
+    const leaderboardEl = document.getElementById('leaderboard');
 
     let images;
 
@@ -103,7 +106,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         winnerTextEl.textContent = winnerText;
-        winnerAnnouncementEl.style.display = 'block'; // Show the winner announcement
+        winnerAnnouncementEl.style.display = 'block';
+        leaderboardEl.style.display = 'block'; // Show the winner announcement
     }
 });
 
@@ -139,3 +143,33 @@ function updateVoteCount(playerIndex) {
     const currentVotes = parseInt(voteElement.textContent.split(': ')[1], 10);
     voteElement.textContent = `Votes: ${currentVotes + 1}`;
 }
+
+
+function updateVoteCountDisplay(votes1, votes2) {
+    votesPlayer1.textContent = `Votes: ${votes1}`;
+    votesPlayer2.textContent = `Votes: ${votes2}`;
+
+    leaderboardPlayer1El.textContent = `Player 1: ${votes1} Votes`;
+    leaderboardPlayer2El.textContent = `Player 2: ${votes2} Votes`;
+}
+async function voteForPlayer(playerId, sessionId) {
+    try {
+        const response = await fetch('/api/vote', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                sessionId: sessionId,
+                votedFor: playerId,
+            }),
+        });
+
+        if (!response.ok) {
+            console.error('Failed to submit vote');
+        }
+    } catch (error) {
+        console.error('Error submitting vote:', error);
+    }
+}
+
