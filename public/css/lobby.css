@@ -1,0 +1,46 @@
+body{
+
+   margin-top:250px;
+   
+   background-color: rgb(240, 251, 161); /*green for now */
+
+}
+.lobby_text{
+
+    display: flex;
+    justify-content: center;
+    margin-left:auto;
+    margin-right:auto;
+    
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
+
+}
+
+.player_tag{
+
+    display: flex;
+    justify-content: center;
+    border-radius:30px;
+    width:800px;
+    margin-left:auto;
+    margin-right:auto;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight:lighter;
+    
+    
+}
+
+.player1_tag{
+
+    background-color:rgb(249, 107, 107);
+    color:rgb(101, 5, 5);
+
+}
+
+.player2_tag{
+
+    background-color:rgb(52, 44, 193);/*when player found make blue */
+    color: rgb(3, 29, 60); /*when found make ??? idk compliment of blue? */
+
+}

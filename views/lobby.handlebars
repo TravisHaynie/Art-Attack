@@ -3,14 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lobby</title>
+    <title>ART ATTACK! Lobby</title>
+    <link rel ="stylesheet" href ="/css/lobby.css">
 </head>
 <body>
-    <h1>Lobby</h1>
+    
     <p id="gameSession"></p>
-    <p id="status">Loading...</p>
-        <p>Player 1: {{player1}}</p>
-        <p>Player 2: {{player2}}</p>
+
+    <div class="player_tag" id="player1_tag">
+
+        <h1 class ="player_name" class="player1_name">{{player1}}</h1>
+
+    </div>
+
+    <p id="status" class="lobby_text">Searching for player...</p>
+
+    <div class="player_tag" id="player2_tag">
+
+        <h1 class="player_name" id="player2_name">{{player2}}</h1>
+
+    </div>
+
     </script>
 
     <script src="/js/lobby.js"></script>
