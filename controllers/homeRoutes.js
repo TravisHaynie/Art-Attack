@@ -137,10 +137,29 @@ router.get('/get-images', async (req, res) => {
           attributes: ['createdBy', 'imageData', 'votes'] // Include vote counts
       });
 
-      res.render('images', { player1_image: images[0].imageData, player2_image: images[1].imageData });
+      res.json(images);
   } catch (error) {
       console.error('Error fetching images:', error);
       res.status(500).json({ error: 'An error occurred while fetching images' });
+  }
+});
+
+
+router.get('/render-images', async (req, res) => {
+  try {
+    const { sessionId } = req.query;
+
+    // Fetch images based on the session ID
+    const images = await Image.findAll({
+      where: { sessionId: sessionId },
+      attributes: ['createdBy', 'imageData', 'votes'] // Include vote counts
+    });
+
+    res.render('images', { player1_image: images[0].imageData, player2_image: images[1].imageData });
+
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    res.status(500).json({ error: 'An error occurred while fetching images' });
   }
 });
 
