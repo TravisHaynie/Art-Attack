@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.removeItem('votedForPlayer');
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
+    const imgPlayer1 = document.getElementById('image_player_1');
+    const imgPlayer2 = document.getElementById('image_player_2');
+    const votesPlayer1 = document.getElementById('votes_player_1');
+    const votesPlayer2 = document.getElementById('votes_player_2');
 
     let images;
 
@@ -11,10 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         images = await response.json();
         console.log(images);
         // Get the image elements
-        const imgPlayer1 = document.getElementById('image_player_1');
-        const imgPlayer2 = document.getElementById('image_player_2');
-        const votesPlayer1 = document.getElementById('votes_player_1');
-        const votesPlayer2 = document.getElementById('votes_player_2');
+
 
         // Display the images and vote counts in the respective elements
         if (images.length >= 2) {
