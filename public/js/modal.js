@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const modalBackground = modal.querySelector('.modal-background');
     const playButton = document.getElementById('play_button');
     const logoutButton = document.getElementById('logoutButton');
-    const joinCurrentSessionButton = document.getElementById('join_current_session_button');
+
     // Open modal when login button is clicked
     openModalButton.addEventListener('click', () => {
         modal.classList.add('is-active');
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       
           sessionStorage.setItem('user', JSON.stringify(user));
       
-          const responseSession = await fetch('/game-session', {
+          const responseSession = await fetch('/api/game-session', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -174,6 +174,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert('An error occurred during logout.');
         }
     });
+
     
     document.getElementById('submitBtn').addEventListener('click', async () => {
         const subject = document.getElementById('subjectInput').value.trim();
@@ -192,7 +193,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     
         try {
-            const response = await fetch('/suggestSubject', {
+            const response = await fetch('api/suggestSubject', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
