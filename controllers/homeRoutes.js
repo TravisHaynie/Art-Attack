@@ -49,15 +49,15 @@ router.get('/canvas', async (req, res) => {
   }
 });
 
-router.get('/api/subjects', async (req, res) => {
-  try {
-    const subjects = await Subject.findAll();
-    res.status(200).json(subjects);
-  } catch (error) {
-    console.error('Error fetching subjects:', error);
-    res.status(500).json({ message: 'An error occurred while fetching subjects.' });
-  }
-});
+// router.get('/api/subjects', async (req, res) => {
+//   try {
+//     const subjects = await Subject.findAll();
+//     res.status(200).json(subjects);
+//   } catch (error) {
+//     console.error('Error fetching subjects:', error);
+//     res.status(500).json({ message: 'An error occurred while fetching subjects.' });
+//   }
+// });
 
 
 router.get('/votescreen', (req, res) => {
