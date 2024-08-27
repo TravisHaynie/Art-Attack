@@ -169,28 +169,6 @@ router.get('/getAllSubjects', async (req, res) => {
   }
 });
 
-router.post('/suggestSubject', async (req, res) => {
-  const { subject, submittedBy } = req.body;
-
-  console.log('Received subject:', subject); // Debugging: Check what is received
-  console.log('Submitted by user ID:', submittedBy); // Debugging: Check user ID
-
-  // Basic validation
-  if (!subject || !submittedBy) {
-      return res.status(400).json({ message: 'Subject and user ID are required.' });
-  }
-
-  try {
-      // Attempt to create the subject suggestion
-      const newSuggestion = await Subject.create({ subject, submittedBy });
-      res.status(200).json({ message: 'Subject suggestion submitted successfully!' });
-  } catch (error) {
-      // Detailed error logging
-      console.error('Error suggesting subject:', error);
-      res.status(500).json({ message: `An error occurred while suggesting the subject: ${error.message}` });
-  }
-});
-
 
 
 router.get('/render-images', async (req, res) => {
@@ -234,58 +212,6 @@ router.get('/image/:imageId', async (req, res) => {
 
 
 
-// VVV FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION VVV
-
-router.delete('/delete-sessions', async (req, res) => {
-  try {
-    // Delete all existing game sessions
-    await GameSession.destroy({
-      where: {},
-      truncate: true,
-      cascade: true,
-    });
-
-    res.status(200).json({ message: 'All game sessions have been deleted.' });
-  } catch (error) {
-    console.error('Error deleting game sessions:', error.message);
-    res.status(500).json({ message: 'An error occurred while deleting game sessions.' });
-  }
-});
-
-router.delete('/delete-all-subjects', async (req, res) => {
-  try {
-    // Truncate the Subject table to delete all subjects
-    await Subject.destroy({
-      truncate: true, // This option truncates the table
-      restartIdentity: true, // This option restarts the auto-incrementing primary key counter
-      cascade: true,
-    });
-
-    res.status(200).json({ message: 'All subjects have been deleted.' });
-  } catch (error) {
-    console.error('Error deleting all subjects:', error.message);
-    res.status(500).json({ message: 'An error occurred while deleting all subjects.' });
-  }
-});
-
-router.delete('/delete-all-users', async (req, res) => {
-  try {
-    // Delete all users from the User table
-    await User.destroy({
-      where: {}, // Specify an empty where clause to delete all records
-      truncate: true, // This option truncates the table
-      restartIdentity: true, // This option restarts the auto-incrementing primary key counter
-      cascade: true,
-    });
-
-    res.status(200).json({ message: 'All users have been deleted.' });
-  } catch (error) {
-    console.error('Error deleting all users:', error.message);
-    res.status(500).json({ message: 'An error occurred while deleting all users.' });
-  }
-});
-
-// ^^^ FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION ^^^
 
 
 
