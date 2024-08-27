@@ -119,12 +119,6 @@ router.post('/suggestSubject', async (req, res) => {
     }
   });
 
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
-
   // VVV FOR SESSION CLEANSING ONLY, COMMENT OUT FOR PRODUCTION VVV
 
 router.delete('/delete-sessions', async (req, res) => {
