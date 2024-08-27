@@ -63,7 +63,6 @@ async function voteForPlayer(playerId, sessionId) {
         });
 
         if (response.ok) {
-            alert('Vote submitted successfully!');
         } else {
             console.error('Failed to submit vote');
         }
