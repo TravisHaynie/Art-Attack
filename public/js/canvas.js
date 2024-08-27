@@ -16,27 +16,6 @@ document.addEventListener('DOMContentLoaded', async() => {
   var drawingShadowColorEl = document.getElementById('drawing-shadow-color');
   var clearEl = document.getElementById('clear-canvas');
   var saveEl = document.getElementById('save-canvas');
-  var subjectsListEl = document.getElementById('subjects-list');
-
-  // Fetch subjects from API
-  try {
-      const response = await fetch('/api/subjects');
-      const subjectsData = await response.json();
-
-      // Populate the subjects list
-      if (subjectsData && subjectsData.length > 0) {
-          subjectsListEl.innerHTML = '';
-          const randomIndex = Math.floor(Math.random() * subjectsData.length);
-          const selectedSubject = subjectsData[randomIndex];
-          const li = document.createElement('li');
-          li.textContent = selectedSubject.subject;
-          subjectsListEl.appendChild(li);
-      }
-  } catch (error) {
-      console.error('Error fetching subjects:', error);
-  }
-
-
 
   if (!drawingModeEl || !drawingOptionsEl || !drawingColorEl || !drawingShadowColorEl || !clearEl || !saveEl) {
       console.error('One or more required elements are missing from the HTML.');
