@@ -6,8 +6,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Fetch the images for this session
-        await fetch(`/get-images?sessionId=${sessionId}`);
+        const response = await fetch(`/get-images?sessionId=${sessionId}`);
+        images = await response.json();
+        console.log(images);
+        // Get the image elements
+        const imgPlayer1 = document.getElementById('image_player_1');
+        const imgPlayer2 = document.getElementById('image_player_2');
+        const votesPlayer1 = document.getElementById('votes_player_1');
+        const votesPlayer2 = document.getElementById('votes_player_2');
 
+        // Display the images and vote counts in the respective elements
+        if (images.length >= 2) {
+            console.log(images[0])
+            imgPlayer1.src = images[0].imageData;
+            imgPlayer2.src = images[1].imageData;
+
+            votesPlayer1.textContent = `Votes: ${images[0].votes}`; // Player 1's votes
+            votesPlayer2.textContent = `Votes: ${images[1].votes}`; // Player 2's votes
+        } else {
+            console.error('Not enough images found for this session');
+        }
     } catch (error) {
         console.error('Error fetching images:', error);
     }
