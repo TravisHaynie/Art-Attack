@@ -3,28 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas Drawing</title>
-    <link rel="stylesheet" href="/css/canvas.css"> <!-- Ensure this file exists -->
+    <title>ART ATTACK!</title>
+    <link rel="stylesheet" href="/css/game_screen.css"> 
 </head>
 <body>
     <main>
-        <h1>Draw: {{subject}}</h1> 
-        <div class="canvas-container">
-            <div class="canvas-controls">
-                <button id="drawing-mode">Enter drawing mode</button>
-                <div id="drawing-mode-options" style="display: none;">
-                    <label for="drawing-color">Color:</label>
-                    <input type="color" id="drawing-color" value="#000000">
-                    <label for="drawing-shadow-color">Shadow color:</label>
-                    <input type="color" id="drawing-shadow-color" value="#000000">
-                </div>
-                <button id="clear-canvas">Clear Canvas</button>
-                <button id="save-canvas">Save Canvas</button>
+        
+        <div id="left_div">
+
+            <h1 id="prompt">Draw a {{subject}}</h1><!--SUBJECT-->
+            
+            <div id="canvas-container" class="drawingBoard">
+                
+                <canvas id="c" width="500" height="520"></canvas>
+            
             </div>
-            <canvas id="c" width="500" height="500"></canvas>
+
         </div>
+
+
+        <div id="right_div">
+
+            <h1 id="time_caption">TIME REMAINING:</h1>
+            <div id = "clock">
+
+                <h1 id="time">30s</h1>
+
+            </div>
+
+            <h1 id="toolsCaption">Your Weapons of War</h1>
+
+            <div id="canvas-controls" class="toolsBin">
+
+                    <button id="drawing-mode">Enter drawing mode</button>
+                    <div id="drawing-mode-options" style="display: none;">
+                        <label for="drawing-color">Color:</label>
+                        <input type="color" id="drawing-color" value="#000000">
+                        <label for="drawing-shadow-color">Shadow color:</label>
+                        <input type="color" id="drawing-shadow-color" value="#000000">
+                    </div>
+                    <button id="clear-canvas">Clear Canvas</button>
+                    <button id="save-canvas">Save Canvas</button>
+
+            </div>
+
+        </div>
+        
+
+
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/fabric@6.3.0/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fabric@6.3.0/dist/index.min.js"></script>
     <script src="/js/canvas.js"></script> <!-- Ensure this file exists -->
 </body>
 </html>

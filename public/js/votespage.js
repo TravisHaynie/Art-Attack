@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function voteForPlayer(playerId, sessionId) {
     try {
-        const response = await fetch('/api/vote', {
+        const response = await fetch('/vote', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,6 +63,7 @@ async function voteForPlayer(playerId, sessionId) {
         });
 
         if (response.ok) {
+            alert('Vote submitted successfully!');
         } else {
             console.error('Failed to submit vote');
         }
