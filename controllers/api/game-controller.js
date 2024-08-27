@@ -2,6 +2,46 @@ const router = require('express').Router();
 const { User, Subject, GameSession, Image } = require('../../models'); 
 const { Op } = require('sequelize');
 
+router.post('/game-session', async (req, res) => {
+    if (!req.session.loggedIn) {
+      return res.status(401).json({ message: 'You must be logged in to create a game session.' });
+    }
+  
+    console.log('Session LoggedIn:', req.session.loggedIn);
+    console.log('Session User:', req.session.user);
+  
+    try {
+      // Check for available game sessions
+      const existingSession = await GameSession.findOne({
+        where: { player2: null, inProgress: false }
+      });
+  
+      if (existingSession) {
+        // Join the existing session
+        await existingSession.update({ player2: req.session.user.id });
+        res.status(200).json({ sessionId: existingSession.id });
+      } else {
+        // Create a new game session
+        const totalSubjects = await Subject.count();
+        const randomSubjectId = Math.floor(Math.random() * totalSubjects) + 1;
+        const subject = await Subject.findByPk(randomSubjectId);
+  
+        const newGameSession = await GameSession.create({
+          player1: req.session.user.id,
+          player2: null,
+          subject: subject.id,
+          inProgress: false,
+          votingEnabled: false,
+          hasVoted: null,
+        });
+  
+        res.status(200).json({ sessionId: newGameSession.id });
+      }
+    } catch (error) {
+      console.error('Error creating or joining game session:', error.message);
+      res.status(500).json({ message: 'An error occurred while creating or joining the game session.' });
+    }
+});
 
 router.post('/suggestSubject', async (req, res) => {
     const { subject, submittedBy } = req.body;
