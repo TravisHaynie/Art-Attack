@@ -1,8 +1,15 @@
-body{
-
-   margin-top:250px;
-   
-   background-color: rgb(240, 251, 161); /*green for now */
+body {
+    margin-top: 0;
+    background-image: url('../images/scribble.png'); /* Add your background image path here */
+    background-size: cover; /* Ensure the image covers the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content horizontally */
+    justify-content: center; /* Center the content vertically */
+    height: 100vh; /* Make sure the body covers the full height of the viewport */
+    background-color: rgb(240, 251, 161); /* Fallback color */
 
 }
 .lobby_text{
@@ -13,7 +20,15 @@ body{
     margin-right:auto;
     
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: lighter;
+    font-weight: bold; /* Make the text bold */
+    color: yellow; /* Set text color to yellow */
+    font-size: 30pt; /* Increase font size */
+    text-align: center; /* Center the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add a shadow to make it stand out */
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent black background */
+    padding: 10px 20px; /* Add padding for more visibility */
+    border-radius: 10px; /* Round the corners for better aesthetics */
+    margin-top: 20px; /* Add space above */
 
 }
 

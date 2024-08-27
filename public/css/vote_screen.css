@@ -39,14 +39,14 @@ body{
 
 }
 
-.picture{
-
-    border:solid;
-    width:500px;
-    height:520px;
+.picture {
+    border: solid 4px rgba(255, 255, 255, 0.8); /* Slightly transparent white border */
+    width: 500px;
+    height: 520px;
     background-color: white;
-    border-radius:10px;
-
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 255, 0.5); /* Add shadow and a subtle glow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #versus {
@@ -172,21 +172,56 @@ body{
 
 }
 
-.homeButton{
+#timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 24pt;
+    color: rgb(255, 69, 0); /* Bright orange for visibility */
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
 
-    position:absolute;
+#winner_announcement {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    background-color: rgb(34, 139, 34); /* Green background for winner announcement */
+    color: white;
+    font-size: 28pt;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    display: none; /* Initially hidden */
+}
 
-    width:100px;
-    height:100px;
-    border-radius:10px;
-    background-color:rgb(165, 183, 111);
-    margin-left:700px;
-    margin-top:-50px;
-    background-image: url('images/house.png');
-    background-size: cover;
+#winner_text {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.homeButton {
+    position: fixed;
+    bottom: 20px; /* Position towards the bottom */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Make the button circular */
+    background-color: rgb(165, 183, 111);
     border: none;
     cursor: pointer;
-   
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: large;
+    color: white;
+    text-align: center;
+    line-height: 120px; /* Center the text vertically */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a shadow for a nicer look */
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .homeButton:hover{

@@ -93,6 +93,22 @@ document.addEventListener('DOMContentLoaded', async() => {
 //   setTimeout(() => {
 //     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
 // }, 6000); // 1 minute
+var timeEl = document.getElementById('time');
+    
+    if (!timeEl) {
+        console.error('Timer element #time not found.');
+        return;
+    }
+let timeRemaining = 30;
+const countdownInterval = setInterval(() => {
+    timeRemaining--;
+    timeEl.textContent = `${timeRemaining}s`;
+    if (timeRemaining <= 0) {
+        clearInterval(countdownInterval);
+        saveEl.click(); // Automatically save when the timer reaches 0
+    }
+}, 1000);
+
 saveEl.addEventListener('click', async function() {
     const dataURL = canvas.toDataURL('image/png');
     const urlParams = new URLSearchParams(window.location.search);
@@ -118,7 +134,7 @@ saveEl.addEventListener('click', async function() {
         if (response.ok) {
             setTimeout(() => {
                 window.location.href = `/votescreen?sessionId=${sessionId}`;
-            }, 10000); // Redirect to vote screen after saving
+            }, 30000); // Redirect to vote screen after saving
         } else {
             console.error('Failed to save drawing');
         }

@@ -1,41 +1,162 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #f0f0f0;
-  }
-  
-  main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .canvas-container {
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    background: #fff;
-    text-align: center;
-  }
-  
-  .canvas-controls {
-    margin-bottom: 10px;
-  }
-  
-  .canvas-controls button {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  .canvas-controls select,
-  .canvas-controls input {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-image: url('../images/splatter-splattered-paint.jpg'); /* Corrected path */
+  background-size: cover; /* Ensure the image covers the entire background */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+
+main {
+  display: flex;
+  flex-direction: row; /* Align left and right divs side by side */
+  justify-content: space-around; /* Space out left and right divs */
+  align-items: flex-start; /* Align items to the top */
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7); /* Add a dark semi-transparent background for contrast */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow for depth */
+}
+
+#prompt {
+  color: #32CD32;/* Dark Green */
+  font-size: 18pt; /* Reduced font size */
+  font-weight: bold;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);/* Lighter shadow for better visibility */
+  margin-bottom: 20px;
+  text-align: center;
+  border: 2px solid #fff; /* White border for contrast */
+  padding: 10px;
+  border-radius: 10px; /* Rounded corners */
+  background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+  max-width: 400px; /* Limit the width of the prompt */
+  margin: 0 auto; /* Center the prompt */
+}
+
+.canvas-container {
+  border: 4px solid #fff; /* Thicker white border for contrast */
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+}
+
+.canvas-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.canvas-controls button {
+  width: 200px;
+  margin-bottom: 20px;
+  padding: 15px;
+  font-size: 20px;
+  font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border: none;
+  border-radius: 30px; /* More rounded corners */
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s;
+}
+
+.canvas-controls button:hover {
+  transform: translateY(-5px); /* Lift more on hover */
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #2575fc, #6a11cb); /* Reverse gradient on hover */
+}
+
+#time_caption, #time, #toolsCaption {
+  color: #32CD32;/* Make the captions stand out */
+  font-size: 20pt;
+  font-weight: bold;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9); /* Add a shadow for better visibility */
+  text-align: center;
+}
+
+#time {
+  font-size: 30pt;
+  margin-top: 10px;
+}
+
+#drawing-mode-options label {
+  display: block;
+  color: #fff;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+#drawing-mode-options input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  background-color: #fff;
+}
+
+#drawing-mode {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Warm gradient for drawing mode */
+  color: #fff;
+  border-radius: 30px; /* Rounded corners */
+  padding: 15px;
+  font-size: 18px;
+  font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s;
+}
+
+#drawing-mode:hover {
+  background: linear-gradient(135deg, #feb47b, #ff7e5f); /* Reverse gradient on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+#save-canvas {
+  background: linear-gradient(135deg, #28a745, #218838); /* Green gradient for save */
+  color: #fff;
+  border-radius: 30px; /* Rounded corners */
+  padding: 15px;
+  font-size: 18px;
+  font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s;
+}
+
+#save-canvas:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34); /* Darker green on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+#clear-canvas {
+  background: linear-gradient(135deg, #dc3545, #c82333); /* Red gradient for clear */
+  color: #fff;
+  border-radius: 30px; /* Rounded corners */
+  padding: 15px;
+  font-size: 18px;
+  font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s;
+}
+
+#clear-canvas:hover {
+  background: linear-gradient(135deg, #c82333, #b21f2d); /* Darker red on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}

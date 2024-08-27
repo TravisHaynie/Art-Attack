@@ -4,8 +4,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
     const imgPlayer1 = document.getElementById('image_player_1');
     const imgPlayer2 = document.getElementById('image_player_2');
+    const timeRemainingEl = document.getElementById('time_remaining');
     const votesPlayer1 = document.getElementById('votes_player_1');
     const votesPlayer2 = document.getElementById('votes_player_2');
+    const winnerAnnouncementEl = document.getElementById('winner_announcement');
+    const winnerTextEl = document.getElementById('winner_text');
+ 
 
     let images;
 
@@ -77,7 +81,34 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error updating vote counts:', error);
         }
     }, 5000); // Update every 5 seconds
+
+    let timeRemaining = 30;
+    const countdownInterval = setInterval(() => {
+        timeRemaining--;
+        timeRemainingEl.textContent = `Time Remaining: ${timeRemaining}s`;
+
+        if (timeRemaining <= 0) {
+            clearInterval(countdownInterval);
+            determineWinner(); // Determine the winner when time runs out
+        }
+    }, 1000);
+
+    function determineWinner() {
+        let winnerText = '';
+        if (images[0].votes > images[1].votes) {
+            winnerText = 'Player 1 is the winner!';
+        } else if (images[1].votes > images[0].votes) {
+            winnerText = 'Player 2 is the winner!';
+        } else {
+            winnerText = 'It\'s a tie!';
+        }
+
+        winnerTextEl.textContent = winnerText;
+        winnerAnnouncementEl.style.display = 'block';
+    }
 });
+
+
 
 async function voteForPlayer(playerId, sessionId) {
     try {
@@ -109,3 +140,32 @@ function updateVoteCount(playerIndex) {
     const currentVotes = parseInt(voteElement.textContent.split(': ')[1], 10);
     voteElement.textContent = `Votes: ${currentVotes + 1}`;
 }
+
+
+function updateVoteCountDisplay(votes1, votes2) {
+    votesPlayer1.textContent = `Votes: ${votes1}`;
+    votesPlayer2.textContent = `Votes: ${votes2}`;
+
+ 
+}
+async function voteForPlayer(playerId, sessionId) {
+    try {
+        const response = await fetch('/api/vote', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                sessionId: sessionId,
+                votedFor: playerId,
+            }),
+        });
+
+        if (!response.ok) {
+            console.error('Failed to submit vote');
+        }
+    } catch (error) {
+        console.error('Error submitting vote:', error);
+    }
+}
+
