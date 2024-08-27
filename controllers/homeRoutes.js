@@ -191,32 +191,7 @@ router.post('/suggestSubject', async (req, res) => {
   }
 });
 
-router.post('/save-drawing', async (req, res) => {
-  try {
-      const { sessionId, createdBy, imageBase64 } = req.body;
 
-      if (!sessionId || !createdBy || !imageBase64) {
-          return res.status(400).json({ message: 'Missing required fields' });
-      }
-
-      // Save the Base64 image string to the database as JSON
-      const newImage = await Image.create({
-        sessionId: sessionId,
-        createdBy: createdBy,
-        imageData: imageBase64 // Save the Base64 string directly
-    });
-    
-      // Update the game session to mark it as ready for voting
-      await GameSession.update({ inProgress: false, votingEnabled: true }, {
-          where: { id: sessionId }
-      });
-
-      res.status(200).json({ message: 'Drawing saved successfully', imageId: newImage.id });
-  } catch (err) {
-      console.error('Error saving drawing:', err);
-      res.status(500).json({ message: 'Server error' });
-  }
-});
 
 router.get('/render-images', async (req, res) => {
   try {
@@ -254,33 +229,6 @@ router.get('/image/:imageId', async (req, res) => {
   } catch (error) {
       console.error('Error fetching image:', error);
       res.status(500).json({ message: 'An error occurred while fetching the image' });
-  }
-});
-
-router.post('/vote', async (req, res) => {
-  const { sessionId, votedFor } = req.body;
-
-  try {
-      // Find the image that corresponds to the voted player in the session
-      const image = await Image.findOne({
-          where: {
-              sessionId: sessionId,
-              createdBy: votedFor
-          }
-      });
-
-      if (image) {
-          // Increment the vote count for this image
-          image.votes += 1;
-          await image.save();
-
-          res.status(200).json({ message: 'Vote recorded successfully.' });
-      } else {
-          res.status(404).json({ message: 'Image not found for the specified player.' });
-      }
-  } catch (error) {
-      console.error('Error recording vote:', error);
-      res.status(500).json({ message: 'An error occurred while recording the vote.' });
   }
 });
 
