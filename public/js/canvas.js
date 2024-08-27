@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async() => {
+document.addEventListener('DOMContentLoaded', () => {
   if (typeof fabric === 'undefined') {
       console.error('Fabric.js is not loaded. Check the script source.');
       return;
@@ -82,7 +82,7 @@ saveEl.addEventListener('click', async function() {
         console.log(dataURL);
         console.log(sessionId);
         console.log(playerId);
-        const response = await fetch('/api/save-drawing', {
+        const response = await fetch('/save-drawing', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,6 +95,7 @@ saveEl.addEventListener('click', async function() {
         });
 
         if (response.ok) {
+            alert('Drawing saved!');
             setTimeout(() => {
                 window.location.href = `/votescreen?sessionId=${sessionId}`;
             }, 10000); // Redirect to vote screen after saving

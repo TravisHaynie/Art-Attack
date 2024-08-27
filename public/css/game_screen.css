@@ -1,0 +1,133 @@
+body{
+
+    display:flex;
+
+    justify-content: space-around;
+
+   
+    background-color: rgb(240, 251, 161);
+
+}
+
+#left_div{
+
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    
+
+}
+
+#drawingboard{
+
+    border:solid;
+    border-color: rgba(130, 139, 46, 0.449);
+    width:500px;
+    height:520px;
+    background-color: white;
+    border-radius: 10px;
+    
+
+}
+
+#right_div{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+
+}
+
+#prompt{
+
+    font-weight:lighter;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    width:550px;
+    height:auto;
+    background-color: aliceblue;
+    border-radius: 10px;
+    padding:7px;
+    word-break: break-all;
+
+}
+
+#clock{
+
+    display:flex;
+    justify-content: center;
+    border:solid;
+    width:100px;
+    height:100px;
+    background-color: white;
+
+    border-radius: 50px;
+    border-color:rgba(130, 139, 46, 0.449);
+    
+    
+    margin-left:auto;
+    margin-right:auto;
+
+}
+
+#time{
+
+    margin-top:auto;
+    margin-bottom:auto;
+
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+}
+
+#time_caption{
+
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
+
+}
+
+#toolsCaption{
+
+    position:absolute;
+    margin-top:200px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
+
+}
+
+.toolBin{
+    position: absolute;
+    width:500px;
+    height:50px;
+
+    background-color: white;
+    margin-top:260px;
+    border:solid;
+    border-color:rgba(130, 139, 46, 0.449);
+    border-radius:10px;
+
+}
+
+.canvas-container {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+    text-align: center;
+  }
+  
+  .canvas-controls {
+    margin-bottom: 10px;
+  }
+  
+  .canvas-controls button {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .canvas-controls select,
+  .canvas-controls input {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
