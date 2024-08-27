@@ -166,7 +166,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 sessionStorage.removeItem('user');
                 updatePlayButtonState(); // Update button state after logout
                 modal.classList.remove('is-active'); // Optionally close the modal on logout
-                alert('You have been logged out.');
             } else {
                 alert('Failed to log out.');
             }
@@ -175,7 +174,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert('An error occurred during logout.');
         }
     });
-    
+
     
     document.getElementById('submitBtn').addEventListener('click', async () => {
         const subject = document.getElementById('subjectInput').value.trim();
@@ -206,7 +205,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
     
             if (response.ok) {
-                alert('Subject suggestion submitted successfully!');
+
                 // Optionally, you can clear the input field or update the UI
                 document.getElementById('subjectInput').value = '';
             } else {
