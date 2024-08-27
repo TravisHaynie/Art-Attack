@@ -31,14 +31,6 @@ body{
     
 
 }
-
-#pencilGuy{
-
-    position:absolute;
-    transform: translateX(700px);
-    margin-top:-50px;
-    scale:95%;
-}
 #title{
 
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -47,7 +39,6 @@ body{
     margin-top:auto;
     margin-bottom:auto;
     rotate: -15deg;
-    font-weight: lighter;
 
 }
 #play_button{
@@ -79,7 +70,7 @@ body{
     position:absolute;
     scale:50%;
     transform: rotate(-90deg);
-    margin-right:-1025px;
+    margin-right:950px;
     margin-top:-215px;
 
 }
@@ -93,7 +84,7 @@ body{
     font-size: x-large;
     transform: translateX(-11px);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    z-index: 95;
+    /* z-index: 95; */
     border:none;
 
 }
@@ -121,7 +112,7 @@ body{
 
 }
 
-#log_in_button:hover,#join_current_session_button:hover{
+#log_in_button:hover{
 
     background-color:rgb(213, 198, 30);
     cursor: pointer;
@@ -133,87 +124,6 @@ body{
     position:absolute;
     transform: translateY(-295px);
     scale:70%;
-    margin-left:-975px
-
-}
-
-#suggestionBox{
-    
-    position:absolute;
-    margin-top:710px;
-    margin-left:200px;
-
-}
-#subjectInput{
-
-    position: absolute;
-    width:1000px;
-    height:50px;
-    margin-left:50px;
-
-}
-#suggestionsCaption{
-
-    position:absolute;
-    margin-left: -185px;
-    transform: rotateZ(-10deg);
-    transform: translateY();
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: lighter;
-
-}
-
-
-#join_current_session_button{
-
-    width:auto;
-    height:min-content;
-    margin-top:auto;
-    margin-bottom:auto;
-    font-size: x-large;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    height:50px;
-    
-    
-    border-radius:10px;
-    border:none;
-    color:rgb(25, 96, 11);
-    background-color: rgb(10, 206, 56);
-
-}
-
-#submitBtn{
-
-        position:absolute;
-        height:80px;
-        width:180px;
-    
-        z-index: 95;
-        font-size:x-large;
-        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        background-color:rgba(255, 0, 0, 0);
-        border:none;
-        color:rgb(85, 81, 81);
-        margin-left:1075px;
-        margin-top:-10px;
-
-}
-
-#submitBtn:hover{
-
-    color:yellow;
-    cursor:pointer;
-
-}
-
-
-
-#submitgray{
-
-    position:absolute;
-    transform: rotateZ(-90deg);
-    scale:30%;
-    margin-right:-1250px;
-    margin-top:-70px;
+    margin-left:-720px
 
 }

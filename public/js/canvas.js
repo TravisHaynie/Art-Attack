@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async() => {
   if (typeof fabric === 'undefined') {
       console.error('Fabric.js is not loaded. Check the script source.');
       return;
@@ -16,6 +16,27 @@ document.addEventListener('DOMContentLoaded', () => {
   var drawingShadowColorEl = document.getElementById('drawing-shadow-color');
   var clearEl = document.getElementById('clear-canvas');
   var saveEl = document.getElementById('save-canvas');
+  var subjectsListEl = document.getElementById('subjects-list');
+
+  // Fetch subjects from API
+  try {
+      const response = await fetch('/api/subjects');
+      const subjectsData = await response.json();
+
+      // Populate the subjects list
+      if (subjectsData && subjectsData.length > 0) {
+          subjectsListEl.innerHTML = '';
+          const randomIndex = Math.floor(Math.random() * subjectsData.length);
+          const selectedSubject = subjectsData[randomIndex];
+          const li = document.createElement('li');
+          li.textContent = selectedSubject.subject;
+          subjectsListEl.appendChild(li);
+      }
+  } catch (error) {
+      console.error('Error fetching subjects:', error);
+  }
+
+
 
   if (!drawingModeEl || !drawingOptionsEl || !drawingColorEl || !drawingShadowColorEl || !clearEl || !saveEl) {
       console.error('One or more required elements are missing from the HTML.');
@@ -82,7 +103,7 @@ saveEl.addEventListener('click', async function() {
         console.log(dataURL);
         console.log(sessionId);
         console.log(playerId);
-        const response = await fetch('/save-drawing', {
+        const response = await fetch('/api/save-drawing', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +116,6 @@ saveEl.addEventListener('click', async function() {
         });
 
         if (response.ok) {
-            alert('Drawing saved!');
             setTimeout(() => {
                 window.location.href = `/votescreen?sessionId=${sessionId}`;
             }, 10000); // Redirect to vote screen after saving

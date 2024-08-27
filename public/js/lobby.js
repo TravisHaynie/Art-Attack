@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
     
-            const response = await fetch('/game-session', {
+            const response = await fetch('/api/game-session', {
                 method: 'POST',
                 body: JSON.stringify({
                     sessionId: sessionId,
