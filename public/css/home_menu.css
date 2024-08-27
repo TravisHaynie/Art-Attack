@@ -136,13 +136,16 @@ body{
     margin-left:-975px
 
 }
-
-#suggestionBox{
-    
-    position:absolute;
-    margin-top:710px;
-    margin-left:200px;
-
+#suggestionBox {
+    position: absolute;
+    top: 800px; /* Move up to reduce white space */
+    left: 40%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
 }
 #subjectInput{
 
