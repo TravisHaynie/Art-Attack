@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    localStorage.removeItem('votedForPlayer');
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('sessionId'); // Get sessionId from the URL
 
@@ -60,6 +61,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('home_button').addEventListener('click', () => {
         window.location.href = '/'; // Redirect to the home page
     });
+
+    // Periodically update the vote counts every 5 seconds
+    setInterval(async () => {
+        try {
+            const response = await fetch(`/get-images?sessionId=${sessionId}`);
+            images = await response.json();
+
+            if (images.length >= 2) {
+                votesPlayer1.textContent = `Votes: ${images[0].votes}`; // Player 1's votes
+                votesPlayer2.textContent = `Votes: ${images[1].votes}`; // Player 2's votes
+            }
+        } catch (error) {
+            console.error('Error updating vote counts:', error);
+        }
+    }, 5000); // Update every 5 seconds
 });
 
 async function voteForPlayer(playerId, sessionId) {
