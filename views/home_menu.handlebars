@@ -1,49 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ART ATTACK! HOME</title>
-    <link rel = "stylesheet" href = "/css/home_menu.css">
-</head>
 <body>
   <main>
     <div id="top_div">
-       
-        <img  id ="pencilGuy" src="/images/pencilFighter.png">
+        <img src="" alt="Little guy image here"> <!-- Add your image source here -->
         <h1 id="title">ART ATTACK!</h1>
-        
     </div>
 
     <div id="bottom_div">
-        
+        <button id="play_button">To Battle!</button>
         <button id="gallery_button">To Gallery!</button>
         <button id="log_in_button">Log in</button>
-        <button id="play_button">To Battle!</button>
-
-
-        <img id="frame" src="/images/frame6.png">
-        <img id="pencil" src="/images/pencil.png">
-        <img id="submitgray" src="/images/submitgray.png">
-    
-        
+        <button id="join_current_session_button">Join Current Session</button>
+        <input type="text" id="subjectInput" placeholder="Enter your subject suggestion">
+        <button id="submitBtn">Submit</button>
+        <img id="frame" src="images/frame6.png" alt="Frame image">
     </div>
-
-  <div id="suggestionBox">
-
-      <h1 id="suggestionsCaption">Suggestions?</h1>
-
-      <input type="text" id="subjectInput" placeholder="Enter your subject suggestion">
-
-     <button id="submitBtn">Submit</button>
-
-   </div>
-  
-  {{!-- <div id="sessionsContainer">
+    <div id="sessionsContainer">
     <!-- Session buttons will be appended here -->
-  </div> --}}
+  </div>
     
-</main>
+  </main>
 
   <!-- Modal HTML -->
   <div id="loginModal" class="modal">

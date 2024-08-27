@@ -9,25 +9,19 @@
 <body>
     
     <div id="header">
-        
         <h1>WHO HAS WON THE BATTLE?</h1>
-    
     </div>
 
+
     <div id="pictures">
-       
         <div id="picture_1" class="picture">
-            
-            <img id="image_player_1" alt="Player 1 Drawing" src="{{player1_image}}"/>
-        
+
+            <img id="image_player_1" alt="Player 1 Drawing" src="{{player1_image}}" />
+
         </div>
 
         <div id="versus">
-            
             <h1>VS</h1>
-
-            <img  id="fireball" src="/images/fireball_transparent.png">
-            
         </div>
 
         <div id="picture_2" class="picture">
@@ -35,25 +29,24 @@
             <img id="image_player_2" alt="Player 2 Drawing" src="{{player2_image}}" />
 
         </div>
-
     </div>
 
     <div id="player_names">
         <div class="player" id="player1_tag">
             <h1 id="player1">PLAYER 1</h1>
-            <p class ="votes" id="votes_player_1">Votes: 0</p>
+            <p id="votes_player_1">Votes: 0</p>
             <button class="vote_button" id="p1_button">VOTE</button>
         </div>
 
         <div class="player" id="player2_tag">
             <h1 id="player2">PLAYER 2</h1>
-            <p class="votes" id="votes_player_2">Votes: 0</p>
+            <p id="votes_player_2">Votes: 0</p>
             <button class="vote_button" id="p2_button">VOTE</button>
         </div>
     </div>
 
     <div id="home_button_container">
-        <button id="home_button" class="homeButton"></button>
+        <button id="home_button">Back to Home</button>
     </div>
 
     <script src="/js/votespage.js"></script> 
