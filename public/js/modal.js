@@ -166,45 +166,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 sessionStorage.removeItem('user');
                 updatePlayButtonState(); // Update button state after logout
                 modal.classList.remove('is-active'); // Optionally close the modal on logout
-                alert('You have been logged out.');
             } else {
                 alert('Failed to log out.');
             }
         } catch (err) {
             console.error('Logout error:', err);
             alert('An error occurred during logout.');
-        }
-    });
-    joinCurrentSessionButton.addEventListener('click', async () => {
-        const user = JSON.parse(sessionStorage.getItem('user'));
-        const sessionId = new URLSearchParams(window.location.search).get('sessionId'); // Make sure sessionId is obtained
-
-        if (!user || !sessionId) {
-            alert('You must be logged in and have a valid session to join.');
-            return;
-        }
-        
-        try {
-            const response = await fetch('/join-session', {
-                method: 'POST',
-                body: JSON.stringify({
-                    sessionId,
-                    userId: user.id
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Joined session successfully:', data);
-                window.location.href = `/canvas?sessionId=${sessionId}`;
-            } else {
-                const errorData = await response.json();
-                alert(`Failed to join session: ${errorData.message}`);
-            }
-        } catch (error) {
-            console.error('Error joining session:', error);
-            alert('An error occurred while joining the session.');
         }
     });
     
@@ -237,7 +204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
     
             if (response.ok) {
-                alert('Subject suggestion submitted successfully!');
+
                 // Optionally, you can clear the input field or update the UI
                 document.getElementById('subjectInput').value = '';
             } else {
