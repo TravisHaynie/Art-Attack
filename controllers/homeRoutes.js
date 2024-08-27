@@ -20,13 +20,33 @@ router.get('/login', (req, res) => {
   });
 });
 
-router.get('/canvas', (req, res) => {
+router.get('/canvas', async (req, res) => {
   const sessionId = req.query.sessionId;
-  res.render('canvas', {
-      loggedIn: req.session.loggedIn,
-      siteTitle: 'Canvas Drawing',
-      sessionId: sessionId 
-  });
+
+  try {
+    const gameSession = await GameSession.findByPk(sessionId); // Find the GameSession by ID
+
+    if (gameSession) {
+      const subjectId = gameSession.subject; // Get the subject ID from the GameSession
+      const subject = await Subject.findByPk(subjectId); // Find the Subject by ID
+
+      if (subject) {
+        res.render('canvas', {
+          loggedIn: req.session.loggedIn,
+          siteTitle: 'Canvas Drawing',
+          sessionId: sessionId,
+          subject: subject.subject
+        });
+      } else {
+        res.status(404).send('Subject not found');
+      }
+    } else {
+      res.status(404).send('Game session not found');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 router.get('/votescreen', (req, res) => {
