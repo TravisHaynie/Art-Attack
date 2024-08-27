@@ -99,7 +99,7 @@ var timeEl = document.getElementById('time');
         console.error('Timer element #time not found.');
         return;
     }
-let timeRemaining = 10;
+let timeRemaining = 30;
 const countdownInterval = setInterval(() => {
     timeRemaining--;
     timeEl.textContent = `${timeRemaining}s`;
@@ -134,7 +134,7 @@ saveEl.addEventListener('click', async function() {
         if (response.ok) {
             setTimeout(() => {
                 window.location.href = `/votescreen?sessionId=${sessionId}`;
-            }, 10000); // Redirect to vote screen after saving
+            }, 30000); // Redirect to vote screen after saving
         } else {
             console.error('Failed to save drawing');
         }

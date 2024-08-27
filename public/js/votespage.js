@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }, 5000); // Update every 5 seconds
 
-    let timeRemaining = 20;
+    let timeRemaining = 30;
     const countdownInterval = setInterval(() => {
         timeRemaining--;
         timeRemainingEl.textContent = `Time Remaining: ${timeRemaining}s`;
