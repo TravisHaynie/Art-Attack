@@ -84,6 +84,6 @@ We'd like to thank the following people who have contributed to this project:
 - [Tyler Payne](https://github.com/edamama): Focused on the front-end design, including HTML and CSS.
 - [Sherman Burwell](https://github.com/shermanburwell3): Worked on both front-end and back-end development, focusing on integration and functionality.
 - [Travis Haynie](https://github.com/TravisHaynie): Worked on both front-end and back-end development, focusing on integration and functionality.
-
+- [ChatGPT](https://openai.com/chatgpt)**: Assisted with generating code snippets, providing guidance, and enhancing documentation throughout the project.
 
 
