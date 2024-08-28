@@ -62,6 +62,8 @@ Once the application is up and running, you can:
 -Express-session: For managing user sessions.
 
 ## Screenshots
+![Screenshot 2024-08-27 211242](https://github.com/user-attachments/assets/6ccd0370-2480-4210-be77-a24ef3fdac99)
+
 
 ## Deployed Url
 
