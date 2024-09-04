@@ -230,9 +230,9 @@ body {
 
 }
 
-#play_button, #gallery_button {
+/* #play_button, #gallery_button {
   display: none; /* Hide the buttons initially */
-}
+} */
 
 
 @media (max-width: 768px) {
