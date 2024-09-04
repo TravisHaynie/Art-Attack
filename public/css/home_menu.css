@@ -230,6 +230,11 @@ body {
 
 }
 
+#play_button, #gallery_button {
+  display: none; /* Hide the buttons initially */
+}
+
+
 @media (max-width: 768px) {
     #top_div, #bottom_div {
       flex-direction: column; /* Stack elements vertically */
