@@ -134,7 +134,7 @@ saveEl.addEventListener('click', async function() {
         if (response.ok) {
             setTimeout(() => {
                 window.location.href = `/votescreen?sessionId=${sessionId}`;
-            }, 30000); // Redirect to vote screen after saving
+            }, 1000); // Redirect to vote screen after saving
         } else {
             console.error('Failed to save drawing');
         }
