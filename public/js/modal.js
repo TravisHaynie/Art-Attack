@@ -90,9 +90,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    sessionStorage.setItem('user', JSON.stringify(data));
+                    sessionStorage.setItem('user', JSON.stringify(data.user)); // Store user in sessionStorage
                     updateButtonVisibility(); // Show buttons after signup
                     modal.classList.remove('is-active');
+                    console.log(data);
                 } else {
                     alert('Failed to sign up.');
                 }
@@ -103,6 +104,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
+    // Toggle between login and signup forms
+    document.getElementById('showSignupForm').addEventListener('click', (event) => {
+        event.preventDefault();
+        document.getElementById('loginFormContainer').style.display = 'none';
+        document.getElementById('signupFormContainer').style.display = 'block';
+    });
+
+    document.getElementById('showLoginForm').addEventListener('click', (event) => {
+        event.preventDefault();
+        document.getElementById('loginFormContainer').style.display = 'block';
+        document.getElementById('signupFormContainer').style.display = 'none';
+    });
+
     // Handle logout
     logoutButton.addEventListener('click', async () => {
         try {
@@ -110,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (response.ok) {
                 sessionStorage.removeItem('user');
                 updateButtonVisibility(); // Hide buttons after logout
-                modal.classList.remove('is-active');
+                modal.classList.remove('is-active'); // Optionally close the modal on logout
             } else {
                 alert('Failed to log out.');
             }
