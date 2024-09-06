@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async() => {
           drawingModeEl.textContent = 'Cancel drawing mode';
           drawingOptionsEl.style.display = '';
       } else {
-          drawingModeEl.textContent = 'Enter drawing mode';
+          drawingModeEl.textContent = 'Colors';
           drawingOptionsEl.style.display = 'none';
       }
   };
@@ -88,7 +88,7 @@ var timeEl = document.getElementById('time');
         console.error('Timer element #time not found.');
         return;
     }
-let timeRemaining = 1;
+let timeRemaining = 30;
 const countdownInterval = setInterval(() => {
     timeRemaining--;
     timeEl.textContent = `${timeRemaining}s`;
