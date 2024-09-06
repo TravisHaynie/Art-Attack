@@ -88,7 +88,7 @@ var timeEl = document.getElementById('time');
         console.error('Timer element #time not found.');
         return;
     }
-let timeRemaining = 30;
+let timeRemaining = 1;
 const countdownInterval = setInterval(() => {
     timeRemaining--;
     timeEl.textContent = `${timeRemaining}s`;

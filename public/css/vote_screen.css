@@ -1,9 +1,17 @@
 body {
+    display: flex;
+    flex-direction: column;
+    height: 900px;
+    /* background-color: rgb(243, 243, 243); */
+    /* Burgundy translucent background */
+    background-color: rgba(128, 0, 0, 0.7);
 
-    background-color: rgb(240, 251, 161);
-    ;
-
+    background-image: url('../images/DALL·E\ 2024-09-06\ 13.55.57\ -\ A\ translucent\ light\ yellow\ background\ with\ soft\,\ random\ paint\ splatters\ scattered\ across\ in\ colors\ like\ burgundy\,\ dark\ blues\,\ and\ grays.\ The\ splatters.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
 
 #header {
 
@@ -25,6 +33,7 @@ body {
 
     display: flex;
     justify-content: space-around;
+    align-items: flex-start;
 
 }
 
@@ -87,22 +96,26 @@ body {
 }
 
 #player_names {
-
     display: flex;
     flex-direction: row;
-
-
+    justify-content: space-between;
+    align-items: center;
+    width: 90%; /* Adjust this to fit your layout */
+    margin: 0 auto; /* Center the player names container */
 }
 
 
 .player {
-
     display: flex;
-    width: 400px;
-    justify-content: space-around;
-
-
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Center everything (name, votes, button) under each player */
+    text-align: center;
+    width: 40%; /* Adjust width to ensure each player has equal space */
 }
+
+
+
 
 #player1,
 #player2 {
@@ -113,53 +126,39 @@ body {
 }
 
 #player1 {
-
-    color: rgb(73, 3, 3);
-
+    color: #FFD700; /* Gold to stand out */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Stronger shadow for contrast */
 }
 
 #player2 {
-
-    color: rgb(6, 6, 131);
-
+    color: #00CED1; /* Dark turquoise for better contrast */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Stronger shadow for contrast */
 }
 
-#player1_tag {
-
-    margin-left: 150px;
-
+#player1_tag, #player2_tag {
+    margin: 0 auto; /* Center both player containers */
+    width: 100%; /* Ensure they span the available space */
 }
 
-#player2_tag {
-
-    margin-left: 480px;
-
-}
 
 .vote_button {
-
-    width: 100px;
-    height: 50px;
-    margin-top: auto;
-    margin-bottom: auto;
-
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: lighter;
-    font-size: x-large;
-
-
-    border-radius: 20px;
-
-
-
+    background-color: #483D8B; /* Dark Slate Blue for consistency */
+    color: #FFF; /* White text */
+    border: 2px solid #FFD700; /* Gold border to match the votes */
+    font-size: 18px; /* Slightly larger text */
+    font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    padding: 10px 20px; /* Add some padding */
+    border-radius: 15px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
 }
 
 .vote_button:hover {
-
-    cursor: pointer;
-    opacity: 85%;
-
+    background-color: #FFD700; /* Highlighted yellow on hover */
+    color: #483D8B; /* Dark Slate Blue text */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
 }
+
 
 #p1_button {
 
@@ -189,52 +188,55 @@ body {
 }
 
 #winner_announcement {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    background-color: rgb(34, 139, 34);
-    /* Green background for winner announcement */
-    color: white;
-    font-size: 28pt;
+    position: absolute; /* Overlay without pushing other elements */
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #483D8B;
+    color: #FFD700;
+    font-size: 32pt;
     font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     text-align: center;
-    display: none;
-    /* Initially hidden */
+    z-index: 100; /* Ensure it's above other content */
 }
+
 
 #winner_text {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: #FFD700; 
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .homeButton {
     position: fixed;
     bottom: 20px;
-    /* Position towards the bottom */
     left: 50%;
     transform: translateX(-50%);
-    /* Center horizontally */
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    /* Make the button circular */
-    background-color: rgb(165, 183, 111);
+    width: 180px; /* Reduce width to make it less overwhelming */
+    height: 60px; /* Adjust height for a better balance */
+    background-color: rgb(165, 183, 111); /* Keep the color consistent */
     border: none;
+    border-radius: 30px; /* Slightly rounded corners for a pill shape */
     cursor: pointer;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: large;
+    font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    font-size: 18pt; /* Adjust font size to fit the new button size */
     color: white;
     text-align: center;
-    line-height: 120px;
-    /* Center the text vertically */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    /* Add a shadow for a nicer look */
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    line-height: 60px; /* Vertically center the text inside the button */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
 }
+
+.homeButton:hover {
+    background-color: #FFD700; /* Change to a gold color on hover */
+    color: #483D8B; /* Dark Slate Blue text when hovered */
+  
+}
+
 
 .homeButton:hover {
 
@@ -243,8 +245,24 @@ body {
 }
 
 .votes {
+    color: #FFD700; /* Gold to stand out */
+    font-size: 24px; /* Make the text larger for better visibility */
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Shadow for better readability */
+    margin: 10px 0; /* Add some spacing between votes and other content */
+    text-align: center; /* Center the votes text */
+}
 
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: lighter;
-
+.winner {
+    font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif; /* Strong, bold font */
+    font-size: 36pt; /* Increase font size to make it stand out */
+    font-weight: bold; /* Make the text bold */
+    color: #FFD700; /* Use gold to align with the theme */
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Add a strong shadow for depth */
+    text-align: center; /* Center the text */
+    background-color: rgba(72, 61, 139, 0.8); /* Add a semi-transparent dark slate blue background */
+    padding: 20px; /* Add padding for spacing around the text */
+    border-radius: 10px; /* Soften the edges with rounded corners */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Add a subtle shadow for depth */
+    margin: 20px auto; /* Center the element horizontally with margin *//* Ensure it takes up only the necessary width */
 }
