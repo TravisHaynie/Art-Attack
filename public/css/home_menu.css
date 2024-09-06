@@ -230,6 +230,93 @@ body {
 
 }
 
+/* Pencil container with flexbox to center the play button */
+.pencil-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 60px;
+  background-color: #FFD700; /* Pencil body color (gold) */
+  border-radius: 30px; /* Rounded edges for the pencil body */
+  position: relative;
+  margin-top: auto;
+  margin-bottom: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+/* Pencil tip */
+/* Pencil tip facing left */
+.pencil-tip {
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  border-right: 60px solid #B5651D; /* Pencil tip (brown), pointing left */
+  position: absolute;
+  left: -40px; /* Positioned to the left of the pencil body */
+  top: 0;
+}
+
+/* Pencil eraser */
+.pencil-eraser {
+  width: 40px;
+  height: 60px;
+  background-color: #FF6347; /* Eraser color */
+  position: absolute;
+  right: -10px; /* Positioned to the right of the pencil body */
+  top: 0;
+  border-radius: 10px; /* Rounded eraser edges */
+}
+
+
+/* Style for the To Battle button */
+#play_button {
+  position: relative;
+  height: 50px;
+  width: 150px;
+  font-size: 20px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  background-color: transparent; /* Transparent background */
+  border: none;
+  color: rgb(112, 5, 5); /* Text color */
+  z-index: 10;
+}
+
+/* Hover effect for the button */
+#play_button:hover {
+  color: rgb(213, 198, 30);
+  cursor: pointer;
+}
+
+
+.logged-in #play_button, .logged-in #gallery_button {
+  visibility: visible; /* Make them visible when the user is logged in */
+}
+
+#logoutButton {
+  display: none;
+  font-size: x-large;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  height:50px;
+  margin-top:auto;
+  margin-bottom:auto;
+  width:100px;
+  border-radius:10px;
+  border:none;
+  color:rgb(165, 42, 42);
+  background-color: rgb(244, 136, 12); /* Hide the logout button by default */
+}
+
+#logoutButton:hover{
+
+  background-color:rgb(213, 198, 30);
+  cursor: pointer; 
+
+}
+
+
+
 @media (max-width: 768px) {
     #top_div, #bottom_div {
       flex-direction: column; /* Stack elements vertically */
