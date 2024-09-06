@@ -1,232 +1,266 @@
 body {
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(243, 243, 243);
-    height: 700px;
-    background-image: url('../images/paint.jpg');
- /* This is where the image path goes */
-    background-size: cover; /* Ensures the image covers the entire background */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(243, 243, 243);
+  height: 700px;
+  background-image: url('../images/paint.jpg');
+  /* This is where the image path goes */
+  background-size: cover;
+  /* Ensures the image covers the entire background */
+  background-position: center;
+  /* Centers the image */
+  background-repeat: no-repeat;
+  /* Prevents the image from repeating */
 }
 
-#top_div{
+#top_div {
 
-    display:flex;
-    height:500px;
-    
-    background-image: url(images/paint.jpg);
+  display: flex;
+  height: 500px;
 
-    
-   
-}
+  background-image: url(images/paint.jpg);
 
-#bottom_div{
 
-    display:flex;
-
-    justify-content: space-around;
-
-    height:190px;
-    
 
 }
 
-#pencilGuy{
+#bottom_div {
 
-    position:absolute;
-    transform: translateX(700px);
-    margin-top:-50px;
-    scale:95%;
-}
-#title{
+  display: flex;
 
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 72pt;
-    margin-left: 100px;
-    margin-top:auto;
-    margin-bottom:auto;
-    rotate: -15deg;
-    font-weight: lighter;
+  justify-content: space-around;
+
+  height: 190px;
+
 
 }
+
+#pencilGuy {
+
+  position: absolute;
+  transform: translateX(700px);
+  margin-top: -50px;
+  scale: 95%;
+}
+
+#title {
+
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 72pt;
+  margin-left: 100px;
+  margin-top: auto;
+  margin-bottom: auto;
+  rotate: -15deg;
+  font-weight: lighter;
+
+}
+
 #play_button {
-    position: relative;
-    left: -50px; /* Move the button 50px to the left */
-    height: 80px;
-    width: 180px;
-    margin-top: auto;
-    margin-bottom: auto;
-    z-index: 95;
-    font-size: x-large;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    background-color: rgba(255, 0, 0, 0);
-    border: none;
-    color: rgb(112, 5, 5);
+  position: relative;
+  left: -50px;
+  /* Move the button 50px to the left */
+  height: 80px;
+  width: 180px;
+  margin-top: auto;
+  margin-bottom: auto;
+  z-index: 95;
+  font-size: x-large;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  background-color: rgba(255, 0, 0, 0);
+  border: none;
+  color: rgb(112, 5, 5);
 }
 
-#play_button:hover{
+#play_button:hover {
 
-    color:rgb(213, 198, 30);
-    cursor: pointer;
+  color: rgb(213, 198, 30);
+  cursor: pointer;
+
+}
+
+#pencil {
+
+  position: absolute;
+  scale: 50%;
+  transform: rotate(-90deg);
+  margin-right: -1025px;
+  margin-top: -215px;
 
 }
 
-#pencil{
-
-    position:absolute;
-    scale:50%;
-    transform: rotate(-90deg);
-    margin-right:-1025px;
-    margin-top:-215px;
-
-}
 #gallery_button {
-    position: relative;
-    display: inline-block;
-    padding: 40px 60px; /* Increased padding for a larger star */
-    font-size: 24px;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    color: white;
-    text-transform: uppercase;
-    cursor: pointer;
-    background: linear-gradient(135deg, #d4af37, #f7d794); /* Gold gradient */
-    border: none;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Adds depth with shadow */
-    transition: transform 0.3s, box-shadow 0.3s;
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    /* Star shape using polygon */
-    text-align: center;
-    width: 300px; /* Define the width to control the star's size */
-    height: 300px; /* Define the height to control the star's size */
-    margin-top: -100px; /* Adjust this to move the star up */
+  position: relative;
+  display: inline-block;
+  padding: 40px 60px;
+  /* Increased padding for a larger star */
+  font-size: 24px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: linear-gradient(135deg, #d4af37, #f7d794);
+  /* Gold gradient */
+  border: none;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  /* Adds depth with shadow */
+  transition: transform 0.3s, box-shadow 0.3s;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  /* Star shape using polygon */
+  text-align: center;
+  width: 300px;
+  /* Define the width to control the star's size */
+  height: 300px;
+  /* Define the height to control the star's size */
+  margin-top: -100px;
+  /* Adjust this to move the star up */
 }
 
 
 #gallery_button::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    background: rgba(255, 255, 255, 0.1); /* Light overlay */
-    transform: translate(-50%, -50%) rotate(45deg);
-    transition: all 0.75s ease;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.1);
+  /* Light overlay */
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: all 0.75s ease;
 }
 
 
-#log_in_button{
+#log_in_button {
 
-    font-size: x-large;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    height:50px;
-    margin-top:auto;
-    margin-bottom:auto;
-    width:100px;
-    border-radius:10px;
-    border:none;
-    color:rgb(165, 42, 42);
-    background-color: rgb(244, 136, 12);
-    
+  font-size: x-large;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  height: 50px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100px;
+  border-radius: 10px;
+  border: none;
+  color: rgb(165, 42, 42);
+  background-color: rgb(244, 136, 12);
 
-}
-
-#log_in_button:hover,#join_current_session_button:hover{
-
-    background-color:rgb(213, 198, 30);
-    cursor: pointer;
 
 }
 
-#frame{
+#log_in_button:hover,
+#join_current_session_button:hover {
 
-    position:absolute;
-    transform: translateY(-295px);
-    scale:70%;
-    margin-left:-975px
+  background-color: rgb(213, 198, 30);
+  cursor: pointer;
 
 }
+
+#frame {
+
+  position: absolute;
+  transform: translateY(-295px);
+  scale: 70%;
+  margin-left: -975px
+}
+
 #suggestionBox {
-    position: absolute;
-    bottom: -50; /* Move it further down the page */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%; /* Make it wide but with some margin */
-    max-width: 800px; /* Ensure it doesn’t get too wide on large screens */
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Light semi-transparent background */
-    border-radius: 10px; /* Rounded corners */
-    border: 2px solid #ccc;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 60px; /* Ensure it’s lower than the buttons */
+  position: absolute;
+  bottom: -50;
+  /* Move it further down the page */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  /* Make it wide but with some margin */
+  max-width: 800px;
+  /* Ensure it doesn’t get too wide on large screens */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  /* Light semi-transparent background */
+  border-radius: 10px;
+  /* Rounded corners */
+  border: 2px solid #ccc;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  /* Subtle shadow for depth */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 60px;
+  /* Ensure it’s lower than the buttons */
 }
+
 #subjectInput {
-    width: 60%; /* Wide enough to allow easy text input */
-    padding: 10px;
-    font-size: 16pt;
-    border: 2px solid #ccc; /* Subtle border */
-    border-radius: 5px; /* Rounded corners */
-    margin-left: 20px; /* Space between caption and input */
+  width: 60%;
+  /* Wide enough to allow easy text input */
+  padding: 10px;
+  font-size: 16pt;
+  border: 2px solid #ccc;
+  /* Subtle border */
+  border-radius: 5px;
+  /* Rounded corners */
+  margin-left: 20px;
+  /* Space between caption and input */
 }
+
 #suggestionsCaption {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: lighter;
-    font-size: 20pt;
-    color: rgb(50, 50, 50); /* Slightly dark gray for readability */
-    margin: 0;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: lighter;
+  font-size: 20pt;
+  color: rgb(50, 50, 50);
+  /* Slightly dark gray for readability */
+  margin: 0;
 }
 
 
-#join_current_session_button{
+#join_current_session_button {
 
-    width:auto;
-    height:min-content;
-    margin-top:auto;
-    margin-bottom:auto;
-    font-size: x-large;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    height:50px;
-    
-    
-    border-radius:10px;
-    border:none;
-    color:rgb(25, 96, 11);
-    background-color: rgb(10, 206, 56);
+  width: auto;
+  height: min-content;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: x-large;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  height: 50px;
+
+
+  border-radius: 10px;
+  border: none;
+  color: rgb(25, 96, 11);
+  background-color: rgb(10, 206, 56);
 
 }
+
 #submitBtn {
-    position: relative;
-    height: 50px; /* Adjusted to be smaller */
-    width: 150px; /* Adjusted to be smaller */
-    z-index: 95;
-    font-size: large; /* Adjusted font size */
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    background-color: rgba(255, 0, 0, 0);
-    border: none;
-    color: rgb(85, 81, 81);
-    margin-left: 20px; /* Moved closer to the suggestion box */
+  position: relative;
+  height: 50px;
+  /* Adjusted to be smaller */
+  width: 150px;
+  /* Adjusted to be smaller */
+  z-index: 95;
+  font-size: large;
+  /* Adjusted font size */
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  background-color: rgba(255, 0, 0, 0);
+  border: none;
+  color: rgb(85, 81, 81);
+  margin-left: 20px;
+  /* Moved closer to the suggestion box */
 }
 
-#submitBtn:hover{
+#submitBtn:hover {
 
-    color:yellow;
-    cursor:pointer;
+  color: rgb(112, 5, 5);
+  cursor: pointer;
 
 }
 
 
 
-#submitgray{
+#submitgray {
 
-    position:absolute;
-    transform: rotateZ(-90deg);
-    scale:30%;
-    margin-right:-1250px;
-    margin-top:-70px;
+  position: absolute;
+  transform: rotateZ(-90deg);
+  scale: 30%;
+  margin-right: -1250px;
+  margin-top: -70px;
 
 }
 
@@ -237,12 +271,15 @@ body {
   align-items: center;
   width: 300px;
   height: 60px;
-  background-color: #FFD700; /* Pencil body color (gold) */
-  border-radius: 30px; /* Rounded edges for the pencil body */
+  background-color: #FFD700;
+  /* Pencil body color (gold) */
+  border-radius: 30px;
+  /* Rounded edges for the pencil body */
   position: relative;
   margin-top: auto;
   margin-bottom: auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Light shadow for depth */
 }
 
 /* Pencil tip */
@@ -252,9 +289,11 @@ body {
   height: 0;
   border-top: 30px solid transparent;
   border-bottom: 30px solid transparent;
-  border-right: 60px solid #B5651D; /* Pencil tip (brown), pointing left */
+  border-right: 60px solid #B5651D;
+  /* Pencil tip (brown), pointing left */
   position: absolute;
-  left: -40px; /* Positioned to the left of the pencil body */
+  left: -40px;
+  /* Positioned to the left of the pencil body */
   top: 0;
 }
 
@@ -262,11 +301,14 @@ body {
 .pencil-eraser {
   width: 40px;
   height: 60px;
-  background-color: #FF6347; /* Eraser color */
+  background-color: #FF6347;
+  /* Eraser color */
   position: absolute;
-  right: -10px; /* Positioned to the right of the pencil body */
+  right: -10px;
+  /* Positioned to the right of the pencil body */
   top: 0;
-  border-radius: 10px; /* Rounded eraser edges */
+  border-radius: 10px;
+  /* Rounded eraser edges */
 }
 
 
@@ -277,9 +319,11 @@ body {
   width: 150px;
   font-size: 20px;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  background-color: transparent; /* Transparent background */
+  background-color: transparent;
+  /* Transparent background */
   border: none;
-  color: rgb(112, 5, 5); /* Text color */
+  color: rgb(112, 5, 5);
+  /* Text color */
   z-index: 10;
 }
 
@@ -290,79 +334,98 @@ body {
 }
 
 
-.logged-in #play_button, .logged-in #gallery_button {
-  visibility: visible; /* Make them visible when the user is logged in */
+.logged-in #play_button,
+.logged-in #gallery_button {
+  visibility: visible;
+  /* Make them visible when the user is logged in */
 }
 
 #logoutButton {
   display: none;
   font-size: x-large;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  height:50px;
-  margin-top:auto;
-  margin-bottom:auto;
-  width:100px;
-  border-radius:10px;
-  border:none;
-  color:rgb(165, 42, 42);
-  background-color: rgb(244, 136, 12); /* Hide the logout button by default */
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  height: 50px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100px;
+  border-radius: 10px;
+  border: none;
+  color: rgb(165, 42, 42);
+  background-color: rgb(244, 136, 12);
+  /* Hide the logout button by default */
 }
 
-#logoutButton:hover{
+#logoutButton:hover {
 
-  background-color:rgb(213, 198, 30);
-  cursor: pointer; 
+  background-color: rgb(213, 198, 30);
+  cursor: pointer;
 
 }
 
 
 
 @media (max-width: 768px) {
-    #top_div, #bottom_div {
-      flex-direction: column; /* Stack elements vertically */
-    }
-  
-    #title {
-      font-size: 48pt; /* Adjust title size */
-    }
-  
-    #play_button, #gallery_button, #log_in_button {
-      width: 100%; /* Full width buttons */
-      height: 60px; /* Increase height */
-      font-size: 16pt;
-      margin: 10px 0; /* Add spacing between buttons */
-    }
-  
-    #pencil, #frame, #pencilGuy {
-      display: none; /* Hide images for simpler mobile layout */
-    }
-  
-    #suggestionBox {
-      bottom: 10px;
-      width: 95%; /* Adjust width for smaller screens */
-      padding: 10px;
-    }
-  
-    .homeButton {
-      width: 80px;
-      height: 80px;
-      line-height: 80px;
-      font-size: 14pt;
-    }
+
+  #top_div,
+  #bottom_div {
+    flex-direction: column;
+    /* Stack elements vertically */
   }
-  
-  /* Media query for very small screens (e.g., smartphones) */
-  @media (max-width: 480px) {
-    #title {
-      font-size: 36pt; /* Further reduce title size */
-    }
-  
-    #play_button, #gallery_button, #log_in_button {
-      font-size: 14pt;
-      height: 50px;
-    }
-  
-    #suggestionBox {
-      padding: 5px;
-    }
+
+  #title {
+    font-size: 48pt;
+    /* Adjust title size */
   }
+
+  #play_button,
+  #gallery_button,
+  #log_in_button {
+    width: 100%;
+    /* Full width buttons */
+    height: 60px;
+    /* Increase height */
+    font-size: 16pt;
+    margin: 10px 0;
+    /* Add spacing between buttons */
+  }
+
+  #pencil,
+  #frame,
+  #pencilGuy {
+    display: none;
+    /* Hide images for simpler mobile layout */
+  }
+
+  #suggestionBox {
+    bottom: 10px;
+    width: 95%;
+    /* Adjust width for smaller screens */
+    padding: 10px;
+  }
+
+  .homeButton {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 14pt;
+  }
+}
+
+/* Media query for very small screens (e.g., smartphones) */
+@media (max-width: 480px) {
+  #title {
+    font-size: 36pt;
+    /* Further reduce title size */
+  }
+
+  #play_button,
+  #gallery_button,
+  #log_in_button {
+    font-size: 14pt;
+    height: 50px;
+  }
+
+  #suggestionBox {
+    padding: 5px;
+  }
+}

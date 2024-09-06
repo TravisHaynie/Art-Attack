@@ -104,7 +104,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('signupFormContainer').style.display = 'none';
     });
 
-    // Function to update the state of the "To Battle!" button based on user login status
     // Function to update the state of the "To Battle!" and "Gallery" buttons based on user login status
     function updatePlayButtonState() {
         const user = sessionStorage.getItem('user');

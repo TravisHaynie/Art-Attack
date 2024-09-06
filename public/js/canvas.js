@@ -82,17 +82,6 @@ document.addEventListener('DOMContentLoaded', async() => {
       canvas.freeDrawingBrush.color = drawingColorEl.value;
   }
 
-  // Save canvas content to local storage
-//   saveEl.addEventListener('click', function() {
-//       var dataURL = canvas.toDataURL({
-//           format: 'png'
-//       });
-//       localStorage.setItem('canvasDrawing', dataURL);
-//       alert('Drawing saved!');
-//   });
-//   setTimeout(() => {
-//     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
-// }, 6000); // 1 minute
 var timeEl = document.getElementById('time');
     
     if (!timeEl) {

@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
       req.session.loggedIn = true;
       req.session.id = dbUserData.id,
 
-      res.status(200).json(dbUserData);
+        res.status(200).json(dbUserData);
     });
   } catch (err) {
     console.log(err);
@@ -109,7 +109,7 @@ router.get('/:username', (req, res) => {
       if (!userData) {
         return res.status(404).send('User not found');
       }
-      
+
       res.render('user-profile', {
         username: userData.username,
         votes: userData.totalVotes,

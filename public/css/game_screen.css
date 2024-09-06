@@ -7,7 +7,8 @@ body {
     background-color: rgb(240, 251, 161);
 }
 
-#left_div, #right_div {
+#left_div,
+#right_div {
     display: flex;
     flex-direction: column;
     justify-content: center;

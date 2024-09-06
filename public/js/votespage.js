@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             await voteForPlayer(images[0].createdBy, sessionId);
             updateVoteCount(0); 
             localStorage.setItem('votedForPlayer', 'p1'); 
-            console.log('Voted for Player 1');
         } else if (localStorage.getItem('votedForPlayer') === 'p2') {
             console.log('You have already voted for Player 2. You cannot vote for both players.');
         } else {

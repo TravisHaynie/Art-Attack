@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Image extends Model {}
+class Image extends Model { }
 
 Image.init(
     {
@@ -16,7 +16,7 @@ Image.init(
             allowNull: true,
         },
         imageData: {
-            type: DataTypes.TEXT,     // We are not sure yet, but it MIGHT be STRING
+            type: DataTypes.TEXT,
             allowNull: true,
         },
         sessionId: {
@@ -28,7 +28,7 @@ Image.init(
             }
         },
         votes: {    // To be tallied when gameSession.votingEnabled is true for each user that clicks the vote button
-                    // To be added to a player's vote count after voting has stopped and a winner is declared for a game session
+            // To be added to a player's vote count after voting has stopped and a winner is declared for a game session
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 0,
