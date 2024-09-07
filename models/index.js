@@ -25,10 +25,6 @@ GameSession.belongsTo(User, {
 });
 
 
-// User.belongsTo(GameSession, {
-//     foreignKey: 'id',
-// });
-
 GameSession.hasMany(Image, {
     foreignKey: 'sessionId', // Should match the field in Image model
     onDelete: 'CASCADE',

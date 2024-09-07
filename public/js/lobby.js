@@ -91,13 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let intervalId = setInterval(async () => {
             await checkSessionStatus(sessionId); 
         }, 1000); 
-    
-        // setTimeout(async () => {
-        //     await joinSession();
-        //     clearInterval(intervalId); // Stop checking status once joined
-        // }, 12000); // Delay to ensure session and user are correctly set
-    
-        // Cleanup interval if user navigates away or session becomes invalid
         window.addEventListener('beforeunload', () => clearInterval(intervalId));
     }
     

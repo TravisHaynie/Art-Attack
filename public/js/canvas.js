@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async() => {
           drawingModeEl.textContent = 'Cancel drawing mode';
           drawingOptionsEl.style.display = '';
       } else {
-          drawingModeEl.textContent = 'Enter drawing mode';
+          drawingModeEl.textContent = 'Colors';
           drawingOptionsEl.style.display = 'none';
       }
   };
@@ -82,24 +82,13 @@ document.addEventListener('DOMContentLoaded', async() => {
       canvas.freeDrawingBrush.color = drawingColorEl.value;
   }
 
-  // Save canvas content to local storage
-//   saveEl.addEventListener('click', function() {
-//       var dataURL = canvas.toDataURL({
-//           format: 'png'
-//       });
-//       localStorage.setItem('canvasDrawing', dataURL);
-//       alert('Drawing saved!');
-//   });
-//   setTimeout(() => {
-//     window.location.href = '/votescreen'; // Replace '/redirect-page' with the URL of the page you want to redirect to
-// }, 6000); // 1 minute
 var timeEl = document.getElementById('time');
     
     if (!timeEl) {
         console.error('Timer element #time not found.');
         return;
     }
-let timeRemaining = 30;
+let timeRemaining =30;
 const countdownInterval = setInterval(() => {
     timeRemaining--;
     timeEl.textContent = `${timeRemaining}s`;
@@ -134,7 +123,7 @@ saveEl.addEventListener('click', async function() {
         if (response.ok) {
             setTimeout(() => {
                 window.location.href = `/votescreen?sessionId=${sessionId}`;
-            }, 30000); // Redirect to vote screen after saving
+            }, 1000); // Redirect to vote screen after saving
         } else {
             console.error('Failed to save drawing');
         }

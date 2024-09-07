@@ -1,61 +1,81 @@
 body {
     margin-top: 0;
-    background-image: url('../images/scribble.png'); /* Add your background image path here */
-    background-size: cover; /* Ensure the image covers the entire background */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-image: url('../images/scribble.png');
+    /* Add your background image path here */
+    background-size: cover;
+    /* Ensure the image covers the entire background */
+    background-position: center;
+    /* Center the image */
+    background-repeat: no-repeat;
+    /* Prevent the image from repeating */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the content horizontally */
-    justify-content: center; /* Center the content vertically */
-    height: 100vh; /* Make sure the body covers the full height of the viewport */
-    background-color: rgb(240, 251, 161); /* Fallback color */
+    align-items: center;
+    /* Center the content horizontally */
+    justify-content: center;
+    /* Center the content vertically */
+    height: 100vh;
+    /* Make sure the body covers the full height of the viewport */
+    background-color: rgb(240, 251, 161);
+    /* Fallback color */
 
 }
-.lobby_text{
+
+.lobby_text {
 
     display: flex;
     justify-content: center;
-    margin-left:auto;
-    margin-right:auto;
-    
+    margin-left: auto;
+    margin-right: auto;
+
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: bold; /* Make the text bold */
-    color: yellow; /* Set text color to yellow */
-    font-size: 30pt; /* Increase font size */
-    text-align: center; /* Center the text */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add a shadow to make it stand out */
-    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent black background */
-    padding: 10px 20px; /* Add padding for more visibility */
-    border-radius: 10px; /* Round the corners for better aesthetics */
-    margin-top: 20px; /* Add space above */
+    font-weight: bold;
+    /* Make the text bold */
+    color: yellow;
+    /* Set text color to yellow */
+    font-size: 30pt;
+    /* Increase font size */
+    text-align: center;
+    /* Center the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    /* Add a shadow to make it stand out */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Add a semi-transparent black background */
+    padding: 10px 20px;
+    /* Add padding for more visibility */
+    border-radius: 10px;
+    /* Round the corners for better aesthetics */
+    margin-top: 20px;
+    /* Add space above */
 
 }
 
-.player_tag{
+.player_tag {
 
     display: flex;
     justify-content: center;
-    border-radius:30px;
-    width:800px;
-    margin-left:auto;
-    margin-right:auto;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight:lighter;
-    
-    
-}
+    border-radius: 30px;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
 
-.player1_tag{
-
-    background-color:rgb(249, 107, 107);
-    color:rgb(101, 5, 5);
 
 }
 
-.player2_tag{
+.player1_tag {
 
-    background-color:rgb(52, 44, 193);/*when player found make blue */
-    color: rgb(3, 29, 60); /*when found make ??? idk compliment of blue? */
+    background-color: rgb(249, 107, 107);
+    color: rgb(101, 5, 5);
+
+}
+
+.player2_tag {
+
+    background-color: rgb(52, 44, 193);
+    /*when player found make blue */
+    color: rgb(3, 29, 60);
+    /*when found make ??? idk compliment of blue? */
 
 }

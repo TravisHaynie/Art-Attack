@@ -1,11 +1,11 @@
-const sequelize = require('../config/connection.js'); 
+const sequelize = require('../config/connection.js');
 const { Subject } = require('../models');
 
 async function seedSub() {
     const subjectData = [
         {
             subject: 'a car on fire',
-            submittedBy: 1, 
+            submittedBy: 1,
         },
     ];
 

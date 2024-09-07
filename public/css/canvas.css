@@ -1,5 +1,6 @@
 body {
   font-family: Arial, sans-serif;
+  letter-spacing: 0.09em;
   margin: 0;
   padding: 0;
   display: flex;
@@ -27,9 +28,9 @@ main {
 }
 
 #prompt {
-  color: #32CD32;/* Dark Green */
-  font-size: 18pt; /* Reduced font size */
-  font-weight: bold;
+  color: #f1c40f; /* Softer yellow */
+  font-size: 16pt; /* Slightly smaller font size */
+  font-weight: 400;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);/* Lighter shadow for better visibility */
   margin-bottom: 20px;
   text-align: center;
@@ -38,7 +39,8 @@ main {
   border-radius: 10px; /* Rounded corners */
   background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
   max-width: 400px; /* Limit the width of the prompt */
-  margin: 0 auto; /* Center the prompt */
+  margin: 0 auto;/* Center the prompt */
+  line-height: 1.5; 
 }
 
 .canvas-container {
@@ -58,30 +60,31 @@ main {
 }
 
 .canvas-controls button {
-  width: 200px;
-  margin-bottom: 20px;
-  padding: 15px;
-  font-size: 20px;
+  display: block;
+  width: 150px; /* Smaller width */
+  margin-bottom: 15px;
+  padding: 10px; /* Less padding */
+  font-size: 16px; /* Smaller font size */
   font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
   color: #fff;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  background: #007bff; /* Consistent blue color for all buttons */
   border: none;
-  border-radius: 30px; /* More rounded corners */
+  border-radius: 10px; /* Less rounded corners */
   cursor: pointer;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Softer shadow */
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s;
 }
 
 .canvas-controls button:hover {
-  transform: translateY(-5px); /* Lift more on hover */
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
-  background: linear-gradient(135deg, #2575fc, #6a11cb); /* Reverse gradient on hover */
+  transform: translateY(-3px); /* Slight lift on hover */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 #time_caption, #time, #toolsCaption {
-  color: #32CD32;/* Make the captions stand out */
-  font-size: 20pt;
-  font-weight: bold;
+  color: #f1c40f; /* Softer yellow */
+  font-size: 18pt; /* Smaller font size */
+  font-weight: 400;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9); /* Add a shadow for better visibility */
   text-align: center;
 }
@@ -108,55 +111,43 @@ main {
 }
 
 #drawing-mode {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Warm gradient for drawing mode */
+  width: 160px; /* Slightly larger width for balance */
+  padding: 12px; /* Slightly more padding */
+  background: linear-gradient(135deg, #17a2b8, #138496); /* Teal gradient */
   color: #fff;
-  border-radius: 30px; /* Rounded corners */
-  padding: 15px;
-  font-size: 18px;
-  font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+  font-size: 16px;
+  font-family: 'Arial Narrow Bold', sans-serif;
+  border: none;
+  border-radius: 20px; /* Softer, rounded corners for a more polished look */
   cursor: pointer;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
   transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s;
 }
 
 #drawing-mode:hover {
-  background: linear-gradient(135deg, #feb47b, #ff7e5f); /* Reverse gradient on hover */
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #138496, #0d6a7e); /* Darker green on hover */
 }
 
 #save-canvas {
-  background: linear-gradient(135deg, #28a745, #218838); /* Green gradient for save */
-  color: #fff;
-  border-radius: 30px; /* Rounded corners */
-  padding: 15px;
-  font-size: 18px;
-  font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
-  cursor: pointer;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s;
-}
-
-#save-canvas:hover {
-  background: linear-gradient(135deg, #218838, #1e7e34); /* Darker green on hover */
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+  display: none;
+ 
 }
 
 #clear-canvas {
-  background: linear-gradient(135deg, #dc3545, #c82333); /* Red gradient for clear */
+  width: 160px; /* Same width as the drawing mode button */
+  padding: 12px;
+  background: linear-gradient(135deg, #6c757d, #5a6268); /* Gray gradient */
   color: #fff;
-  border-radius: 30px; /* Rounded corners */
-  padding: 15px;
-  font-size: 18px;
-  font-family: 'Impact', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+  font-size: 16px;
+  font-family: 'Arial Narrow Bold', sans-serif;
+  border: none;
+  border-radius: 20px; /* Softer, rounded corners */
   cursor: pointer;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
   transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s;
 }
 
+
 #clear-canvas:hover {
-  background: linear-gradient(135deg, #c82333, #b21f2d); /* Darker red on hover */
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #5a6268, #495057);
 }

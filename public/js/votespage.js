@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const votesPlayer2 = document.getElementById('votes_player_2');
     const winnerAnnouncementEl = document.getElementById('winner_announcement');
     const winnerTextEl = document.getElementById('winner_text');
+    const winnerHeadingEl = document.querySelector('.winner');
  
 
     let images;
@@ -42,7 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             await voteForPlayer(images[0].createdBy, sessionId);
             updateVoteCount(0); 
             localStorage.setItem('votedForPlayer', 'p1'); 
-            console.log('Voted for Player 1');
         } else if (localStorage.getItem('votedForPlayer') === 'p2') {
             console.log('You have already voted for Player 2. You cannot vote for both players.');
         } else {
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }, 5000); // Update every 5 seconds
 
-    let timeRemaining = 30;
+    let timeRemaining = 20;
     const countdownInterval = setInterval(() => {
         timeRemaining--;
         timeRemainingEl.textContent = `Time Remaining: ${timeRemaining}s`;
@@ -105,32 +105,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         winnerTextEl.textContent = winnerText;
         winnerAnnouncementEl.style.display = 'block';
+        winnerHeadingEl.style.visibility = 'hidden'; 
+        timeRemainingEl.style.visibility = 'hidden'; 
     }
 });
 
 
 
-async function voteForPlayer(playerId, sessionId) {
-    try {
-        const response = await fetch('/api/vote', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                sessionId: sessionId,
-                votedFor: playerId,
-            }),
-        });
+// async function voteForPlayer(playerId, sessionId) {
+//     try {
+//         const response = await fetch('/api/vote', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 sessionId: sessionId,
+//                 votedFor: playerId,
+//             }),
+//         });
 
-        if (response.ok) {
-        } else {
-            console.error('Failed to submit vote');
-        }
-    } catch (error) {
-        console.error('Error submitting vote:', error);
-    }
-}
+//         if (response.ok) {
+//         } else {
+//             console.error('Failed to submit vote');
+//         }
+//     } catch (error) {
+//         console.error('Error submitting vote:', error);
+//     }
+// }
 
 function updateVoteCount(playerIndex) {
     const voteElement = playerIndex === 0 

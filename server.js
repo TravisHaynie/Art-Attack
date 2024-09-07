@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3001;
 const hbs = exphbs.create({
   helpers: require('./utils/helpers'),  // Ensure this file exports an object of helpers
   partialsDir: path.join(__dirname, 'views/partials'), // Register partials directory
-  layoutsDir: path.join(__dirname, 'views/layouts'), 
+  layoutsDir: path.join(__dirname, 'views/layouts'),
   defaultLayout: 'main' // Register layouts directory
 });
 

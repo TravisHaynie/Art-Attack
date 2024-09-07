@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Subject, GameSession, Image } = require('../models'); 
+const { User, Subject, GameSession, Image } = require('../models');
 const { Op } = require('sequelize');
 const multer = require('multer');
 const path = require('path');
@@ -7,16 +7,16 @@ const path = require('path');
 
 // Render homepage
 router.get('/', (req, res) => {
-    res.render('home_menu', {
-      loggedIn: req.session.loggedIn,
-      siteTitle: 'ART ATTACK'
-    });
+  res.render('home_menu', {
+    loggedIn: req.session.loggedIn,
+    siteTitle: 'ART ATTACK'
   });
-  
+});
+
 // Render login page
 router.get('/login', (req, res) => {
   res.render('login', {
-    loggedIn: req.session.loggedIn 
+    loggedIn: req.session.loggedIn
   });
 });
 
@@ -49,23 +49,12 @@ router.get('/canvas', async (req, res) => {
   }
 });
 
-// router.get('/api/subjects', async (req, res) => {
-//   try {
-//     const subjects = await Subject.findAll();
-//     res.status(200).json(subjects);
-//   } catch (error) {
-//     console.error('Error fetching subjects:', error);
-//     res.status(500).json({ message: 'An error occurred while fetching subjects.' });
-//   }
-// });
-
-
 router.get('/votescreen', (req, res) => {
   const sessionId = req.query.sessionId;
   res.render('votescreen', {
-      loggedIn: req.session.loggedIn,
-      siteTitle: 'Vote Screen',
-      sessionId: sessionId 
+    loggedIn: req.session.loggedIn,
+    siteTitle: 'Vote Screen',
+    sessionId: sessionId
   });
 });
 
@@ -83,7 +72,7 @@ router.get('/lobby', async (req, res) => {
       return res.redirect(`/canvas?sessionId=${gameSession.id}`);
     } else {
       // Check if the current user is player1 or player2
-      const currentUser = req.session.user.id; 
+      const currentUser = req.session.user.id;
 
       if (currentUser === gameSession.player1 || currentUser === gameSession.player2) {
         // Render the lobby for the player
@@ -160,18 +149,18 @@ router.get('/getAllSubjects', async (req, res) => {
 
 router.get('/get-images', async (req, res) => {
   try {
-      const { sessionId } = req.query;
+    const { sessionId } = req.query;
 
-      // Fetch images based on the session ID
-      const images = await Image.findAll({
-          where: { sessionId: sessionId },
-          attributes: ['createdBy', 'imageData', 'votes'] // Include vote counts
-      });
+    // Fetch images based on the session ID
+    const images = await Image.findAll({
+      where: { sessionId: sessionId },
+      attributes: ['createdBy', 'imageData', 'votes'] // Include vote counts
+    });
 
-      res.json(images);
+    res.json(images);
   } catch (error) {
-      console.error('Error fetching images:', error);
-      res.status(500).json({ error: 'An error occurred while fetching images' });
+    console.error('Error fetching images:', error);
+    res.status(500).json({ error: 'An error occurred while fetching images' });
   }
 });
 
@@ -198,20 +187,20 @@ router.get('/render-images', async (req, res) => {
 // Route to serve images by ID
 router.get('/image/:imageId', async (req, res) => {
   try {
-      const imageId = req.params.imageId;
-      const image = await Image.findByPk(imageId);
+    const imageId = req.params.imageId;
+    const image = await Image.findByPk(imageId);
 
-      if (!image) {
-          return res.status(404).json({ message: 'Image not found' });
-      }
+    if (!image) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
 
-      // Set the correct header for image type
-      res.setHeader('Content-Type', 'image/png'); 
-      const imgBuffer = Buffer.from(image.imageData.data, 'base64');
-      res.send(imgBuffer);
+    // Set the correct header for image type
+    res.setHeader('Content-Type', 'image/png');
+    const imgBuffer = Buffer.from(image.imageData.data, 'base64');
+    res.send(imgBuffer);
   } catch (error) {
-      console.error('Error fetching image:', error);
-      res.status(500).json({ message: 'An error occurred while fetching the image' });
+    console.error('Error fetching image:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the image' });
   }
 });
 
